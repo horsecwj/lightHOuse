@@ -21,7 +21,7 @@ func GetArticle(d *data.ArticleQuery, isAdm bool) *JsonFormat {
 	if d.PageSize == 0 {
 		d.PageSize = 10
 	}
-	num := d.ArticleCount(0)
+	num := d.ArticleCount()
 	if num > 0 {
 		list := d.ArticleSearch(isAdm)
 		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
@@ -99,12 +99,12 @@ func GetLikeArticle(d *data.ArticleQuery) *JsonFormat {
 	if d.PageSize == 0 {
 		d.PageSize = 4
 	}
-	num := d.ArticleCount(2)
-	if num > 0 {
-		list := d.LikeArticle()
-		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize - 1, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
-	}
-	return &JsonFormat{Code: 0, Page: d.Page, PageSize: d.PageSize, PageNum: 0, ArticleNum: num, Data: nil}
+	num := d.ArticleCount()
+	//if num > 0 {
+	list := d.LikeArticle()
+	return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize - 1, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
+	//}
+	//return &JsonFormat{Code: 0, Page: d.Page, PageSize: d.PageSize, PageNum: 0, ArticleNum: num, Data: nil}
 }
 
 //获取视频教程及图片教程
