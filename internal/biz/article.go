@@ -21,7 +21,7 @@ func GetArticle(d *data.ArticleQuery, isAdm bool) *JsonFormat {
 	if d.PageSize == 0 {
 		d.PageSize = 10
 	}
-	num := d.ArticleCount()
+	num := d.ArticleCount(0)
 	if num > 0 {
 		list := d.ArticleSearch(isAdm)
 		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
@@ -99,8 +99,7 @@ func GetLikeArticle(d *data.ArticleQuery) *JsonFormat {
 	if d.PageSize == 0 {
 		d.PageSize = 4
 	}
-	//num := 1
-	num := d.ArticleCount()
+	num := d.ArticleCount(2)
 	if num > 0 {
 		list := d.LikeArticle()
 		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize - 1, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
