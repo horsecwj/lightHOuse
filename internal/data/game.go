@@ -165,7 +165,7 @@ func (a *GameQuery) ParameterCount() int {
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
 	}
-	tx = tx.Where("status = ?", "1")
+	tx = tx.Where("status = ?", 1)
 	err := tx.Count(&count).Error
 	if err != nil {
 		log.Println(err.Error())
