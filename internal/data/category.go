@@ -1,0 +1,53 @@
+package data
+
+import (
+	"log"
+	"time"
+
+	"gorm.io/gorm"
+)
+
+func CategoryAdd(c *Category) error {
+	t := time.Now()
+	if c.Id == 0 {
+		c.Id = t.UnixMilli()
+	}
+	tx := GetDbCli().Session(&gorm.Session{}).Table("categories")
+	return tx.Create(&c).Error
+}
+
+func CategoryDelete(id int64) error {
+	tx := GetDbCli().Session(&gorm.Session{}).Table("categories")
+	return tx.Delete(Category{}, "id = ?", id).Error
+}
+
+func CategoryUpdate(c *Category) error {
+	tx := GetDbCli().Session(&gorm.Session{}).Table("categories")
+	return tx.Where("id = ? and lang = ?", c.Id, c.Lang).Updates(&c).Error
+}
+
+func (c *CategoryQuery) CategorySearch() interface{} {
+	var list = make([]Category, 0, 20)
+	tx := GetDbCli().Session(&gorm.Session{}).Table("categories").Order("id desc, lang")
+	if c.Id != 0 {
+		tx = tx.Where("id = ?", c.Id)
+	}
+	err := tx.Find(&list).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	return list
+}
+
+func CategoryCount(pid int64) int64 {
+	var count int64
+	tx := GetDbCli().Session(&gorm.Session{}).Table("categories")
+	if pid != 0 {
+		tx = tx.Where("parent_id = ?", pid)
+	}
+	err := tx.Count(&count).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	return count
+}
