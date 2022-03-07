@@ -144,7 +144,7 @@ func ArticleMatch(subStr string) (interface{}, int) {
 func (a *ArticleQuery) LikeArticle() interface{} {
 	var row []likeArticle
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").
-		Where("cate_id = ?", a.CateId).Where("status = ?", "1").Not("id = ?", a.Id)
+		Where("cate_id = ?", a.CateId).Where("status = ?", 1).Not("id = ?", a.Id)
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
