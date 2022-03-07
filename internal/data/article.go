@@ -101,6 +101,9 @@ func (a *ArticleQuery) ArticleCount(status int) int {
 	if a.Status != 0 {
 		tx = tx.Not("status = ?", 2)
 	}
+	if status == 2 {
+		tx = tx.Where("status = ?", 2)
+	}
 	if a.CateId != 0 {
 		tx = tx.Where("cate_id = ?", a.CateId)
 	}
