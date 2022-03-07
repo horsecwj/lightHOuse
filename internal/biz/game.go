@@ -33,6 +33,9 @@ func MatchGame(subStr string) *JsonFormat {
 
 // AddGame 添加游戏信息
 func AddGame(d *data.Game) *BaseJson {
+	if data.VerificationGames(d.GameName) == nil {
+		return &BaseJson{Code: 0, Data: "该游戏已添加"}
+	}
 	err := data.GameAdd(d)
 	if err != nil {
 		log.Println(err.Error())
