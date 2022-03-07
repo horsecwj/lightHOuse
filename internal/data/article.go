@@ -92,7 +92,7 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	}
 }
 
-func (a *ArticleQuery) ArticleCount() int {
+func (a *ArticleQuery) ArticleCount(status int) int {
 	var count int64
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles")
 	if a.Id != 0 {
@@ -151,6 +151,7 @@ func (a *ArticleQuery) LikeArticle() interface{} {
 	}
 	return row
 }
+
 func OutArticleAdd() error {
 	var (
 		row   []OutArticle
