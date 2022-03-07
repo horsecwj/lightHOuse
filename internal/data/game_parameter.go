@@ -15,7 +15,7 @@ func GameParameterAdd(GameFi string) interface{} {
 	}
 	gp := GetDbCli().Session(&gorm.Session{}).Table("game_parameters")
 	return gp.Where("game_fi = ?", GameFi).
-		Updates(GameParameter{Coin: result.Coin, Price: result.Price, OneDay: result.OneDay, OneWeek: result.OneWeek, DayVolume: result.DayVolume, MktCap: result.MktCap}).Error
+		Updates(GameParameter{Coin: result.Coin, Price: result.Price, OneDay: result.OneDay, OneWeek: result.OneWeek, DayVolume: result.DayVolume, MktCap: result.MktCap, Status: 1}).Error
 }
 
 func (a *GameQuery) SearchGameParameter(isAdm bool) interface{} {

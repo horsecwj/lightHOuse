@@ -47,7 +47,7 @@ func ArticleUpdate(a *Article) error {
 
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc, id").Preload("Label")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("id desc").Preload("Label")
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
 	}
@@ -77,6 +77,7 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 			Created  time.Time `json:"created"`
 		}
 		var result = make([]article, 0, a.PageSize)
+		tx.Where("status = ?", 2)
 		err := tx.Find(&result).Error
 		if err != nil {
 			log.Println(err.Error())
@@ -106,7 +107,7 @@ func (a *ArticleQuery) ArticleCount() int {
 	if a.Hot == 1 {
 		tx = tx.Not("hot = ?", 0)
 	}
-	err := tx.Count(&count).Error
+	err := tx.Count(&count).Where("status = ?", 2).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
