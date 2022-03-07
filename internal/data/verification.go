@@ -41,3 +41,15 @@ func VerificationHot(hot int64) error {
 	err := db.Where("hot = ?", hot).First(&row).Error
 	return err
 }
+
+func VerificationGames(name string) error {
+	row := &Game{}
+	err := db.Where("game_name = ?", name).First(&row).Error
+	return err
+}
+
+func VerificationGameParameters(name string) error {
+	row := &GameParameter{}
+	err := db.Where("game_parameters = ?", name).First(&row).Error
+	return err
+}

@@ -26,7 +26,6 @@ CREATE TABLE `articles` (
                             `lang` enum('cn','en') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言',
                             `status` int NOT NULL DEFAULT '0' COMMENT '状态,0未公开,1公开',
                             `cate_id` bigint NOT NULL COMMENT '分类id',
-                            `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
                             `summary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '摘要',
                             `cover` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '封面',
                             `markdown` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT 'markdown内容',
@@ -143,7 +142,7 @@ CREATE TABLE `labels` (
 -- Table structure for class
 -- --------------------------
 DROP TABLE IF EXISTS `classes`;
-CREATE TABLE `class` (
+CREATE TABLE `classes` (
                          `id` bigint NOT NULL COMMENT 'id',
                          `class` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型',
                          PRIMARY KEY (`id`) USING BTREE,

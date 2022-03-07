@@ -13,8 +13,10 @@ func GameAdd(a *Game) error {
 	if a.Id == 0 {
 		a.Id = t.UnixMilli()
 	}
-	var game = []GameParameter{{Id: a.Id, GameFi: a.GameName}}
-	GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Create(&game)
+	if VerificationGameParameters(a.GameName) != nil {
+		var game = []GameParameter{{Id: a.Id, GameFi: a.GameName}}
+		GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Create(&game)
+	}
 	GameParameterAdd(a.GameName)
 	tx := GetDbCli().Session(&gorm.Session{})
 	return tx.Table("games").Create(&a).Error
