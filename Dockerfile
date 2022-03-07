@@ -8,11 +8,11 @@ ENV GOARCH amd64
 ENV GO111MODULE  on
 ENV GOPROXY https://goproxy.cn
 
-RUN go build -a -installsuffix cgo -ldflags '-s -w' -o help_center cmd/server/main.go
+RUN go build -a -installsuffix cgo -ldflags '-s -w' -o light-house cmd/server/main.go
 
 FROM --platform=linux/amd64 alpine:3.15
-COPY --from=builder /app/help_center /
+COPY --from=builder /app/light-house /
 ADD static /static
-RUN ln -s /help_center /usr/bin
+RUN ln -s /light-house /usr/bin
 
 CMD ["help_center"]
