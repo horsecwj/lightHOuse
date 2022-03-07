@@ -1,4 +1,4 @@
-FROM golang:1.17.2-alpine AS builder
+FROM golang:1.17.8-alpine3.15 AS builder
 
 COPY ./ /app
 WORKDIR /app
@@ -15,4 +15,4 @@ COPY --from=builder /app/light-house /
 ADD static /static
 RUN ln -s /light-house /usr/bin
 
-CMD ["help_center"]
+CMD ["light-house"]
