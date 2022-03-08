@@ -100,11 +100,11 @@ func GetLikeArticle(d *data.ArticleQuery) *JsonFormat {
 		d.PageSize = 4
 	}
 	num := d.ArticleCount()
-	//if num > 0 {
-	list := d.LikeArticle()
-	return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize - 1, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
-	//}
-	//return &JsonFormat{Code: 0, Page: d.Page, PageSize: d.PageSize, PageNum: 0, ArticleNum: num, Data: nil}
+	if num > 0 {
+		list := d.LikeArticle()
+		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize - 1, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
+	}
+	return &JsonFormat{Code: 0, Page: d.Page, PageSize: d.PageSize, PageNum: 0, ArticleNum: num, Data: nil}
 }
 
 //获取视频教程及图片教程
