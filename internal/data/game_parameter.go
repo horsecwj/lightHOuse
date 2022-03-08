@@ -2,25 +2,32 @@ package data
 
 import (
 	"log"
+	"time"
 
 	"gorm.io/gorm"
 )
 
-func GameParameterAdd(GameFi string) interface{} {
-	tx := GetDbCli().Session(&gorm.Session{}).Table("top_cko_game_fi").Where("game_fi = ?", GameFi)
-	var result = GameParameter{}
-	err := tx.First(&result).Error
+func GameParameterAdd() error {
+	var row []GameParameter
+	err := GetDbCli().Session(&gorm.Session{}).Table("top_cko_game_fi").Find(&row).Error
 	if err != nil {
 		log.Println(err)
 	}
-	gp := GetDbCli().Session(&gorm.Session{}).Table("game_parameters")
-	return gp.Where("game_fi = ?", GameFi).
-		Updates(GameParameter{Coin: result.Coin, Price: result.Price, OneDay: result.OneDay, OneWeek: result.OneWeek, DayVolume: result.DayVolume, MktCap: result.MktCap, Status: 1}).Error
+	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters")
+	for i := 0; i < len(row); i++ {
+		if VerificationGameParameters(row[i].GameFi) != nil {
+			err := tx.Create(GameParameter{Id: time.Now().UnixMilli(), Coin: row[i].Coin, GameFi: row[i].GameFi, Price: row[i].Price, OneDay: row[i].OneDay, OneWeek: row[i].OneWeek, DayVolume: row[i].DayVolume, MktCap: row[i].MktCap}).Error
+			if err != nil {
+				log.Println(err)
+			}
+		}
+	}
+	return err
 }
 
 func (a *GameQuery) SearchGameParameter(isAdm bool) interface{} {
 	var list = make([]GameParameter, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Order("mkt_cap desc").Where("status = ?", 1)
+	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Order("mkt_cap desc")
 	if !isAdm {
 		if a.ClassId != 0 {
 			row := &GameClass{}

@@ -50,6 +50,6 @@ func VerificationGames(name string) error {
 
 func VerificationGameParameters(name string) error {
 	row := &GameParameter{}
-	err := db.Where("game_parameters = ?", name).First(&row).Error
+	err := db.Where("game_fi = ?", name).First(&row).Error
 	return err
 }
