@@ -29,6 +29,9 @@ func GameDelete(id int64) error {
 
 func GameUpdate(a *Game) error {
 	tx := GetDbCli().Session(&gorm.Session{})
+	if a.GameName != "" {
+		GameParameterAdd(a.GameName)
+	}
 	if a.Chain != nil {
 		tx.Table("game_chain").Delete(GameChain{}, "game_id = ?", a.Id)
 	}

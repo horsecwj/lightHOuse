@@ -171,7 +171,7 @@ func OutArticleAdd() error {
 		}
 		if VerificationArticle(row[i].Title) != nil {
 			timeStr := time.Unix(row[i].Timestamp, 0).Format("2006-01-02 15:04:05")
-			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", Cover: cover, Summary: row[i].OverView, RichText: row[i].Article, Created: timeStr, Updated: timeStr}).Error
+			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", Cover: cover, Summary: row[i].OverView, Markdown: row[i].Article, RichText: row[i].Articletext, Created: timeStr, Updated: timeStr}).Error
 			if err != nil {
 				log.Println(err)
 			}
