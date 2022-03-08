@@ -129,12 +129,13 @@ type GameCurrency struct {
 }
 
 type OutArticle struct {
-	Id        int    `json:"id"`
-	Title     string `json:"title"`
-	Cover     string `json:"cover"`
-	OverView  string `json:"over_view"`
-	Article   string `json:"article"`
-	Timestamp int64  `json:"timestamp"`
+	Id          int    `json:"id"`
+	Title       string `json:"title"`
+	Cover       string `json:"cover"`
+	OverView    string `json:"over_view"`
+	Article     string `json:"article"`
+	Articletext string `json:"articletext"`
+	Timestamp   int64  `json:"timestamp"`
 }
 
 type Category struct {
