@@ -7,10 +7,10 @@ secret = "GfK@boqLRaGrce2Q"
 user = "root"
 password = "M@hLuxY5y$P7cyQh"
 [mysql]
-host = "127.0.0.1"
-port = 3306
+host = "172.30.31.54"
+port = 30759
 user = "root"
-password = "secret"
+password = "gQ9oww2tua"
 database = "beaconglobal"
 max_idle_conn = 10
 max_open_conn = 5
