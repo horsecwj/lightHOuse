@@ -13,11 +13,10 @@ func GameAdd(a *Game) error {
 	if a.Id == 0 {
 		a.Id = t.UnixMilli()
 	}
-	if VerificationGameParameters(a.GameName) != nil {
-		var game = []GameParameter{{Id: a.Id, GameFi: a.GameName}}
-		GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Create(&game)
-	}
-	GameParameterAdd(a.GameName)
+	// if VerificationGameParameters(a.GameName) != nil {
+	// 	var game = []GameParameter{{Id: a.Id, GameFi: a.GameName}}
+	// 	GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Create(&game)
+	// }
 	tx := GetDbCli().Session(&gorm.Session{})
 	return tx.Table("games").Create(&a).Error
 }
@@ -29,9 +28,9 @@ func GameDelete(id int64) error {
 
 func GameUpdate(a *Game) error {
 	tx := GetDbCli().Session(&gorm.Session{})
-	if a.GameName != "" {
-		GameParameterAdd(a.GameName)
-	}
+	// if a.GameName != "" {
+	// 	GameParameterAdd(a.GameName)
+	// }
 	if a.Chain != nil {
 		tx.Table("game_chain").Delete(GameChain{}, "game_id = ?", a.Id)
 	}
@@ -195,6 +194,10 @@ func (a *GameQuery) LikeGame() interface{} {
 }
 
 func (a *GameQuery) GameValue() interface{} {
+	errr := GameParameterAdd()
+	if errr != nil {
+		log.Println(errr)
+	}
 	tx := GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Chain").Preload("Class").Preload("GameParameter")
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
@@ -224,13 +227,5 @@ func (a *GameQuery) GameValue() interface{} {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	// var middle = make([]game, 0, a.PageSize)
-	// for i := 0; i < len(result); i++ {
-	// 	if result[i].GameParameter.Price < result[i+1].GameParameter.Price {
-	// 		middle[0] = result[i]
-	// 		result[i] = result[i+1]
-	// 		result[i+1] = result[i]
-	// 	}
-	// }
 	return result
 }

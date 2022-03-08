@@ -148,7 +148,7 @@ func useGetGameParameter(c echo.Context) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.GetGameParameter(d, true)
+	msg := biz.GetGameParameter(d, false)
 	return c.JSON(http.StatusOK, &msg)
 }
 
