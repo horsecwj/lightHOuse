@@ -13,6 +13,9 @@ func ArticleAdd(a *Article) error {
 	if a.Id == 0 {
 		a.Id = t.UnixMilli()
 	}
+	if a.Cover == "" {
+		a.Cover = "/upload/1646706814654.png"
+	}
 	var row GameArticle
 	if a.GameId != 0 {
 		row.ArticleId = a.Id
@@ -164,7 +167,7 @@ func OutArticleAdd() error {
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles")
 	for i := 0; i < len(row); i++ {
 		if row[i].Cover == "" {
-			cover = "/upload/1645606276524.png"
+			cover = "/upload/1646706814654.png"
 		}
 		if VerificationArticle(row[i].Title) != nil {
 			timeStr := time.Unix(row[i].Timestamp, 0).Format("2006-01-02 15:04:05")
