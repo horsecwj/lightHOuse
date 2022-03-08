@@ -50,7 +50,7 @@ func ArticleUpdate(a *Article) error {
 
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc, id").Preload("Label")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("id desc").Preload("Label")
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
 	}
