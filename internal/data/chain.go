@@ -33,5 +33,5 @@ func CategoryChain() interface{} {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return list
+	return list[1:]
 }

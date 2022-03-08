@@ -31,7 +31,7 @@ func GetClass() *BaseJson {
 		log.Println(err.Error())
 	}
 
-	return &BaseJson{Code: 1, Data: list}
+	return &BaseJson{Code: 1, Data: list[1:]}
 }
 
 //删除游戏类型
