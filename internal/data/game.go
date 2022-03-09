@@ -199,23 +199,35 @@ func (a *GameQuery) LikeGame() interface{} {
 
 func (a *GameQuery) GameValue() interface{} {
 	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Preload("Game")
-	// if a.Id != 0 {
-	// 	tx = tx.Where("id = ?", a.Id)
-	// }
 	if a.Page > 0 && a.PageSize > 0 {
 		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
 	}
 	if a.Status != 0 {
-		tx = tx.Where("status = ?", a.Status)
-	}
-	if a.ClassId != 0 {
-		tx = tx.Joins("left join game_class on games.id = game_class.game_id").Where("game_class.class_id = ?", a.ClassId)
-	}
-	if a.ChainId != 0 {
-		tx = tx.Joins("left join game_chain on games.id = game_chain.game_id").Where("game_chain.chain_id = ?", a.ChainId)
+		tx = tx.Where("status = ?", 2)
 	}
 	var row = make([]game, 0)
-	GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Class").Preload("Chain").Find(&row)
+
+	ty := GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Class").Preload("Chain")
+	if a.ClassId != 0 {
+		ty.Joins("left join game_class on games.id = game_class.game_id").Where("game_class.class_id = ?", a.ClassId).Find(&row)
+		var name []string
+		for i := 0; i < len(row); i++ {
+			name = append(name, row[i].GameName)
+		}
+		tx = tx.Where("game_fi in ?", name)
+	}
+	if a.ChainId != 0 {
+		ty = ty.Joins("left join game_chain on games.id = game_chain.game_id").Where("game_chain.chain_id = ?", a.ChainId).Find(&row)
+		var name []string
+		for i := 0; i < len(row); i++ {
+			name = append(name, row[i].GameName)
+		}
+		tx = tx.Where("game_fi in ?", name)
+	}
+	err := ty.Find(&row).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
 	type gamevalue struct {
 		Id        int64  `json:"id"`
 		Coin      string `json:"coin"`
@@ -228,7 +240,7 @@ func (a *GameQuery) GameValue() interface{} {
 		Game      game   `json:"game" gorm:"foreignkey:game_name;references:game_fi"`
 	}
 	var result = make([]gamevalue, 0, a.PageSize)
-	err := tx.Find(&result).Error
+	err = tx.Find(&result).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
@@ -237,6 +249,7 @@ func (a *GameQuery) GameValue() interface{} {
 			if result[y].GameFi == row[x].GameName {
 				result[y].Game.Chain = row[x].Chain
 				result[y].Game.Class = row[x].Class
+
 			}
 		}
 	}
