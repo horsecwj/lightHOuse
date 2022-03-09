@@ -8,7 +8,11 @@ import (
 
 //AddBanner 添加Banner
 func AddBanner(d *data.Banner, r *http.Request) *BaseJson {
-	err := data.BannerAdd(d, r)
+	_, err := data.VerificationTitle(d.Chain)
+	if err != nil {
+		return &BaseJson{Code: 0, Data: "该文章Id不存在"}
+	}
+	err = data.BannerAdd(d, r)
 	if err != nil {
 		return &BaseJson{Code: 0, Data: err.Error()}
 	} else {
