@@ -243,7 +243,7 @@ type likeArticle struct {
 	Created time.Time `json:"created"`
 }
 
-type SmallGame struct {
+type game struct {
 	Id       int64   `json:"id"`
 	GameName string  `json:"game_name"`
 	Status   int     `json:"status"`

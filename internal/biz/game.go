@@ -97,7 +97,7 @@ func GetGameValue(d *data.GameQuery) *JsonFormat {
 	if d.PageSize == 0 {
 		d.PageSize = 10
 	}
-	num := d.GameCount()
+	num := d.ParameterCount()
 	if num > 0 {
 		list := d.GameValue()
 		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
