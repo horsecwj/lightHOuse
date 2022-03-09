@@ -32,12 +32,13 @@ func BannerUpdate(c *Banner) error {
 
 func BannerSearch() interface{} {
 	type banner struct {
-		Id    int64  `json:"id"`
-		Cover string `json:"cover"`
-		Chain int64  `json:"chain"`
-		Title string `json:"title"`
-		Rows  int64  `json:"rows"`
-		Cols  int64  `json:"cols"`
+		Id     int64  `json:"id"`
+		CadeId int64  `json:"cade_id"`
+		Cover  string `json:"cover"`
+		Chain  int64  `json:"chain"`
+		Title  string `json:"title"`
+		Rows   int64  `json:"rows"`
+		Cols   int64  `json:"cols"`
 	}
 	var list = make([]banner, 0, 20)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("banner").Order("id")
@@ -51,6 +52,7 @@ func BannerSearch() interface{} {
 			log.Println(err.Error())
 		}
 		list[i].Title = title.Title
+		list[i].CadeId = title.CateId
 		list[i].Rows = 1
 		list[i].Cols = 1
 	}

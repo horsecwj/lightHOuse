@@ -497,7 +497,7 @@ func admGetLabel(c echo.Context) error {
 // @Param token header string true "token"
 // @Param body body data.Class true "请求数据"
 // @Success 200 {object} biz.BaseJson{data=string} "返回数据"
-// @Router /adm/add_class[POST]
+// @Router /adm/add_class [POST]
 func admAddClass(c echo.Context) error {
 	d := new(data.Class)
 	err := c.Bind(d)
@@ -541,7 +541,7 @@ func admGetClass(c echo.Context) error {
 // @Param token header string true "token"
 // @Param body body data.Chain true "请求数据"
 // @Success 200 {object} biz.BaseJson{data=string} "返回数据"
-// @Router /adm/add_chain[POST]
+// @Router /adm/add_chain [POST]
 func admAddChain(c echo.Context) error {
 	d := new(data.Chain)
 	err := c.Bind(d)
