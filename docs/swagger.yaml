@@ -5,6 +5,20 @@ definitions:
         type: integer
       data: {}
     type: object
+  biz.JsonFormat:
+    properties:
+      article_num:
+        type: integer
+      code:
+        type: integer
+      data: {}
+      page:
+        type: integer
+      page_num:
+        type: integer
+      page_size:
+        type: integer
+    type: object
   biz.LoginData:
     properties:
       name:
@@ -16,10 +30,18 @@ definitions:
     properties:
       cate_id:
         type: integer
-      created:
+      cover:
         type: string
+      game_id:
+        type: integer
+      hot:
+        type: integer
       id:
         type: integer
+      label:
+        items:
+          $ref: '#/definitions/data.Label'
+        type: array
       lang:
         type: string
       markdown:
@@ -32,10 +54,15 @@ definitions:
         type: string
       title:
         type: string
-      updated:
+    type: object
+  data.Banner:
+    properties:
+      chain:
+        type: integer
+      cover:
         type: string
-      uri:
-        type: string
+      id:
+        type: integer
     type: object
   data.Category:
     properties:
@@ -50,12 +77,222 @@ definitions:
       parent_id:
         type: integer
     type: object
+  data.Chain:
+    properties:
+      icon:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  data.Class:
+    properties:
+      class:
+        type: string
+      id:
+        type: integer
+    type: object
+  data.Cmk:
+    properties:
+      coin:
+        type: string
+      day_volume:
+        type: string
+      game_fi:
+        type: string
+      id:
+        type: integer
+      one_day:
+        type: string
+      price:
+        type: string
+      token:
+        type: string
+    type: object
+  data.CourseBanner:
+    properties:
+      cate_id:
+        type: integer
+      category:
+        $ref: '#/definitions/data.Category'
+      cover:
+        type: string
+      created:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  data.Currency:
+    properties:
+      address:
+        type: string
+      currency_name:
+        type: string
+      flow_amount:
+        type: integer
+      id:
+        type: integer
+      issue_at:
+        type: string
+      logo:
+        type: string
+      max_amount:
+        type: integer
+      value:
+        type: integer
+    type: object
   data.DelQuery:
     properties:
       id:
         type: integer
+    type: object
+  data.Game:
+    properties:
+      about_games:
+        type: string
+      chain:
+        items:
+          $ref: '#/definitions/data.Chain'
+        type: array
+      class:
+        items:
+          $ref: '#/definitions/data.Class'
+        type: array
+      cover:
+        type: string
+      created:
+        type: string
+      currency:
+        items:
+          $ref: '#/definitions/data.currency'
+        type: array
+      facebook:
+        type: string
+      game_name:
+        type: string
+      game_url:
+        type: string
+      guide:
+        type: string
+      id:
+        type: integer
+      label:
+        items:
+          $ref: '#/definitions/data.Label'
+        type: array
       lang:
         type: string
+      new:
+        items:
+          $ref: '#/definitions/data.Article'
+        type: array
+      release:
+        type: integer
+      revenue_analysis:
+        type: string
+      status:
+        type: integer
+      stragegy:
+        type: string
+      summary:
+        type: string
+      telegram:
+        type: string
+      twitter:
+        type: string
+      youtube:
+        type: string
+    type: object
+  data.GameParameter:
+    properties:
+      coin:
+        type: string
+      day_volume:
+        type: string
+      game_fi:
+        type: string
+      id:
+        type: integer
+      mkt_cap:
+        type: string
+      one_day:
+        type: string
+      one_week:
+        type: string
+      price:
+        type: string
+      status:
+        type: integer
+    type: object
+  data.GameValue:
+    properties:
+      chain:
+        items:
+          $ref: '#/definitions/data.Chain'
+        type: array
+      class:
+        items:
+          $ref: '#/definitions/data.Class'
+        type: array
+      game_parameter:
+        $ref: '#/definitions/data.GameParameter'
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+  data.Label:
+    properties:
+      game:
+        items:
+          $ref: '#/definitions/data.Game'
+        type: array
+      id:
+        type: integer
+      lang:
+        type: string
+      word:
+        type: string
+    type: object
+  data.currency:
+    properties:
+      address:
+        description: IssueAt      time.Time `json:"issue_at"`
+        type: string
+      currency_name:
+        type: string
+      flow_amount:
+        type: integer
+      id:
+        type: integer
+      logo:
+        type: string
+      max_amount:
+        type: integer
+      value:
+        type: integer
+    type: object
+  data.game:
+    properties:
+      chain:
+        items:
+          $ref: '#/definitions/data.Chain'
+        type: array
+      class:
+        items:
+          $ref: '#/definitions/data.Class'
+        type: array
+      game_name:
+        type: string
+      id:
+        type: integer
+      status:
+        type: integer
     type: object
 info:
   contact: {}
@@ -87,6 +324,33 @@ paths:
       summary: 添加文章
       tags:
       - Article-文章
+  /adm/add_banner:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Banner'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 添加横幅
+      tags:
+      - Banner-横幅
   /adm/add_category:
     post:
       parameters:
@@ -114,6 +378,141 @@ paths:
       summary: 增加分类
       tags:
       - Category-分类
+  /adm/add_chain:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Chain'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 增加链
+      tags:
+      - Chain-链
+  /adm/add_class:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Class'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 增加类型
+      tags:
+      - Class-类型
+  /adm/add_currency:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Currency'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 添加代币信息
+      tags:
+      - Currency-代币信息
+  /adm/add_game:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Game'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 添加游戏信息
+      tags:
+      - Game-游戏信息
+  /adm/add_label:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Label'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 增加标签
+      tags:
+      - Label-标签
   /adm/del_article:
     post:
       parameters:
@@ -141,6 +540,33 @@ paths:
       summary: 删除文章
       tags:
       - Article-文章
+  /adm/del_banner:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.DelQuery'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 删除横幅
+      tags:
+      - Banner-横幅
   /adm/del_category:
     post:
       parameters:
@@ -168,6 +594,141 @@ paths:
       summary: 删除分类
       tags:
       - Category-分类
+  /adm/del_chain:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.DelQuery'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 删除链
+      tags:
+      - Chain-链
+  /adm/del_class:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.DelQuery'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 删除类型
+      tags:
+      - Class-类型
+  /adm/del_currency:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.DelQuery'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 删除代币信息
+      tags:
+      - Currency-代币信息
+  /adm/del_game:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.DelQuery'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 删除游戏信息
+      tags:
+      - Game-游戏信息
+  /adm/del_label:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.DelQuery'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 删除标签
+      tags:
+      - Label-标签
   /adm/get_article:
     get:
       parameters:
@@ -180,11 +741,11 @@ paths:
         name: cate_id
         type: integer
       - in: query
-        name: id
+        name: hot
         type: integer
       - in: query
-        name: lang
-        type: string
+        name: id
+        type: integer
       - in: query
         name: page
         type: integer
@@ -194,6 +755,34 @@ paths:
       - in: query
         name: status
         type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Article'
+                  type: array
+              type: object
+      summary: 查询发布文章
+      tags:
+      - Article-发布文章
+  /adm/get_banner:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
       responses:
         "200":
           description: 返回数据
@@ -203,12 +792,127 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/data.Article'
+                    $ref: '#/definitions/data.Banner'
                   type: array
               type: object
-      summary: 查询文章
+      summary: 查看横幅
       tags:
-      - Article-文章
+      - Banner-查看横幅
+  /adm/get_chain:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Chain'
+                  type: array
+              type: object
+      summary: 查询链
+      tags:
+      - Chain-链
+  /adm/get_currency:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - in: query
+        name: cate_id
+        type: integer
+      - in: query
+        name: hot
+        type: integer
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Currency'
+                  type: array
+              type: object
+      summary: 查询代币信息
+      tags:
+      - Currency-代币信息
+  /adm/get_game:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - in: query
+        name: cate_id
+        type: integer
+      - in: query
+        name: hot
+        type: integer
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Game'
+                  type: array
+              type: object
+      summary: 查询游戏信息
+      tags:
+      - Game-游戏信息
   /adm/mod_article:
     post:
       parameters:
@@ -236,6 +940,33 @@ paths:
       summary: 修改文章
       tags:
       - Article-文章
+  /adm/mod_banner:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Banner'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改横幅
+      tags:
+      - Banner-文章
   /adm/mod_category:
     post:
       parameters:
@@ -263,6 +994,114 @@ paths:
       summary: 修改分类
       tags:
       - Category-分类
+  /adm/mod_chain:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Chain'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改链
+      tags:
+      - Chain-链
+  /adm/mod_currency:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.currency'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改代币信息
+      tags:
+      - Currency-代币信息
+  /adm/mod_game:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Game'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改游戏信息
+      tags:
+      - Game-游戏信息
+  /adm/mod_label:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Label'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改标签
+      tags:
+      - Label-标签
   /adm/upload_img:
     post:
       parameters:
@@ -281,21 +1120,85 @@ paths:
                 data:
                   type: string
               type: object
-      summary: 添加文章
+      summary: 添加图片
       tags:
-      - Article-文章
-  /api/get_article:
+      - img-图片
+  /api/get_category:
     get:
       parameters:
       - in: query
         name: cate_id
         type: integer
       - in: query
+        name: hot
+        type: integer
+      - in: query
         name: id
         type: integer
       - in: query
-        name: lang
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Category'
+                  type: array
+              type: object
+      summary: 查询文章
+      tags:
+      - UseApi
+  /api/get_class:
+    get:
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Class'
+                  type: array
+              type: object
+      summary: 查询类型
+      tags:
+      - Class-类型
+  /api/get_game:
+    get:
+      parameters:
+      - in: query
+        name: chain_id
+        type: integer
+      - in: query
+        name: class_id
+        type: integer
+      - in: query
+        name: game_fi
         type: string
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: label_id
+        type: integer
       - in: query
         name: page
         type: integer
@@ -314,23 +1217,178 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/data.Article'
+                    $ref: '#/definitions/data.Game'
                   type: array
               type: object
-      summary: 查询文章
+      summary: 查询游戏简介
       tags:
       - UseApi
-  /api/get_category:
+  /api/get_game_parameter:
     get:
       parameters:
+      - in: query
+        name: cate_id
+        type: integer
+      - in: query
+        name: hot
+        type: integer
       - in: query
         name: id
         type: integer
       - in: query
-        name: lang
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.GameParameter'
+                  type: array
+              type: object
+      summary: 查询游戏参数
+      tags:
+      - GameParameter-游戏参数
+  /api/get_game_value:
+    get:
+      parameters:
+      - in: query
+        name: cate_id
+        type: integer
+      - in: query
+        name: hot
+        type: integer
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.CourseBanner'
+                  type: array
+              type: object
+      summary: 查询图文教程
+      tags:
+      - GetImageCourse-图文教程
+  /api/get_gamecmk:
+    get:
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Cmk'
+                  type: array
+              type: object
+      summary: 查询头号玩家
+      tags:
+      - GetTopGainers-查询头号玩家
+  /api/get_like_article:
+    get:
+      parameters:
+      - in: query
+        name: cate_id
+        type: integer
+      - in: query
+        name: hot
+        type: integer
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Article'
+                  type: array
+              type: object
+      summary: 查询相关文章
+      tags:
+      - UseApi
+  /api/get_like_gamee:
+    get:
+      parameters:
+      - in: query
+        name: chain_id
+        type: integer
+      - in: query
+        name: class_id
+        type: integer
+      - in: query
+        name: game_fi
         type: string
       - in: query
-        name: parent_id
+        name: id
+        type: integer
+      - in: query
+        name: label_id
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
         type: integer
       responses:
         "200":
@@ -341,12 +1399,70 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/data.Category'
+                    $ref: '#/definitions/data.Game'
                   type: array
               type: object
-      summary: 查询分类
+      summary: 查询相关游戏
       tags:
       - UseApi
+  /api/get_top_losers:
+    get:
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Cmk'
+                  type: array
+              type: object
+      summary: 查询头号失败者
+      tags:
+      - GetTopLosers-查询头号失败者
+  /api/get_value:
+    get:
+      parameters:
+      - in: query
+        name: cate_id
+        type: integer
+      - in: query
+        name: hot
+        type: integer
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.CourseBanner'
+                  type: array
+              type: object
+      summary: 查询教程
+      tags:
+      - GetCourse-教程
   /api/match_article:
     get:
       parameters:
@@ -355,17 +1471,12 @@ paths:
         name: sub_str
         required: true
         type: string
-      - description: 语言
-        in: query
-        name: lang
-        required: true
-        type: string
       responses:
         "200":
           description: 返回数据
           schema:
             allOf:
-            - $ref: '#/definitions/biz.BaseJson'
+            - $ref: '#/definitions/biz.JsonFormat'
             - properties:
                 data:
                   items:
@@ -373,6 +1484,29 @@ paths:
                   type: array
               type: object
       summary: title关键字查询文章(至多返回30条数据)
+      tags:
+      - UseApi
+  /api/match_game:
+    get:
+      parameters:
+      - description: 匹配数据
+        in: query
+        name: sub_str
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.game'
+                  type: array
+              type: object
+      summary: GameName关键字查询游戏名(至多返回30条数据)
       tags:
       - UseApi
   /auth/login:
@@ -397,4 +1531,44 @@ paths:
       summary: 登陆
       tags:
       - auth-登陆认证
+  /use/get_chain:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Chain'
+                  type: array
+              type: object
+      summary: 查询链
+      tags:
+      - Chain-链
+  /use/get_class:
+    get:
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Class'
+                  type: array
+              type: object
+      summary: 查询类型
+      tags:
+      - Class-类型
 swagger: "2.0"
