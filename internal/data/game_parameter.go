@@ -28,22 +28,20 @@ func GameParameterAdd() error {
 func (a *GameQuery) SearchGameParameter(isAdm bool) interface{} {
 	var list = make([]GameParameter, 0, a.PageSize)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Order("mkt_cap desc")
-	if !isAdm {
-		if a.ClassId != 0 {
-			row := &GameClass{}
-			class := GetDbCli().Session(&gorm.Session{}).Table("game_class").Where("class_id = ?", a.ClassId)
-			err := class.Find(&row).Error
-			if err != nil {
-				log.Println(err.Error())
-			}
-			ty := GetDbCli().Session(&gorm.Session{}).Table("games").Where("id = ?", row.GameId)
-			errr := ty.Find(&list).Error
-			if errr != nil {
-				log.Println(err.Error())
-			}
-		}
-		return list
-	}
+	// if !isAdm {
+	// 	row := &GameClass{}
+	// 	class := GetDbCli().Session(&gorm.Session{}).Table("game_class").Where("class_id = ?", a.ClassId)
+	// 	err := class.Find(&row).Error
+	// 	if err != nil {
+	// 		log.Println(err.Error())
+	// 	}
+	// 	ty := GetDbCli().Session(&gorm.Session{}).Table("games").Where("id = ?", row.GameId)
+	// 	errr := ty.Find(&list).Error
+	// 	if errr != nil {
+	// 		log.Println(err.Error())
+	// 	}
+	// 	return list
+	// }
 	err := tx.Find(&list).Error
 	if err != nil {
 		log.Println(err.Error())
