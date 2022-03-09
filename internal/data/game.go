@@ -75,6 +75,10 @@ func (a *GameQuery) GameSearch(adm bool) interface{} {
 		tx = tx.Joins("left join game_chain on games.id = game_chain.game_id").Where("game_chain.chain_id = ?", a.ChainId)
 	}
 	if !adm {
+		errr := GameParameterAdd()
+		if errr != nil {
+			log.Println(errr)
+		}
 		type game struct {
 			Id              int64      `json:"id"`
 			GameName        string     `json:"title"`
@@ -167,7 +171,7 @@ func (a *GameQuery) ParameterCount() int {
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
 	}
-	tx = tx.Where("status = ?", 1)
+	// tx = tx.Where("status = ?", 1)
 	err := tx.Count(&count).Error
 	if err != nil {
 		log.Println(err.Error())
@@ -194,14 +198,10 @@ func (a *GameQuery) LikeGame() interface{} {
 }
 
 func (a *GameQuery) GameValue() interface{} {
-	errr := GameParameterAdd()
-	if errr != nil {
-		log.Println(errr)
-	}
-	tx := GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Chain").Preload("Class").Preload("GameParameter")
-	if a.Id != 0 {
-		tx = tx.Where("id = ?", a.Id)
-	}
+	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Preload("Game")
+	// if a.Id != 0 {
+	// 	tx = tx.Where("id = ?", a.Id)
+	// }
 	if a.Page > 0 && a.PageSize > 0 {
 		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
 	}
@@ -214,18 +214,31 @@ func (a *GameQuery) GameValue() interface{} {
 	if a.ChainId != 0 {
 		tx = tx.Joins("left join game_chain on games.id = game_chain.game_id").Where("game_chain.chain_id = ?", a.ChainId)
 	}
-	type game struct {
-		Id            int64         `json:"id"`
-		GameName      string        `json:"title"`
-		Chain         []Chain       `json:"chain" gorm:"many2many:game_chain"`
-		Status        string        `json:"status"`
-		Class         []Class       `json:"class" gorm:"many2many:game_class"`
-		GameParameter GameParameter `json:"game_parameter" gorm:"foreignkey:game_fi;references:game_name"`
+	var row = make([]game, 0)
+	GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Class").Preload("Chain").Find(&row)
+	type gamevalue struct {
+		Id        int64  `json:"id"`
+		Coin      string `json:"coin"`
+		GameFi    string `json:"game_fi"`
+		Price     string `json:"price"`
+		OneDay    string `json:"one_day"`
+		OneWeek   string `json:"one_week"`
+		DayVolume string `json:"day_volume"`
+		MktCap    string `json:"mkt_cap"`
+		Game      game   `json:"game" gorm:"foreignkey:game_name;references:game_fi"`
 	}
-	var result = make([]game, 0, a.PageSize)
+	var result = make([]gamevalue, 0, a.PageSize)
 	err := tx.Find(&result).Error
 	if err != nil {
 		log.Println(err.Error())
+	}
+	for x := 0; x < len(row); x++ {
+		for y := 0; y < len(result); y++ {
+			if result[y].GameFi == row[x].GameName {
+				result[y].Game.Chain = row[x].Chain
+				result[y].Game.Class = row[x].Class
+			}
+		}
 	}
 	return result
 }

@@ -242,3 +242,11 @@ type likeArticle struct {
 	Summary string    `json:"summary"`
 	Created time.Time `json:"created"`
 }
+
+type game struct {
+	Id       int64   `json:"id"`
+	GameName string  `json:"game_name"`
+	Status   int     `json:"status"`
+	Chain    []Chain `json:"chain" gorm:"many2many:game_chain"`
+	Class    []Class `json:"class" gorm:"many2many:game_class"`
+}
