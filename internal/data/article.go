@@ -180,13 +180,12 @@ func OutArticleAdd() error {
 	return err
 }
 
-func Course(Video bool, Image bool) (interface{}, int) {
+func Course(Video bool, Image bool) interface{} {
 	tx := GetDbCli().Session(&gorm.Session{})
 	var (
 		video []DelQuery
 		image []DelQuery
 		arr   []int64
-		count int64
 	)
 	if Video {
 		err := tx.Table("categories").Where("parent_id = ?", 1646124402108).Find(&video).Error
@@ -220,13 +219,40 @@ func Course(Video bool, Image bool) (interface{}, int) {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	err = tx.Count(&count).Error
+	return row
+}
+
+func (a *ArticleQuery) CourseCount(Video bool, Image bool) int {
+
+	tx := GetDbCli().Session(&gorm.Session{})
+	var (
+		course []DelQuery
+		arr    []int64
+		count  int64
+	)
+	if Video {
+		err := tx.Table("categories").Where("parent_id = ?", 1646124402108).Find(&course).Error
+		if err != nil {
+			log.Println(err)
+		}
+	} else {
+		err := tx.Table("categories").Where("parent_id = ?", 1646104648579).Find(&course).Error
+		if err != nil {
+			log.Println(err)
+		}
+	}
+	for i := 0; i < len(course); i++ {
+		arr = append(arr, course[i].Id)
+	}
+	tx = tx.Table("articles").Where("cate_id in ?", arr)
+	err := tx.Count(&count).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
-	intCount, err := strconv.Atoi(strconv.FormatInt(count, 10))
+	strCount := strconv.FormatInt(count, 10)
+	intCount, err := strconv.Atoi(strCount)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return row, intCount
+	return intCount
 }
