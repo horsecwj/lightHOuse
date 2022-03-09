@@ -250,3 +250,12 @@ type game struct {
 	Chain    []Chain `json:"chain" gorm:"many2many:game_chain"`
 	Class    []Class `json:"class" gorm:"many2many:game_class"`
 }
+
+type CourseBanner struct {
+	Id       int64    `json:"id"`
+	Title    string   `json:"title"`
+	Cover    string   `json:"cover"`
+	CateId   int64    `json:"cate_id"`
+	Created  string   `json:"created"`
+	Category Category `json:"category" gorm:"foreignkey:id;references:cate_id"`
+}

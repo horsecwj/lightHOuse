@@ -172,7 +172,7 @@ func useGetGameValue(c echo.Context) error {
 // @Tags VideoCourse-视频教程
 // @Summary 查询视频教程
 // @Param body query data.ArticleQuery true "请求数据"
-// @Success 200 {object} biz.JsonFormat{data=[]data.Course} "返回数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.CourseBanner} "返回数据"
 // @Router /api/get_game_value [GET]
 func useGetVideoCourse(c echo.Context) error {
 	d := new(data.ArticleQuery)
@@ -188,7 +188,7 @@ func useGetVideoCourse(c echo.Context) error {
 // @Tags GetImageCourse-图文教程
 // @Summary 查询图文教程
 // @Param body query data.ArticleQuery true "请求数据"
-// @Success 200 {object} biz.JsonFormat{data=[]data.Course} "返回数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.CourseBanner} "返回数据"
 // @Router /api/get_game_value [GET]
 func useGetImageCourse(c echo.Context) error {
 	d := new(data.ArticleQuery)
@@ -204,7 +204,7 @@ func useGetImageCourse(c echo.Context) error {
 // @Tags GetCourse-教程
 // @Summary 查询教程
 // @Param body query data.ArticleQuery true "请求数据"
-// @Success 200 {object} biz.JsonFormat{data=[]data.Course} "返回数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.CourseBanner} "返回数据"
 // @Router /api/get_value [GET]
 func useGetCourse(c echo.Context) error {
 	d := new(data.ArticleQuery)

@@ -206,15 +206,7 @@ func Course(Video bool, Image bool) interface{} {
 		arr = append(arr, image[i].Id)
 	}
 	tx = tx.Table("articles").Order("id desc").Where("cate_id in ?", arr).Preload("Category")
-	type Banner struct {
-		Id       int64    `json:"id"`
-		Title    string   `json:"title"`
-		Cover    string   `json:"cover"`
-		CateId   int64    `json:"cate_id"`
-		Created  string   `json:"created"`
-		Category Category `json:"category" gorm:"foreignkey:id;references:cate_id"`
-	}
-	var row []Banner
+	var row []CourseBanner
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
