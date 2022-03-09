@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -233,8 +232,6 @@ func (a *GameQuery) GameValue() interface{} {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	fmt.Println(result[1].GameFi)
-	fmt.Println(row[1].GameName)
 	for x := 0; x < len(row); x++ {
 		for y := 0; y < len(result); y++ {
 			if result[y].GameFi == row[x].GameName {
