@@ -206,7 +206,6 @@ func (a *GameQuery) GameValue() interface{} {
 		tx = tx.Where("status = ?", 2)
 	}
 	var row = make([]game, 0)
-
 	ty := GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Class").Preload("Chain")
 	if a.ClassId != 0 {
 		ty.Joins("left join game_class on games.id = game_class.game_id").Where("game_class.class_id = ?", a.ClassId).Find(&row)
