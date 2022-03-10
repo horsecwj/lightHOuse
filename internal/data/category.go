@@ -26,9 +26,9 @@ func CategoryUpdate(c *Category) error {
 	return tx.Where("id = ? and lang = ?", c.Id, c.Lang).Updates(&c).Error
 }
 
-func (c *CategoryQuery) CategorySearch() interface{} {
+func (c *CategoryQuery) CategorySearch(adm bool) interface{} {
 	var list = make([]Category, 0, 20)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("categories").Order("id desc, lang")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("categories").Order("id")
 	if c.Id != 0 {
 		tx = tx.Where("id = ?", c.Id)
 	}
@@ -39,7 +39,14 @@ func (c *CategoryQuery) CategorySearch() interface{} {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return list
+	if list[0].Id == 1 {
+		list[0].Id = 0
+	}
+	if adm {
+		return list[2:]
+	} else {
+		return list
+	}
 }
 
 func CategoryCount(pid int64) int64 {

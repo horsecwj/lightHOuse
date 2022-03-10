@@ -7,8 +7,8 @@ import (
 )
 
 // GetCategory 获取分类
-func GetCategory(d *data.CategoryQuery) *BaseJson {
-	list := d.CategorySearch()
+func GetCategory(d *data.CategoryQuery, adm bool) *BaseJson {
+	list := d.CategorySearch(adm)
 	return &BaseJson{Code: 1, Data: list}
 }
 
