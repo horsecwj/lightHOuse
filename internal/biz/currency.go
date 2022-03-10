@@ -13,6 +13,9 @@ func GetCurrency(d *data.ArticleQuery) *JsonFormat {
 
 // AddCurrency 添加代币信息
 func AddCurrency(d *data.Currency) *BaseJson {
+	if d.CurrencyName == "" {
+		return &BaseJson{Code: 0, Data: "代币名不能为空"}
+	}
 	err := data.CurrencyAdd(d)
 	if err != nil {
 		log.Println(err.Error())
@@ -38,6 +41,9 @@ func DelCurrency(d *data.DelQuery) *BaseJson {
 
 // ModCurrency 修改代币信息
 func ModCurrency(d *data.Currency) *BaseJson {
+	if d.CurrencyName == "" {
+		return &BaseJson{Code: 0, Data: "代币名不能为空"}
+	}
 	if d.Id == 0 {
 		return &BaseJson{Code: 0, Data: "参数 id 值不应为0"}
 	}

@@ -180,7 +180,7 @@ func OutArticleAdd() error {
 	return err
 }
 
-func Course(Video bool, Image bool) interface{} {
+func (a *ArticleQuery) Course(Video bool, Image bool) interface{} {
 	tx := GetDbCli().Session(&gorm.Session{})
 	var (
 		video []DelQuery
@@ -206,6 +206,9 @@ func Course(Video bool, Image bool) interface{} {
 		arr = append(arr, image[i].Id)
 	}
 	tx = tx.Table("articles").Order("id desc").Where("cate_id in ?", arr).Preload("Category")
+	if a.CateId != 0 {
+		tx = tx.Where("cate_id = ?", a.CateId)
+	}
 	var row []CourseBanner
 	err := tx.Find(&row).Error
 	if err != nil {

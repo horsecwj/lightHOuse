@@ -121,7 +121,7 @@ func useGetLikeGame(c echo.Context) error {
 // @Success 200 {object} biz.BaseJson{data=[]data.Class} "返回数据"
 // @Router /use/get_class [GET]
 func useGetClass(c echo.Context) error {
-	msg := biz.GetClass()
+	msg := biz.GetClass(false)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -132,7 +132,7 @@ func useGetClass(c echo.Context) error {
 // @Success 200 {object} biz.BaseJson{data=[]data.Chain} "返回数据"
 // @Router /use/get_chain [GET]
 func useGetChain(c echo.Context) error {
-	msg := biz.GetChain()
+	msg := biz.GetChain(false)
 	return c.JSON(http.StatusOK, &msg)
 }
 

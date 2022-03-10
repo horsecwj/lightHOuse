@@ -15,6 +15,7 @@ func UserRouter(user *echo.Group) {
 	user.GET("/get_like_article", useGetLikeArticle)
 	user.GET("/get_like_game", useGetLikeGame)
 	user.GET("/get_game_value", useGetGameValue)
+	user.GET("/get_category", admGetCategory)
 
 	user.GET("/get_video_course", useGetVideoCourse)
 	user.GET("/get_image_course", useGetImageCourse)
