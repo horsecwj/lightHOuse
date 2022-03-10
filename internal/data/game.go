@@ -203,7 +203,7 @@ func (a *GameQuery) GameValue() interface{} {
 		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
 	}
 	if a.Status != 0 {
-		tx = tx.Where("status = ?", 2)
+		tx = tx.Where("status = ?", a.Status)
 	}
 	var row = make([]game, 0)
 	ty := GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Class").Preload("Chain")

@@ -7,6 +7,9 @@ import (
 
 //AddLabel 添加标签
 func AddLabel(d *data.Label) *BaseJson {
+	if d.Word == "" {
+		return &BaseJson{Code: 0, Data: "标签不能为空"}
+	}
 	_, err := data.VerificationLabel(d.Word)
 	if err == nil {
 		return &BaseJson{Code: 1, Data: "该标签已经存在"}

@@ -26,12 +26,16 @@ func ChainUpdate(c *Chain) error {
 	return tx.Where("id = ?", c.Id).Updates(&c).Error
 }
 
-func CategoryChain() interface{} {
+func CategoryChain(adm bool) interface{} {
 	var list = make([]Chain, 0, 20)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("chains").Order("id")
 	err := tx.Find(&list).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return list[1:]
+	if adm {
+		return list[1:]
+	} else {
+		return list
+	}
 }

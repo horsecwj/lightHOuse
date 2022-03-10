@@ -531,7 +531,7 @@ func admDelClass(c echo.Context) error {
 // @Success 200 {object} biz.BaseJson{data=[]data.Class} "返回数据"
 // @Router /api/get_class [GET]
 func admGetClass(c echo.Context) error {
-	msg := biz.GetClass()
+	msg := biz.GetClass(true)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -593,6 +593,6 @@ func admModChain(c echo.Context) error {
 // @Success 200 {object} biz.BaseJson{data=[]data.Chain} "返回数据"
 // @Router /adm/get_chain [GET]
 func admGetChain(c echo.Context) error {
-	msg := biz.GetChain()
+	msg := biz.GetChain(true)
 	return c.JSON(http.StatusOK, &msg)
 }

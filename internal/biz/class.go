@@ -9,6 +9,9 @@ import (
 
 //添加游戏类型
 func AddClass(d *data.Class) *BaseJson {
+	if d.Class == "" {
+		return &BaseJson{Code: 0, Data: "游戏类型不能为空"}
+	}
 	_, err := data.VerificationClass(d.Class)
 	if err == nil {
 		return &BaseJson{Code: 0, Data: "该类型已存在"}
@@ -23,15 +26,18 @@ func AddClass(d *data.Class) *BaseJson {
 }
 
 //获取游戏类型
-func GetClass() *BaseJson {
+func GetClass(adm bool) *BaseJson {
 	var list = make([]data.Class, 0, 20)
 	tx := data.GetDbCli().Session(&gorm.Session{}).Table("classes").Order("id")
 	err := tx.Find(&list).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
-
-	return &BaseJson{Code: 1, Data: list[1:]}
+	if adm {
+		return &BaseJson{Code: 1, Data: list[1:]}
+	} else {
+		return &BaseJson{Code: 1, Data: list}
+	}
 }
 
 //删除游戏类型

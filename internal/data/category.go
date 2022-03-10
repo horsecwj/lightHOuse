@@ -32,6 +32,9 @@ func (c *CategoryQuery) CategorySearch() interface{} {
 	if c.Id != 0 {
 		tx = tx.Where("id = ?", c.Id)
 	}
+	if c.ParentId != 0 {
+		tx = tx.Where("parent_id = ?", c.ParentId)
+	}
 	err := tx.Find(&list).Error
 	if err != nil {
 		log.Println(err.Error())
