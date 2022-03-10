@@ -25,12 +25,12 @@ func useGetGame(c echo.Context) error {
 	return c.JSON(http.StatusOK, &msg)
 }
 
-// useGetCategory doc
+// useGetArticle doc
 // @Tags UseApi
 // @Summary 查询文章
 // @Param body query data.ArticleQuery true "请求数据"
-// @Success 200 {object} biz.BaseJson{data=[]data.Category} "返回数据"
-// @Router /api/get_category [GET]
+// @Success 200 {object} biz.BaseJson{data=[]data.Article} "返回数据"
+// @Router /api/get_Article [GET]
 func useGerArticle(c echo.Context) error {
 	d := new(data.ArticleQuery)
 	err := c.Bind(d)
@@ -50,6 +50,22 @@ func useGerArticle(c echo.Context) error {
 // @Router /adm/get_banner [GET]
 func useGetBanner(c echo.Context) error {
 	msg := biz.GetBanner()
+	return c.JSON(http.StatusOK, &msg)
+}
+
+// useGetCategory doc
+// @Tags UseApi
+// @Summary 查询分类
+// @Param body query data.CategoryQuery true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=[]data.Category} "返回数据"
+// @Router /api/get_category [GET]
+func useGetCategory(c echo.Context) error {
+	d := new(data.CategoryQuery)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.GetCategory(d, false)
 	return c.JSON(http.StatusOK, &msg)
 }
 

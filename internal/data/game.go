@@ -202,11 +202,16 @@ func (a *GameQuery) GameValue() interface{} {
 	if a.Page > 0 && a.PageSize > 0 {
 		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
 	}
-	if a.Status != 0 {
-		tx = tx.Where("status = ?", a.Status)
-	}
 	var row = make([]game, 0)
 	ty := GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Class").Preload("Chain")
+	if a.Status != 0 {
+		ty = ty.Where("status = ?", a.Status).Find(&row)
+		var name []string
+		for i := 0; i < len(row); i++ {
+			name = append(name, row[i].GameName)
+		}
+		tx = tx.Where("game_fi in ?", name)
+	}
 	if a.ClassId != 0 {
 		ty.Joins("left join game_class on games.id = game_class.game_id").Where("game_class.class_id = ?", a.ClassId).Find(&row)
 		var name []string

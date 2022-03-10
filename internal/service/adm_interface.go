@@ -410,7 +410,7 @@ func admGetCategory(c echo.Context) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.GetCategory(d)
+	msg := biz.GetCategory(d, true)
 	return c.JSON(http.StatusOK, &msg)
 }
 
