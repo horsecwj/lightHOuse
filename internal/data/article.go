@@ -36,6 +36,15 @@ func ArticleDelete(id int64) error {
 
 func ArticleUpdate(a *Article) error {
 	tx := GetDbCli().Session(&gorm.Session{})
+	var row GameArticle
+	if a.GameId != 0 {
+		row.ArticleId = a.Id
+		row.GameId = a.GameId
+		err := tx.Table("game_article").Delete(GameArticle{}, "article_id = ?", a.Id).Create(&row).Error
+		if err != nil {
+			log.Println(err.Error())
+		}
+	}
 	if a.Label != nil {
 		tx.Table("article_label").Delete(ArticleLabel{}, "article_id = ?", a.Id)
 	}
