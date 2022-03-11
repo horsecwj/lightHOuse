@@ -17,7 +17,7 @@ type Article struct {
 	CateId   int64   `json:"cate_id"`
 	Title    string  `json:"title"`
 	Summary  string  `json:"summary"`
-	Cover    string  `josn:"cover"`
+	Cover    string  `json:"cover"`
 	Markdown string  `json:"markdown"`
 	RichText string  `json:"rich_text"`
 	Hot      int64   `json:"hot"`

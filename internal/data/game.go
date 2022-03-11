@@ -105,7 +105,7 @@ func (a *GameQuery) GameSearch(adm bool) interface{} {
 			GameUrl         string     `json:"game_url"`
 			Guide           string     `json:"guide"`
 			AboutGames      string     `json:"about_games"`
-			New             []Article  `json:"new" gorm:"many2many:game_article"`
+			New             []article  `json:"new" gorm:"many2many:game_article"`
 			Stragegy        string     `json:"stragegy"`
 			RevenueAnalysis string     `json:"revenue_analysis"`
 			Created         string     `json:"created"`
