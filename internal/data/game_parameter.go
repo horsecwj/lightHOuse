@@ -27,7 +27,7 @@ func GameParameterAdd() error {
 
 func (a *GameQuery) SearchGameParameter(isAdm bool) interface{} {
 	var list = make([]GameParameter, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Order("mkt_cap desc")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Order("id")
 	// if !isAdm {
 	// 	row := &GameClass{}
 	// 	class := GetDbCli().Session(&gorm.Session{}).Table("game_class").Where("class_id = ?", a.ClassId)
