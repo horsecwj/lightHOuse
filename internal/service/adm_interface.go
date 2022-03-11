@@ -40,12 +40,12 @@ func admFitImg(c echo.Context) error {
 		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: err.Error()})
 	}
 	contentType := file.Header.Get("Content-Type")
-	if !strings.Contains(contentType, "image") {
-		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件"})
+	if !strings.Contains(contentType, "video") && !strings.Contains(contentType, "image") {
+		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件或视频文件"})
 	}
 	src, err := file.Open()
 	if err != nil {
-		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件"})
+		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件或视频文件"})
 	}
 	msg := biz.FitImage(src, file.Filename, request)
 	return c.JSON(http.StatusOK, &msg)
