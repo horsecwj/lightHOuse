@@ -31,6 +31,14 @@ func ArticleAdd(a *Article) error {
 
 func ArticleDelete(id int64) error {
 	tx := GetDbCli().Session(&gorm.Session{})
+	err := tx.Table("article_label").Delete(ArticleLabel{}, "article_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = tx.Table("game_article").Delete(GameArticle{}, "article_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
 	return tx.Table("articles").Delete(Article{}, "id = ?", id).Error
 }
 

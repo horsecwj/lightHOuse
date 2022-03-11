@@ -19,6 +19,22 @@ func GameAdd(a *Game) error {
 
 func GameDelete(id int64) error {
 	tx := GetDbCli().Session(&gorm.Session{})
+	err := tx.Table("game_chain").Delete(GameChain{}, "game_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = tx.Table("game_label").Delete(GameLabel{}, "game_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = tx.Table("game_class").Delete(GameClass{}, "game_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = tx.Table("game_currency").Delete(GameCurrency{}, "game_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
 	return tx.Table("games").Delete(Game{}, "id = ?", id).Error
 }
 
