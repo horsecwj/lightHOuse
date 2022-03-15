@@ -192,7 +192,7 @@ func admGetArticle(c echo.Context) error {
 // @Router /api/match_article [GET]
 func admMatchArticle(c echo.Context) error {
 	subStr := c.QueryParam("sub_str")
-	msg := biz.MatchArticle(subStr)
+	msg := biz.MatchArticle(subStr, false)
 	return c.JSON(http.StatusOK, &msg)
 }
 

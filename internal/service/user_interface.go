@@ -117,6 +117,18 @@ func useGetLikeArticle(c echo.Context) error {
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// useMatchArticle
+// @Tags UseApi
+// @Summary title关键字查询文章(至多返回30条数据)
+// @Param sub_str query string true "匹配数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.Article} "返回数据"
+// @Router /api/match_article [GET]
+func useMatchArticle(c echo.Context) error {
+	subStr := c.QueryParam("sub_str")
+	msg := biz.MatchArticle(subStr, true)
+	return c.JSON(http.StatusOK, &msg)
+}
+
 // useGetLikeGame doc
 // @Tags UseApi
 // @Summary 查询相关游戏

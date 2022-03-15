@@ -142,10 +142,13 @@ func (a *ArticleQuery) ArticleCount() int {
 	return intCount
 }
 
-func ArticleMatch(subStr string) (interface{}, int) {
+func ArticleMatch(subStr string, user bool) (interface{}, int) {
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc, id")
 	tx = tx.Where("title like ? ", "%"+subStr+"%")
 	tx = tx.Limit(30)
+	if user {
+		tx = tx.Where("status = ?", 2)
+	}
 	type Result struct {
 		Id       int64  `json:"id"`
 		Lang     string `json:"lang"`
