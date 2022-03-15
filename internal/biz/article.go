@@ -30,9 +30,9 @@ func GetArticle(d *data.ArticleQuery, isAdm bool) *JsonFormat {
 }
 
 // MatchArticle 搜索文章列表
-func MatchArticle(subStr string) *JsonFormat {
+func MatchArticle(subStr string, user bool) *JsonFormat {
 	if subStr != "" {
-		list, lenList := data.ArticleMatch(subStr)
+		list, lenList := data.ArticleMatch(subStr, user)
 		return &JsonFormat{Code: 1, Page: 1, PageSize: lenList, PageNum: 1, ArticleNum: lenList, Data: list}
 	}
 	return &JsonFormat{Code: 0, Page: 0, PageSize: 0, PageNum: 0, ArticleNum: 0, Data: "当前参数获取到的文章数量为0"}
