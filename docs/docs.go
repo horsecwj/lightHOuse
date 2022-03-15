@@ -1257,6 +1257,52 @@ var doc = `{
                 }
             }
         },
+        "/adm/mod_class": {
+            "post": {
+                "tags": [
+                    "Class-类型"
+                ],
+                "summary": "修改类型",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Class"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/mod_currency": {
             "post": {
                 "tags": [
@@ -1432,7 +1478,7 @@ var doc = `{
                 }
             }
         },
-        "/api/get_category": {
+        "/api/get_Article": {
             "get": {
                 "tags": [
                     "UseApi"
@@ -1475,6 +1521,49 @@ var doc = `{
                             "type": "string"
                         },
                         "name": "word",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Article"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_category": {
+            "get": {
+                "tags": [
+                    "UseApi"
+                ],
+                "summary": "查询分类",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "parent_id",
                         "in": "query"
                     }
                 ],

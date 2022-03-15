@@ -1021,6 +1021,33 @@ paths:
       summary: 修改链
       tags:
       - Chain-链
+  /adm/mod_class:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Class'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改类型
+      tags:
+      - Class-类型
   /adm/mod_currency:
     post:
       parameters:
@@ -1123,7 +1150,7 @@ paths:
       summary: 添加图片
       tags:
       - img-图片
-  /api/get_category:
+  /api/get_Article:
     get:
       parameters:
       - in: query
@@ -1158,10 +1185,34 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/data.Category'
+                    $ref: '#/definitions/data.Article'
                   type: array
               type: object
       summary: 查询文章
+      tags:
+      - UseApi
+  /api/get_category:
+    get:
+      parameters:
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: parent_id
+        type: integer
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Category'
+                  type: array
+              type: object
+      summary: 查询分类
       tags:
       - UseApi
   /api/get_class:
