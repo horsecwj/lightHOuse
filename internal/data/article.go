@@ -181,9 +181,14 @@ func (a *ArticleQuery) LikeArticle() interface{} {
 func OutArticleAdd() error {
 	var (
 		row   []OutArticle
+		bybit []OutArticle
 		cover string
 	)
 	err := GetDbCli().Session(&gorm.Session{}).Table("slate_article").Find(&row).Error
+	if err != nil {
+		log.Println(err)
+	}
+	err = GetDbCli().Session(&gorm.Session{}).Table("bybit_article").Find(&bybit).Error
 	if err != nil {
 		log.Println(err)
 	}
@@ -194,7 +199,20 @@ func OutArticleAdd() error {
 		}
 		if VerificationArticle(row[i].Title) != nil {
 			timeStr := time.Unix(row[i].Timestamp, 0).Format("2006-01-02 15:04:05")
-			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", Cover: cover, Summary: row[i].OverView, Markdown: row[i].Article, RichText: row[i].Articletext, Created: timeStr, Updated: timeStr}).Error
+			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: row[i].OverView, Markdown: row[i].Article, RichText: row[i].Articletext, Created: timeStr, Updated: timeStr}).Error
+			if err != nil {
+				log.Println(err)
+			}
+		}
+	}
+	tx = GetDbCli().Session(&gorm.Session{}).Table("articles")
+	for i := 0; i < len(bybit); i++ {
+		if bybit[i].Cover == "" {
+			cover = "/upload/1646706814654.png"
+		}
+		if VerificationArticle(bybit[i].Title) != nil {
+			timeStr := time.Unix(bybit[i].Timestamp, 0).Format("2006-01-02 15:04:05")
+			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: bybit[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: bybit[i].OverView, Markdown: bybit[i].Article, RichText: bybit[i].Articletext, Created: timeStr, Updated: timeStr}).Error
 			if err != nil {
 				log.Println(err)
 			}
