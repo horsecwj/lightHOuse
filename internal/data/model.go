@@ -259,3 +259,7 @@ type CourseBanner struct {
 	Created  string   `json:"created"`
 	Category Category `json:"category" gorm:"foreignkey:id;references:cate_id"`
 }
+
+type Day struct {
+	Day int `json:"day" query:"day"`
+}
