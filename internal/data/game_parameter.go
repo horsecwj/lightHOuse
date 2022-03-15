@@ -40,8 +40,16 @@ func (a *GameQuery) SearchGameParameter(isAdm bool) interface{} {
 
 func (a *GameQuery) SearchGameCmk(losers bool) interface{} {
 	var list = make([]Cmk, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("top_cmk_game_fi")
 	if !losers {
+		tx := GetDbCli().Session(&gorm.Session{}).Table("top_cmk_game_fi")
+		tx.Order("id")
+		err := tx.Find(&list).Error
+		if err != nil {
+			log.Println(err.Error())
+		}
+		return list
+	} else {
+		tx := GetDbCli().Session(&gorm.Session{}).Table("top_cmk_game_fi_losers")
 		tx.Order("id")
 		err := tx.Find(&list).Error
 		if err != nil {
@@ -49,10 +57,4 @@ func (a *GameQuery) SearchGameCmk(losers bool) interface{} {
 		}
 		return list
 	}
-	tx.Order("id desc")
-	err := tx.Find(&list).Error
-	if err != nil {
-		log.Println(err.Error())
-	}
-	return list
 }
