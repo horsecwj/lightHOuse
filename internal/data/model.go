@@ -263,3 +263,21 @@ type CourseBanner struct {
 type Day struct {
 	Day int `json:"day" query:"day"`
 }
+
+type IpRecord struct {
+	Id      int64     `json:"id"`
+	Ip      string    `json:"ip"`
+	Country string    `json:"country"`
+	Created time.Time `json:"created"`
+}
+
+type Data struct {
+	User    int
+	NewUser int
+	Country []Region
+}
+
+type Region struct {
+	Country string `json:"country"`
+	Num     int64
+}

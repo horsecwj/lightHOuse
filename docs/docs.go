@@ -988,6 +988,55 @@ const docTemplate = `{
                 }
             }
         },
+        "/adm/get_data": {
+            "get": {
+                "tags": [
+                    "Data- 数据"
+                ],
+                "summary": "查询数据",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Day"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Data"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/get_game": {
             "get": {
                 "tags": [
@@ -2522,6 +2571,31 @@ const docTemplate = `{
                 }
             }
         },
+        "data.Data": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Region"
+                    }
+                },
+                "newUser": {
+                    "type": "integer"
+                },
+                "user": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.Day": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                }
+            }
+        },
         "data.DelQuery": {
             "type": "object",
             "properties": {
@@ -2694,6 +2768,17 @@ const docTemplate = `{
                 },
                 "word": {
                     "type": "string"
+                }
+            }
+        },
+        "data.Region": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "num": {
+                    "type": "integer"
                 }
             }
         },

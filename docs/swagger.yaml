@@ -144,6 +144,22 @@ definitions:
       value:
         type: integer
     type: object
+  data.Data:
+    properties:
+      country:
+        items:
+          $ref: '#/definitions/data.Region'
+        type: array
+      newUser:
+        type: integer
+      user:
+        type: integer
+    type: object
+  data.Day:
+    properties:
+      day:
+        type: integer
+    type: object
   data.DelQuery:
     properties:
       id:
@@ -258,6 +274,13 @@ definitions:
         type: string
       word:
         type: string
+    type: object
+  data.Region:
+    properties:
+      country:
+        type: string
+      num:
+        type: integer
     type: object
   data.currency:
     properties:
@@ -867,6 +890,35 @@ paths:
       summary: 查询代币信息
       tags:
       - Currency-代币信息
+  /adm/get_data:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Day'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Data'
+                  type: array
+              type: object
+      summary: 查询数据
+      tags:
+      - Data- 数据
   /adm/get_game:
     get:
       parameters:
