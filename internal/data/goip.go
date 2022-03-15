@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -8,24 +9,6 @@ import (
 	"github.com/yangtizi/cz88"
 	"gorm.io/gorm"
 )
-
-type IpRecord struct {
-	Id      int64     `json:"id"`
-	Ip      string    `json:"ip"`
-	Country string    `json:"country"`
-	Created time.Time `json:"created"`
-}
-
-type Data struct {
-	User    int
-	NewUser int
-	Country []Region
-}
-
-type Region struct {
-	Country string `json:"country"`
-	Num     int64
-}
 
 var China = []string{
 	"河北", "山西", "辽宁", "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "江西", "山东", "河南", "湖北", "湖南", "广东", "海南", "四川", "贵州", "云南", "陕西", "甘肃", "青海", "内蒙古", "宁夏", "广西", "西藏", "新疆", "北京", "上海", "天津", "重庆",
@@ -71,19 +54,22 @@ func (d *Day) DataSearch() interface{} {
 
 func CountryData(day int) []Region {
 	var (
-		row     []IpRecord
-		country []Region
-		middle  Region
-		count   int64
-		com     []string
+		row       []IpRecord
+		country   Region
+		Country   []Region
+		middle    Region
+		count     int64
+		com       []string
+		StartTime time.Time
+		EndTime   time.Time
 	)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("ip_records")
 	if day != 0 {
 		t1 := time.Now().Year()
 		t2 := time.Now().Month()
 		t3 := time.Now().Day()
-		EndTime := time.Date(t1, t2, t3+1, 0, 0, 0, 0, time.Local)
-		StartTime := time.Date(t1, t2, t3-day+1, 0, 0, 0, 0, time.Local)
+		EndTime = time.Date(t1, t2, t3+1, 0, 0, 0, 0, time.Local)
+		StartTime = time.Date(t1, t2, t3-day+1, 0, 0, 0, 0, time.Local)
 		tx = tx.Where("created BETWEEN ? AND ?", StartTime, EndTime)
 	}
 	err := tx.Find(&row).Error
@@ -98,31 +84,27 @@ func CountryData(day int) []Region {
 			}
 		}
 		if flag {
-			err := tx.Where("country = ?", row[i].Country).Count(&count).Error
-			if err != nil {
-				log.Println(err.Error())
-			}
+			com = append(com, row[i].Country)
 		}
-		//fmt.Println(row[i].Country, count)
 	}
-	// for x := range com {
-	// 	err := tx.Where("country = ?", com[x]).Count(&count).Error
-	// 	if err != nil {
-	// 		fmt.Println(err.Error())
-	// 	}
-
-	// country[x].Country = com[x]
-	// country[x].Num = count
-	//fmt.Println(com[x], count)
-	middle.Country = ""
-	middle.Num = 0
-	// if country[x].Num > country[x-1].Num {
-	// 	middle = country[x]
-	// 	country[x-1] = country[x]
-	// 	country[x] = middle
-	// }
-	//}
-	return country
+	for x := range com {
+		ty := GetDbCli().Session(&gorm.Session{}).Table("ip_records").Where("created BETWEEN ? AND ?", StartTime, EndTime)
+		err := ty.Where("country = ?", com[x]).Count(&count).Error
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		country.Country = com[x]
+		country.Num = count
+		Country = append(Country, country)
+	}
+	for y := 0; y < len(Country)-1; y++ {
+		if Country[y+1].Num > Country[y].Num {
+			middle = Country[y]
+			Country[y] = Country[y+1]
+			Country[y+1] = middle
+		}
+	}
+	return Country
 }
 
 func UserNum(day int) int {

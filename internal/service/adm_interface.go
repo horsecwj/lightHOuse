@@ -614,6 +614,13 @@ func admGetChain(c echo.Context) error {
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// admGetData doc
+// @Tags Data- 数据
+// @Summary 查询数据
+// @Param token header string true "token"
+// @Param body body data.Day true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=[]data.Data} "返回数据"
+// @Router /adm/get_data [GET]
 func admGetData(c echo.Context) error {
 	d := new(data.Day)
 	err := c.Bind(d)
