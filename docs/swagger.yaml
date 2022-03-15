@@ -157,8 +157,10 @@ definitions:
     type: object
   data.Day:
     properties:
-      day:
-        type: integer
+      end_time:
+        type: string
+      start_time:
+        type: string
     type: object
   data.DelQuery:
     properties:

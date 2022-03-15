@@ -262,6 +262,8 @@ type CourseBanner struct {
 
 type Day struct {
 	Day int `json:"day" query:"day"`
+	//StartTime time.Time `json:"start_time" query:"start_time"`
+	//EndTime   time.Time `json:"end_time" query:"end_time"`
 }
 
 type IpRecord struct {
