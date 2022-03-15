@@ -233,4 +233,17 @@ CREATE TABLE `game_article` (
                                 primary key(`game_id`, `article_id`)
 )engine=InnoDB default charset=utf8mb4 comment='游戏文章关联表';
 
+-- ----------------------------------
+-- Table structure for game_parameters
+-- ----------------------------------
+DROP TABLE IF EXISTS `ip_records`;
+CREATE TABLE `ip_records` (
+                                `id` bigint NOT NULL COMMENT 'id',
+                                `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ip地址',
+                                `country` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '国家',
+                                `created` timestamp NULL DEFAULT CURRENT_DATE,
+                                PRIMARY KEY (`id`) USING BTREE,
+                                KEY `index` (`id`) COMMENT '复合索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+
 SET FOREIGN_KEY_CHECKS = 1;

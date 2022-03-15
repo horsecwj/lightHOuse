@@ -68,6 +68,9 @@ func ArticleUpdate(a *Article) error {
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("id desc").Preload("Label")
+	if a.Page > 0 && a.PageSize > 0 {
+		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
+	}
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
 	}
@@ -165,6 +168,9 @@ func (a *ArticleQuery) LikeArticle() interface{} {
 	var row []likeArticle
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").
 		Where("cate_id = ?", a.CateId).Where("status = ?", 2).Not("id = ?", a.Id)
+	if a.Page > 0 && a.PageSize > 0 {
+		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
+	}
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
@@ -226,6 +232,9 @@ func (a *ArticleQuery) Course(Video bool, Image bool) interface{} {
 	if a.CateId != 0 {
 		tx = tx.Where("cate_id = ?", a.CateId)
 	}
+	if a.Page > 0 && a.PageSize > 0 {
+		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
+	}
 	var row []CourseBanner
 	err := tx.Find(&row).Error
 	if err != nil {
@@ -235,7 +244,6 @@ func (a *ArticleQuery) Course(Video bool, Image bool) interface{} {
 }
 
 func (a *ArticleQuery) CourseCount(Video bool, Image bool) int {
-
 	tx := GetDbCli().Session(&gorm.Session{})
 	var (
 		course []DelQuery

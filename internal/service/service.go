@@ -59,6 +59,7 @@ func AdmRouter(adm *echo.Group) {
 
 	adm.POST("/add_class", admAddClass)
 	adm.POST("/del_class", admDelClass)
+	adm.POST("/mod_class", admModClass)
 	adm.GET("/get_class", admGetClass)
 
 	adm.POST("/add_chain", admAddChain)
@@ -70,6 +71,8 @@ func AdmRouter(adm *echo.Group) {
 	adm.POST("/del_label", admDelLabel)
 	adm.POST("/mod_label", admModLabel)
 	adm.GET("/get_label", admGetLabel)
+
+	adm.GET("/get_data", admGetData)
 }
 func AuthRouter(user *echo.Group) {
 	user.POST("/login", admLogin)

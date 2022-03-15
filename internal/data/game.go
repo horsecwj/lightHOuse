@@ -196,6 +196,9 @@ func (a *GameQuery) ParameterCount() int {
 func (a *GameQuery) LikeGame() interface{} {
 	var list = make([]Label, 0, 20)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("labels").Order("id").Preload("Game").Where("id = ?", a.LabelId)
+	if a.Page > 0 && a.PageSize > 0 {
+		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
+	}
 	if a.Id != 0 {
 		tx = tx.Joins("left join game_label on labels.id = game_label.label_id").Not("game_label.label_id = ?", a.Id)
 	}

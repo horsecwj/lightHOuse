@@ -113,12 +113,12 @@ func GetCourse(d *data.ArticleQuery, video bool, image bool) *JsonFormat {
 		d.Page = 1
 	}
 	if d.PageSize == 0 {
-		d.PageSize = 10
+		d.PageSize = 12
 	}
 	num := d.CourseCount(video, image)
 	if num > 0 {
 		list := d.Course(video, image)
-		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize - 1, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
+		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
 	}
 	return &JsonFormat{Code: 0, Page: d.Page, PageSize: d.PageSize, PageNum: 0, ArticleNum: num, Data: nil}
 }

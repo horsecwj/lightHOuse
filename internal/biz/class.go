@@ -53,3 +53,22 @@ func DelClass(d *data.DelQuery) *BaseJson {
 		return &BaseJson{Code: 1, Data: "成功删除标签"}
 	}
 }
+
+func ModClass(d *data.Class) *BaseJson {
+	class, err := data.VerificationClass(d.Class)
+	if d.Class != class.Class {
+		if err == nil {
+			return &BaseJson{Code: 0, Data: "该类型已存在"}
+		}
+	}
+	if d.Id == 0 {
+		return &BaseJson{Code: 0, Data: "参数 id 值不应为0"}
+	}
+	err = data.ClassUpdate(d)
+	if err != nil {
+		log.Println(err.Error())
+		return &BaseJson{Code: 0, Data: err.Error()}
+	} else {
+		return &BaseJson{Code: 1, Data: "成功修改类型"}
+	}
+}

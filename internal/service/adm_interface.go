@@ -525,6 +525,23 @@ func admDelClass(c echo.Context) error {
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// admModClass doc
+// @Tags Class-类型
+// @Summary 修改类型
+// @Param token header string true "token"
+// @Param body body data.Class true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=string} "返回数据"
+// @Router /adm/mod_class [POST]
+func admModClass(c echo.Context) error {
+	d := new(data.Class)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.ModClass(d)
+	return c.JSON(http.StatusOK, &msg)
+}
+
 // admGetClass doc
 // @Tags Class-类型
 // @Summary 查询类型
@@ -594,5 +611,15 @@ func admModChain(c echo.Context) error {
 // @Router /adm/get_chain [GET]
 func admGetChain(c echo.Context) error {
 	msg := biz.GetChain(true)
+	return c.JSON(http.StatusOK, &msg)
+}
+
+func admGetData(c echo.Context) error {
+	d := new(data.Day)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.GetData(d)
 	return c.JSON(http.StatusOK, &msg)
 }
