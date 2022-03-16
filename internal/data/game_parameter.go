@@ -38,6 +38,11 @@ func (a *GameQuery) SearchGameParameter(isAdm bool) interface{} {
 	return list
 }
 
+func GameParameterDelete(name string) error {
+	tx := GetDbCli().Session(&gorm.Session{})
+	return tx.Table("game_parameters").Delete(GameParameter{}, "game_fi = ?", name).Error
+}
+
 func (a *GameQuery) SearchGameCmk(losers bool) interface{} {
 	var list = make([]Cmk, 0, a.PageSize)
 	if !losers {

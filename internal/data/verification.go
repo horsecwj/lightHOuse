@@ -53,6 +53,12 @@ func VerificationGames(name string) error {
 	return err
 }
 
+func VerificationGame(id int64) (string, error) {
+	row := &Game{}
+	err := db.Where("id = ?", id).First(&row).Error
+	return row.GameName, err
+}
+
 func VerificationGameParameters(name string) error {
 	row := &GameParameter{}
 	err := db.Where("game_fi = ?", name).First(&row).Error
