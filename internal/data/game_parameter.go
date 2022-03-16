@@ -55,6 +55,9 @@ func (a *GameQuery) SearchGameCmk(losers bool) interface{} {
 		if err != nil {
 			log.Println(err.Error())
 		}
+		for i := range list {
+			list[i].OneDay = "-" + list[i].OneDay
+		}
 		return list
 	}
 }
