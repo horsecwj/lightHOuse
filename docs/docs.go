@@ -2591,11 +2591,8 @@ const docTemplate = `{
         "data.Day": {
             "type": "object",
             "properties": {
-                "end_time": {
-                    "type": "string"
-                },
-                "start_time": {
-                    "type": "string"
+                "day": {
+                    "type": "integer"
                 }
             }
         },
