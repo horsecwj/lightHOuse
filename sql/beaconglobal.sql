@@ -75,8 +75,8 @@ CREATE TABLE `games` (
 DROP TABLE IF EXISTS `game_parameters`;
 CREATE TABLE `game_parameters` (
                                    `id` bigint NOT NULL COMMENT 'id',
-                                   `coin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '游戏名称',
-                                   `game_fi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'Token',
+                                   `coin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Token',
+                                   `game_fi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT '游戏名称',
                                    `price` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'Price',
                                    `one_day` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'OneDay',
                                    `one_week` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'OneWeek',
