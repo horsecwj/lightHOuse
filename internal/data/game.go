@@ -14,7 +14,9 @@ func GameAdd(a *Game) error {
 		a.Id = t.UnixMilli()
 	}
 	tx := GetDbCli().Session(&gorm.Session{})
-	tx.Table("game_parameters").Create(&GameParameter{Id: a.Id, GameFi: a.GameName})
+	if VerificationGameParameters(a.GameName) != nil {
+		tx.Table("game_parameters").Create(&GameParameter{Id: a.Id, GameFi: a.GameName})
+	}
 	return tx.Table("games").Create(&a).Error
 }
 
@@ -35,6 +37,14 @@ func GameDelete(id int64) error {
 	err = tx.Table("game_currency").Delete(GameCurrency{}, "game_id = ?", id).Error
 	if err != nil {
 		log.Println(err.Error())
+	}
+	gamename, err := VerificationGame(id)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = GameParameterDelete(gamename)
+	if err != nil {
+		log.Println(err)
 	}
 	return tx.Table("games").Delete(Game{}, "id = ?", id).Error
 }
