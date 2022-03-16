@@ -14,6 +14,7 @@ func GameAdd(a *Game) error {
 		a.Id = t.UnixMilli()
 	}
 	tx := GetDbCli().Session(&gorm.Session{})
+	tx.Table("game_parameters").Create(&GameParameter{Id: a.Id, GameFi: a.GameName})
 	return tx.Table("games").Create(&a).Error
 }
 
@@ -180,7 +181,32 @@ func (a *GameQuery) ParameterCount() int {
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
 	}
-	// tx = tx.Where("status = ?", 1)
+	var row = make([]game, 0)
+	ty := GetDbCli().Session(&gorm.Session{}).Table("games").Preload("Class").Preload("Chain")
+	if a.Status != 0 {
+		ty = ty.Where("status = ?", a.Status).Find(&row)
+		var name []string
+		for i := 0; i < len(row); i++ {
+			name = append(name, row[i].GameName)
+		}
+		tx = tx.Where("game_fi in ?", name)
+	}
+	if a.ClassId != 0 {
+		ty.Joins("left join game_class on games.id = game_class.game_id").Where("game_class.class_id = ?", a.ClassId).Find(&row)
+		var name []string
+		for i := 0; i < len(row); i++ {
+			name = append(name, row[i].GameName)
+		}
+		tx = tx.Where("game_fi in ?", name)
+	}
+	if a.ChainId != 0 {
+		ty.Joins("left join game_chain on games.id = game_chain.game_id").Where("game_chain.chain_id = ?", a.ChainId).Find(&row)
+		var name []string
+		for i := 0; i < len(row); i++ {
+			name = append(name, row[i].GameName)
+		}
+		tx = tx.Where("game_fi in ?", name)
+	}
 	err := tx.Count(&count).Error
 	if err != nil {
 		log.Println(err.Error())
