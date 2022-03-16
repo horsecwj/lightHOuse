@@ -100,7 +100,9 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 			Created  time.Time `json:"created"`
 		}
 		var result = make([]article, 0, a.PageSize)
-		tx.Where("status = ?", 2)
+		if a.Id == 0 {
+			tx.Where("status = ?", 2)
+		}
 		err := tx.Find(&result).Error
 		if err != nil {
 			log.Println(err.Error())
