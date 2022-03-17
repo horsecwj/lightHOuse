@@ -205,6 +205,7 @@ type ArticleQuery struct {
 	Word     []string `json:"word" query:"word"`
 	Hot      int      `json:"hot" query:"hot"`
 }
+
 type CategoryQuery struct {
 	Id       int64 `json:"id" query:"id"`
 	ParentId int64 `json:"parent_id" query:"parent_id"`
@@ -261,9 +262,8 @@ type CourseBanner struct {
 }
 
 type Day struct {
-	Day int `json:"day" query:"day"`
-	//StartTime time.Time `json:"start_time" query:"start_time"`
-	//EndTime   time.Time `json:"end_time" query:"end_time"`
+	StartTime string `json:"start_time" query:"start_time"`
+	EndTime   string `json:"end_time" query:"end_time"`
 }
 
 type IpRecord struct {
