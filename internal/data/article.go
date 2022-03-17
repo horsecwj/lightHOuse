@@ -97,7 +97,7 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 			RichText string    `json:"rich_text"`
 			Label    []Label   `json:"label" gorm:"many2many:article_label"`
 			Hot      int       `json:"hot"`
-			Created  time.Time `json:"created"`
+			Updated  time.Time `json:"created"`
 		}
 		var result = make([]article, 0, a.PageSize)
 		if a.Id == 0 {
