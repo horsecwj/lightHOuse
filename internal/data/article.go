@@ -67,7 +67,7 @@ func ArticleUpdate(a *Article) error {
 
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("id desc").Preload("Label")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("updated desc").Preload("Label")
 	if a.Page > 0 && a.PageSize > 0 {
 		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
 	}
