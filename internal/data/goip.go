@@ -41,36 +41,26 @@ func Addip(ip string) error {
 }
 
 func (d *Day) DataSearch() interface{} {
-	if d.Day == 0 {
-		d.Day = 1
-	}
 	var row Data
-	row.User = UserNum(0)
-	newuser := UserNum(d.Day)
+	row.User = UserNum(nil, false)
+	newuser := UserNum(d, true)
 	row.NewUser = newuser
-	row.Country = CountryData(d.Day)
+	row.Country = CountryData(d)
 	return row
 }
 
-func CountryData(day int) []Region {
+func CountryData(d *Day) []Region {
 	var (
-		row       []IpRecord
-		country   Region
-		Country   []Region
-		middle    Region
-		count     int64
-		com       []string
-		StartTime time.Time
-		EndTime   time.Time
+		row     []IpRecord
+		country Region
+		Country []Region
+		middle  Region
+		count   int64
+		com     []string
 	)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("ip_records")
-	if day != 0 {
-		t1 := time.Now().Year()
-		t2 := time.Now().Month()
-		t3 := time.Now().Day()
-		EndTime = time.Date(t1, t2, t3+1, 0, 0, 0, 0, time.Local)
-		StartTime = time.Date(t1, t2, t3-day+1, 0, 0, 0, 0, time.Local)
-		tx = tx.Where("created BETWEEN ? AND ?", StartTime, EndTime)
+	if d.StartTime != "" && d.EndTime != "" {
+		tx = tx.Where("created BETWEEN ? AND ?", d.StartTime, d.EndTime)
 	}
 	err := tx.Find(&row).Error
 	if err != nil {
@@ -88,7 +78,10 @@ func CountryData(day int) []Region {
 		}
 	}
 	for x := range com {
-		ty := GetDbCli().Session(&gorm.Session{}).Table("ip_records").Where("created BETWEEN ? AND ?", StartTime, EndTime)
+		ty := GetDbCli().Session(&gorm.Session{}).Table("ip_records")
+		if d.StartTime != "" && d.EndTime != "" {
+			ty = ty.Where("created BETWEEN ? AND ?", d.StartTime, d.EndTime)
+		}
 		err := ty.Where("country = ?", com[x]).Count(&count).Error
 		if err != nil {
 			fmt.Println(err.Error())
@@ -107,16 +100,13 @@ func CountryData(day int) []Region {
 	return Country
 }
 
-func UserNum(day int) int {
+func UserNum(d *Day, new bool) int {
 	var count int64
 	tx := GetDbCli().Session(&gorm.Session{}).Table("ip_records")
-	if day != 0 {
-		t1 := time.Now().Year()
-		t2 := time.Now().Month()
-		t3 := time.Now().Day()
-		EndTime := time.Date(t1, t2, t3+1, 0, 0, 0, 0, time.Local)
-		StartTime := time.Date(t1, t2, t3-day+1, 0, 0, 0, 0, time.Local)
-		tx = tx.Where("created BETWEEN ? AND ?", StartTime, EndTime)
+	if new {
+		if d.StartTime != "" && d.EndTime != "" {
+			tx = tx.Where("created BETWEEN ? AND ?", d.StartTime, d.EndTime)
+		}
 	}
 	err := tx.Count(&count).Error
 	if err != nil {
