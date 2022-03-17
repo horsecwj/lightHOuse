@@ -11,18 +11,19 @@ type Banner struct {
 }
 
 type Article struct {
-	Id       int64   `json:"id"`
-	Lang     string  `json:"lang"`
-	Status   int     `json:"status"`
-	CateId   int64   `json:"cate_id"`
-	Title    string  `json:"title"`
-	Summary  string  `json:"summary"`
-	Cover    string  `json:"cover"`
-	Markdown string  `json:"markdown"`
-	RichText string  `json:"rich_text"`
-	Hot      int64   `json:"hot"`
-	Label    []Label `json:"label" gorm:"many2many:article_label"`
-	GameId   int64   `json:"game_id"`
+	Id       int64     `json:"id"`
+	Lang     string    `json:"lang"`
+	Status   int       `json:"status"`
+	CateId   int64     `json:"cate_id"`
+	Title    string    `json:"title"`
+	Summary  string    `json:"summary"`
+	Cover    string    `json:"cover"`
+	Markdown string    `json:"markdown"`
+	RichText string    `json:"rich_text"`
+	Hot      int64     `json:"hot"`
+	Label    []Label   `json:"label" gorm:"many2many:article_label"`
+	GameId   int64     `json:"game_id"`
+	Updated  time.Time `json:"updated"`
 }
 
 type article struct {
