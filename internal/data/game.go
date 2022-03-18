@@ -74,7 +74,7 @@ func GameUpdate(a *Game) error {
 
 func (a *GameQuery) GameSearch(adm bool) interface{} {
 	var list = make([]Game, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("games").Order("id desc").
+	tx := GetDbCli().Session(&gorm.Session{}).Table("games").Order("created desc").
 		Preload("Label").Preload("Chain").Preload("Class").Preload("Currency").Preload("New")
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
