@@ -263,8 +263,8 @@ type CourseBanner struct {
 }
 
 type Day struct {
-	StartTime string `json:"start_time" query:"start_time"`
-	EndTime   string `json:"end_time" query:"end_time"`
+	StartTime int64 `json:"start_time" query:"start_time"`
+	EndTime   int64 `json:"end_time" query:"end_time"`
 }
 
 type IpRecord struct {

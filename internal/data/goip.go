@@ -59,8 +59,10 @@ func CountryData(d *Day) []Region {
 		com     []string
 	)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("ip_records")
-	if d.StartTime != "" && d.EndTime != "" {
-		tx = tx.Where("created BETWEEN ? AND ?", d.StartTime, d.EndTime)
+	if d.StartTime != 0 && d.EndTime != 0 {
+		StartTime := time.Unix(d.StartTime, 0)
+		EndTime := time.Unix(d.EndTime, 0)
+		tx = tx.Where("created BETWEEN ? AND ?", StartTime, EndTime)
 	}
 	err := tx.Find(&row).Error
 	if err != nil {
@@ -79,8 +81,10 @@ func CountryData(d *Day) []Region {
 	}
 	for x := range com {
 		ty := GetDbCli().Session(&gorm.Session{}).Table("ip_records")
-		if d.StartTime != "" && d.EndTime != "" {
-			ty = ty.Where("created BETWEEN ? AND ?", d.StartTime, d.EndTime)
+		if d.StartTime != 0 && d.EndTime != 0 {
+			StartTime := time.Unix(d.StartTime, 0)
+			EndTime := time.Unix(d.EndTime, 0)
+			ty = ty.Where("created BETWEEN ? AND ?", StartTime, EndTime)
 		}
 		err := ty.Where("country = ?", com[x]).Count(&count).Error
 		if err != nil {
@@ -104,8 +108,10 @@ func UserNum(d *Day, new bool) int {
 	var count int64
 	tx := GetDbCli().Session(&gorm.Session{}).Table("ip_records")
 	if new {
-		if d.StartTime != "" && d.EndTime != "" {
-			tx = tx.Where("created BETWEEN ? AND ?", d.StartTime, d.EndTime)
+		if d.StartTime != 0 && d.EndTime != 0 {
+			StartTime := time.Unix(d.StartTime, 0)
+			EndTime := time.Unix(d.EndTime, 0)
+			tx = tx.Where("created BETWEEN ? AND ?", StartTime, EndTime)
 		}
 	}
 	err := tx.Count(&count).Error
