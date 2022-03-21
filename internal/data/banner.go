@@ -65,7 +65,9 @@ func BannerSearch() interface{} {
 			list[i].ParentId = category[0].ParentId
 		}
 	}
-	list[0].Rows = 2
-	list[0].Cols = 2
+	if len(list) > 0 {
+		list[0].Rows = 2
+		list[0].Cols = 2
+	}
 	return list
 }
