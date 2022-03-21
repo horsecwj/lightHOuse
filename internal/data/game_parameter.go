@@ -66,3 +66,10 @@ func (a *GameQuery) SearchGameCmk(losers bool) interface{} {
 		return list
 	}
 }
+func UpdateGameParameter() {
+	GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Delete(Game{}, "price != ?", "")
+	err := GameParameterAdd()
+	if err != nil {
+		log.Println(err)
+	}
+}

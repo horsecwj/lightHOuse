@@ -1,7 +1,9 @@
 package main
 
-import "help_center/internal/server"
+import (
+	"help_center/cmd"
+)
 
 func main() {
-	server.RunApp()
+	cmd.Execute()
 }

@@ -48,20 +48,22 @@ func BannerSearch() interface{} {
 		log.Println(err.Error())
 	}
 	for i := 0; i < len(list); i++ {
-		title, err := VerificationTitle(list[i].Chain)
-		if err != nil {
-			log.Println(err.Error())
+		if list[i].Chain != 0 {
+			title, err := VerificationTitle(list[i].Chain)
+			if err != nil {
+				log.Println(err.Error())
+			}
+			list[i].Title = title.Title
+			list[i].CadeId = title.CateId
+			list[i].Rows = 1
+			list[i].Cols = 1
+			var category []Category
+			err = GetDbCli().Session(&gorm.Session{}).Table("categories").Where("id = ?", title.CateId).Find(&category).Error
+			if err != nil {
+				log.Println(err.Error())
+			}
+			list[i].ParentId = category[0].ParentId
 		}
-		list[i].Title = title.Title
-		list[i].CadeId = title.CateId
-		list[i].Rows = 1
-		list[i].Cols = 1
-		var category []Category
-		err = GetDbCli().Session(&gorm.Session{}).Table("categories").Where("id = ?", title.CateId).Find(&category).Error
-		if err != nil {
-			log.Println(err.Error())
-		}
-		list[i].ParentId = category[0].ParentId
 	}
 	list[0].Rows = 2
 	list[0].Cols = 2

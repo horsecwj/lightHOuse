@@ -54,6 +54,8 @@ definitions:
         type: string
       title:
         type: string
+      updated:
+        type: string
     type: object
   data.Banner:
     properties:
@@ -158,9 +160,9 @@ definitions:
   data.Day:
     properties:
       end_time:
-        type: string
+        type: integer
       start_time:
-        type: string
+        type: integer
     type: object
   data.DelQuery:
     properties:

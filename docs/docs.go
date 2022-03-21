@@ -2431,6 +2431,9 @@ const docTemplate = `{
                 },
                 "title": {
                     "type": "string"
+                },
+                "updated": {
+                    "type": "string"
                 }
             }
         },
@@ -2592,10 +2595,10 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "end_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "start_time": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },
