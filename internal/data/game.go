@@ -95,10 +95,7 @@ func (a *GameQuery) GameSearch(adm bool) interface{} {
 		tx = tx.Joins("left join game_chain on games.id = game_chain.game_id").Where("game_chain.chain_id = ?", a.ChainId)
 	}
 	if !adm {
-		errr := GameParameterAdd()
-		if errr != nil {
-			log.Println(errr)
-		}
+
 		type game struct {
 			Id              int64      `json:"id"`
 			GameName        string     `json:"title"`

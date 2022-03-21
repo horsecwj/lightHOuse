@@ -2419,6 +2419,9 @@
                 },
                 "title": {
                     "type": "string"
+                },
+                "updated": {
+                    "type": "string"
                 }
             }
         },
@@ -2580,10 +2583,10 @@
             "type": "object",
             "properties": {
                 "end_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "start_time": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },

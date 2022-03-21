@@ -2438,6 +2438,9 @@ var doc = `{
                 },
                 "title": {
                     "type": "string"
+                },
+                "updated": {
+                    "type": "string"
                 }
             }
         },
@@ -2599,10 +2602,10 @@ var doc = `{
             "type": "object",
             "properties": {
                 "end_time": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "start_time": {
-                    "type": "string"
+                    "type": "integer"
                 }
             }
         },

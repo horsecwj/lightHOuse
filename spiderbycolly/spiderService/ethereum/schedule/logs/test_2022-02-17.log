@@ -1,0 +1,6 @@
+[2022-02-17 17:18:40]	[34minfo[0m	schedule/transfer.go:55	获取交易信息:
+[2022-02-17 17:18:42]	[34minfo[0m	schedule/transfer.go:58	查询链上状态失败:,not found
+[2022-02-17 17:18:42]	[34minfo[0m	schedule/transfer.go:64	交易没发送出去:
+[2022-02-17 17:18:42]	[34minfo[0m	schedule/transfer.go:55	获取交易信息:
+[2022-02-17 17:18:42]	[34minfo[0m	schedule/transfer.go:58	查询链上状态失败:,not found
+[2022-02-17 17:18:42]	[34minfo[0m	schedule/transfer.go:64	交易没发送出去:

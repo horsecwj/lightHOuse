@@ -23,6 +23,7 @@ func useGetGame(c echo.Context) error {
 	}
 	msg := biz.GetGame(d, false)
 	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -41,6 +42,7 @@ func useGerArticle(c echo.Context) error {
 	d.Status = 0
 	msg := biz.GetArticle(d, false)
 	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -51,6 +53,7 @@ func useGerArticle(c echo.Context) error {
 // @Router /api/get_banner [GET]
 func useGetBanner(c echo.Context) error {
 	msg := biz.GetBanner()
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -67,6 +70,7 @@ func useGetCategory(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetCategory(d, false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -82,6 +86,7 @@ func useGetTopGainers(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGameCmk(d, false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -97,6 +102,7 @@ func useGetTopLosers(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGameCmk(d, true)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -113,6 +119,7 @@ func useGetLikeArticle(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetLikeArticle(d)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -125,6 +132,7 @@ func useGetLikeArticle(c echo.Context) error {
 func useMatchArticle(c echo.Context) error {
 	subStr := c.QueryParam("sub_str")
 	msg := biz.MatchArticle(subStr, true)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -141,6 +149,7 @@ func useGetLikeGame(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetLikeGame(d)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -151,6 +160,7 @@ func useGetLikeGame(c echo.Context) error {
 // @Router /api/get_class [GET]
 func useGetClass(c echo.Context) error {
 	msg := biz.GetClass(false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -162,6 +172,7 @@ func useGetClass(c echo.Context) error {
 // @Router /api/get_chain [GET]
 func useGetChain(c echo.Context) error {
 	msg := biz.GetChain(false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -178,6 +189,7 @@ func useGetGameParameter(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGameParameter(d, false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -195,6 +207,7 @@ func useGetGameValue(c echo.Context) error {
 	}
 	msg := biz.GetGameValue(d)
 	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -212,6 +225,7 @@ func useGetVideoCourse(c echo.Context) error {
 	}
 	msg := biz.GetCourse(d, true, false)
 	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -229,6 +243,7 @@ func useGetImageCourse(c echo.Context) error {
 	}
 	msg := biz.GetCourse(d, false, true)
 	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -245,5 +260,6 @@ func useGetCourse(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetCourse(d, true, true)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
