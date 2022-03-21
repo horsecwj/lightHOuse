@@ -132,7 +132,7 @@ func (a *ArticleQuery) ArticleCount() int {
 	if a.Hot == 1 {
 		tx = tx.Not("hot = ?", 0)
 	}
-	err := tx.Count(&count).Error
+	err := tx.Count(&count).Where("status = ?", 2).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
