@@ -51,7 +51,7 @@ func ModChain(d *data.Chain) *BaseJson {
 	}
 }
 
-func GetChain() *BaseJson {
-	list := data.CategoryChain()
+func GetChain(adm bool) *BaseJson {
+	list := data.CategoryChain(adm)
 	return &BaseJson{Code: 1, Data: list}
 }

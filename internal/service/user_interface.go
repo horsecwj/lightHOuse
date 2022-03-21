@@ -22,15 +22,17 @@ func useGetGame(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGame(d, false)
+	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
-// useGetCategory doc
+// useGetArticle doc
 // @Tags UseApi
 // @Summary 查询文章
-// @Param body query data.ArticlrQuery true "请求数据"
-// @Success 200 {object} biz.BaseJson{data=[]data.Category} "返回数据"
-// @Router /api/get_category [GET]
+// @Param body query data.ArticleQuery true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=[]data.Article} "返回数据"
+// @Router /api/get_Article [GET]
 func useGerArticle(c echo.Context) error {
 	d := new(data.ArticleQuery)
 	err := c.Bind(d)
@@ -39,6 +41,8 @@ func useGerArticle(c echo.Context) error {
 	}
 	d.Status = 0
 	msg := biz.GetArticle(d, false)
+	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -50,13 +54,31 @@ func useGerArticle(c echo.Context) error {
 // @Router /adm/get_banner [GET]
 func useGetBanner(c echo.Context) error {
 	msg := biz.GetBanner()
+	go StoreCache(c.Request().URL.Path, &msg)
+	return c.JSON(http.StatusOK, &msg)
+}
+
+// useGetCategory doc
+// @Tags UseApi
+// @Summary 查询分类
+// @Param body query data.CategoryQuery true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=[]data.Category} "返回数据"
+// @Router /api/get_category [GET]
+func useGetCategory(c echo.Context) error {
+	d := new(data.CategoryQuery)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.GetCategory(d, false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
 // useGetTopGainers doc
 // @Tags GetTopGainers-查询头号玩家
 // @Summary 查询头号玩家
-// @Success 200 {object} biz.JsonFormat{data=[]data.GameCmk} "返回数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.Cmk} "返回数据"
 // @Router /api/get_gamecmk [GET]
 func useGetTopGainers(c echo.Context) error {
 	d := new(data.GameQuery)
@@ -65,13 +87,14 @@ func useGetTopGainers(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGameCmk(d, false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
 // useGetTopLosers doc
 // @Tags GetTopLosers-查询头号失败者
 // @Summary 查询头号失败者
-// @Success 200 {object} biz.JsonFormat{data=[]data.GameCmk} "返回数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.Cmk} "返回数据"
 // @Router /api/get_top_losers [GET]
 func useGetTopLosers(c echo.Context) error {
 	d := new(data.GameQuery)
@@ -80,6 +103,7 @@ func useGetTopLosers(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGameCmk(d, true)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -96,6 +120,20 @@ func useGetLikeArticle(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetLikeArticle(d)
+	go StoreCache(c.Request().URL.Path, &msg)
+	return c.JSON(http.StatusOK, &msg)
+}
+
+// useMatchArticle
+// @Tags UseApi
+// @Summary title关键字查询文章(至多返回30条数据)
+// @Param sub_str query string true "匹配数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.Article} "返回数据"
+// @Router /api/match_article [GET]
+func useMatchArticle(c echo.Context) error {
+	subStr := c.QueryParam("sub_str")
+	msg := biz.MatchArticle(subStr, true)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -112,6 +150,7 @@ func useGetLikeGame(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetLikeGame(d)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -121,7 +160,8 @@ func useGetLikeGame(c echo.Context) error {
 // @Success 200 {object} biz.BaseJson{data=[]data.Class} "返回数据"
 // @Router /use/get_class [GET]
 func useGetClass(c echo.Context) error {
-	msg := biz.GetClass()
+	msg := biz.GetClass(false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -132,7 +172,8 @@ func useGetClass(c echo.Context) error {
 // @Success 200 {object} biz.BaseJson{data=[]data.Chain} "返回数据"
 // @Router /use/get_chain [GET]
 func useGetChain(c echo.Context) error {
-	msg := biz.GetChain()
+	msg := biz.GetChain(false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -141,17 +182,24 @@ func useGetChain(c echo.Context) error {
 // @Summary 查询游戏参数
 // @Param body query data.ArticleQuery true "请求数据"
 // @Success 200 {object} biz.JsonFormat{data=[]data.GameParameter} "返回数据"
-// @Router /api/get_gameparameter [GET]
+// @Router /api/get_game_parameter [GET]
 func useGetGameParameter(c echo.Context) error {
 	d := new(data.GameQuery)
 	err := c.Bind(d)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.GetGameParameter(d, true)
+	msg := biz.GetGameParameter(d, false)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// useGetGameValue doc
+// @Tags GameValue-游戏价值
+// @Summary 查询游戏价值
+// @Param body query data.GameQuery true "请求数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.GameValue} "返回数据"
+// @Router /api/get_game_value [GET]
 func useGetGameValue(c echo.Context) error {
 	d := new(data.GameQuery)
 	err := c.Bind(d)
@@ -159,35 +207,60 @@ func useGetGameValue(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGameValue(d)
+	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// useGetVideoCourse doc
+// @Tags VideoCourse-视频教程
+// @Summary 查询视频教程
+// @Param body query data.ArticleQuery true "请求数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.CourseBanner} "返回数据"
+// @Router /api/get_game_value [GET]
 func useGetVideoCourse(c echo.Context) error {
 	d := new(data.ArticleQuery)
 	err := c.Bind(d)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.GetCourse(true, false)
+	msg := biz.GetCourse(d, true, false)
+	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// useGetImageCourse doc
+// @Tags GetImageCourse-图文教程
+// @Summary 查询图文教程
+// @Param body query data.ArticleQuery true "请求数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.CourseBanner} "返回数据"
+// @Router /api/get_game_value [GET]
 func useGetImageCourse(c echo.Context) error {
 	d := new(data.ArticleQuery)
 	err := c.Bind(d)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.GetCourse(false, true)
+	msg := biz.GetCourse(d, false, true)
+	biz.Goip(c.Request())
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// useGetCourse doc
+// @Tags GetCourse-教程
+// @Summary 查询教程
+// @Param body query data.ArticleQuery true "请求数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.CourseBanner} "返回数据"
+// @Router /api/get_value [GET]
 func useGetCourse(c echo.Context) error {
 	d := new(data.ArticleQuery)
 	err := c.Bind(d)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.GetCourse(true, true)
+	msg := biz.GetCourse(d, true, true)
+	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }

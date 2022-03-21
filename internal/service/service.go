@@ -7,6 +7,7 @@ import (
 func UserRouter(user *echo.Group) {
 	user.GET("/get_game", useGetGame)
 	user.GET("/get_article", useGerArticle)
+	user.GET("match_article", useMatchArticle)
 
 	user.GET("/get_banner", useGetBanner)
 	user.GET("/get_game_parameter", useGetGameParameter)
@@ -15,6 +16,7 @@ func UserRouter(user *echo.Group) {
 	user.GET("/get_like_article", useGetLikeArticle)
 	user.GET("/get_like_game", useGetLikeGame)
 	user.GET("/get_game_value", useGetGameValue)
+	user.GET("/get_category", useGetCategory)
 
 	user.GET("/get_video_course", useGetVideoCourse)
 	user.GET("/get_image_course", useGetImageCourse)
@@ -58,6 +60,7 @@ func AdmRouter(adm *echo.Group) {
 
 	adm.POST("/add_class", admAddClass)
 	adm.POST("/del_class", admDelClass)
+	adm.POST("/mod_class", admModClass)
 	adm.GET("/get_class", admGetClass)
 
 	adm.POST("/add_chain", admAddChain)
@@ -69,6 +72,8 @@ func AdmRouter(adm *echo.Group) {
 	adm.POST("/del_label", admDelLabel)
 	adm.POST("/mod_label", admModLabel)
 	adm.GET("/get_label", admGetLabel)
+
+	adm.GET("/get_data", admGetData)
 }
 func AuthRouter(user *echo.Group) {
 	user.POST("/login", admLogin)

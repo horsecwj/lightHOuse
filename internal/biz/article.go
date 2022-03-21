@@ -30,9 +30,9 @@ func GetArticle(d *data.ArticleQuery, isAdm bool) *JsonFormat {
 }
 
 // MatchArticle 搜索文章列表
-func MatchArticle(subStr string) *JsonFormat {
+func MatchArticle(subStr string, user bool) *JsonFormat {
 	if subStr != "" {
-		list, lenList := data.ArticleMatch(subStr)
+		list, lenList := data.ArticleMatch(subStr, user)
 		return &JsonFormat{Code: 1, Page: 1, PageSize: lenList, PageNum: 1, ArticleNum: lenList, Data: list}
 	}
 	return &JsonFormat{Code: 0, Page: 0, PageSize: 0, PageNum: 0, ArticleNum: 0, Data: "当前参数获取到的文章数量为0"}
@@ -99,7 +99,6 @@ func GetLikeArticle(d *data.ArticleQuery) *JsonFormat {
 	if d.PageSize == 0 {
 		d.PageSize = 4
 	}
-	//num := 1
 	num := d.ArticleCount()
 	if num > 0 {
 		list := d.LikeArticle()
@@ -109,7 +108,17 @@ func GetLikeArticle(d *data.ArticleQuery) *JsonFormat {
 }
 
 //获取视频教程及图片教程
-func GetCourse(video bool, image bool) *Json {
-	list, num := data.Course(video, image)
-	return &Json{Code: 1, ArticleNum: num, Data: list}
+func GetCourse(d *data.ArticleQuery, video bool, image bool) *JsonFormat {
+	if d.Page == 0 {
+		d.Page = 1
+	}
+	if d.PageSize == 0 {
+		d.PageSize = 12
+	}
+	num := d.CourseCount(video, image)
+	if num > 0 {
+		list := d.Course(video, image)
+		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: list}
+	}
+	return &JsonFormat{Code: 0, Page: d.Page, PageSize: d.PageSize, PageNum: 0, ArticleNum: num, Data: nil}
 }

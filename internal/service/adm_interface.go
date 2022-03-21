@@ -40,12 +40,12 @@ func admFitImg(c echo.Context) error {
 		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: err.Error()})
 	}
 	contentType := file.Header.Get("Content-Type")
-	if !strings.Contains(contentType, "image") {
-		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件"})
+	if !strings.Contains(contentType, "video") && !strings.Contains(contentType, "image") {
+		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件或视频文件"})
 	}
 	src, err := file.Open()
 	if err != nil {
-		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件"})
+		return c.JSON(http.StatusOK, biz.BaseJson{Code: 0, Data: "请选择图片文件或视频文件"})
 	}
 	msg := biz.FitImage(src, file.Filename, request)
 	return c.JSON(http.StatusOK, &msg)
@@ -192,7 +192,7 @@ func admGetArticle(c echo.Context) error {
 // @Router /api/match_article [GET]
 func admMatchArticle(c echo.Context) error {
 	subStr := c.QueryParam("sub_str")
-	msg := biz.MatchArticle(subStr)
+	msg := biz.MatchArticle(subStr, false)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -410,7 +410,7 @@ func admGetCategory(c echo.Context) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.GetCategory(d)
+	msg := biz.GetCategory(d, true)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -497,7 +497,7 @@ func admGetLabel(c echo.Context) error {
 // @Param token header string true "token"
 // @Param body body data.Class true "请求数据"
 // @Success 200 {object} biz.BaseJson{data=string} "返回数据"
-// @Router /adm/add_class[POST]
+// @Router /adm/add_class [POST]
 func admAddClass(c echo.Context) error {
 	d := new(data.Class)
 	err := c.Bind(d)
@@ -525,13 +525,30 @@ func admDelClass(c echo.Context) error {
 	return c.JSON(http.StatusOK, &msg)
 }
 
+// admModClass doc
+// @Tags Class-类型
+// @Summary 修改类型
+// @Param token header string true "token"
+// @Param body body data.Class true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=string} "返回数据"
+// @Router /adm/mod_class [POST]
+func admModClass(c echo.Context) error {
+	d := new(data.Class)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.ModClass(d)
+	return c.JSON(http.StatusOK, &msg)
+}
+
 // admGetClass doc
 // @Tags Class-类型
 // @Summary 查询类型
 // @Success 200 {object} biz.BaseJson{data=[]data.Class} "返回数据"
 // @Router /api/get_class [GET]
 func admGetClass(c echo.Context) error {
-	msg := biz.GetClass()
+	msg := biz.GetClass(true)
 	return c.JSON(http.StatusOK, &msg)
 }
 
@@ -541,7 +558,7 @@ func admGetClass(c echo.Context) error {
 // @Param token header string true "token"
 // @Param body body data.Chain true "请求数据"
 // @Success 200 {object} biz.BaseJson{data=string} "返回数据"
-// @Router /adm/add_chain[POST]
+// @Router /adm/add_chain [POST]
 func admAddChain(c echo.Context) error {
 	d := new(data.Chain)
 	err := c.Bind(d)
@@ -593,6 +610,23 @@ func admModChain(c echo.Context) error {
 // @Success 200 {object} biz.BaseJson{data=[]data.Chain} "返回数据"
 // @Router /adm/get_chain [GET]
 func admGetChain(c echo.Context) error {
-	msg := biz.GetChain()
+	msg := biz.GetChain(true)
+	return c.JSON(http.StatusOK, &msg)
+}
+
+// admGetData doc
+// @Tags Data- 数据
+// @Summary 查询数据
+// @Param token header string true "token"
+// @Param body body data.Day true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=[]data.Data} "返回数据"
+// @Router /adm/get_data [GET]
+func admGetData(c echo.Context) error {
+	d := new(data.Day)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.GetData(d)
 	return c.JSON(http.StatusOK, &msg)
 }

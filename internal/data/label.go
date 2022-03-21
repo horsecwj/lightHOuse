@@ -33,5 +33,5 @@ func SearchLabel() interface{} {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return list[1:]
+	return list
 }

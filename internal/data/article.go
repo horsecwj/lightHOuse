@@ -13,6 +13,9 @@ func ArticleAdd(a *Article) error {
 	if a.Id == 0 {
 		a.Id = t.UnixMilli()
 	}
+	if a.Cover == "" {
+		a.Cover = "/upload/1646706814654.png"
+	}
 	var row GameArticle
 	if a.GameId != 0 {
 		row.ArticleId = a.Id
@@ -28,11 +31,28 @@ func ArticleAdd(a *Article) error {
 
 func ArticleDelete(id int64) error {
 	tx := GetDbCli().Session(&gorm.Session{})
+	err := tx.Table("article_label").Delete(ArticleLabel{}, "article_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	err = tx.Table("game_article").Delete(GameArticle{}, "article_id = ?", id).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
 	return tx.Table("articles").Delete(Article{}, "id = ?", id).Error
 }
 
 func ArticleUpdate(a *Article) error {
 	tx := GetDbCli().Session(&gorm.Session{})
+	var row GameArticle
+	if a.GameId != 0 {
+		row.ArticleId = a.Id
+		row.GameId = a.GameId
+		err := tx.Table("game_article").Delete(GameArticle{}, "article_id = ?", a.Id).Create(&row).Error
+		if err != nil {
+			log.Println(err.Error())
+		}
+	}
 	if a.Label != nil {
 		tx.Table("article_label").Delete(ArticleLabel{}, "article_id = ?", a.Id)
 	}
@@ -47,7 +67,10 @@ func ArticleUpdate(a *Article) error {
 
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("id desc").Preload("Label")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("updated desc").Preload("Label")
+	if a.Page > 0 && a.PageSize > 0 {
+		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
+	}
 	if a.Id != 0 {
 		tx = tx.Where("id = ?", a.Id)
 	}
@@ -74,10 +97,12 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 			RichText string    `json:"rich_text"`
 			Label    []Label   `json:"label" gorm:"many2many:article_label"`
 			Hot      int       `json:"hot"`
-			Created  time.Time `json:"created"`
+			Updated  time.Time `json:"created"`
 		}
 		var result = make([]article, 0, a.PageSize)
-		tx.Where("status = ?", 2)
+		if a.Id == 0 {
+			tx.Where("status = ?", 2)
+		}
 		err := tx.Find(&result).Error
 		if err != nil {
 			log.Println(err.Error())
@@ -119,10 +144,13 @@ func (a *ArticleQuery) ArticleCount() int {
 	return intCount
 }
 
-func ArticleMatch(subStr string) (interface{}, int) {
+func ArticleMatch(subStr string, user bool) (interface{}, int) {
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc, id")
 	tx = tx.Where("title like ? ", "%"+subStr+"%")
 	tx = tx.Limit(30)
+	if user {
+		tx = tx.Where("status = ?", 2)
+	}
 	type Result struct {
 		Id       int64  `json:"id"`
 		Lang     string `json:"lang"`
@@ -144,30 +172,52 @@ func ArticleMatch(subStr string) (interface{}, int) {
 func (a *ArticleQuery) LikeArticle() interface{} {
 	var row []likeArticle
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").
-		Where("cate_id = ?", a.CateId).Where("status = ?", "1").Not("id = ?", a.Id)
+		Where("cate_id = ?", a.CateId).Where("status = ?", 2).Not("id = ?", a.Id)
+	if a.Page > 0 && a.PageSize > 0 {
+		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
+	}
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
 	return row
 }
+
 func OutArticleAdd() error {
 	var (
 		row   []OutArticle
+		bybit []OutArticle
 		cover string
 	)
 	err := GetDbCli().Session(&gorm.Session{}).Table("slate_article").Find(&row).Error
 	if err != nil {
 		log.Println(err)
 	}
+	err = GetDbCli().Session(&gorm.Session{}).Table("bybit_article").Find(&bybit).Error
+	if err != nil {
+		log.Println(err)
+	}
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles")
 	for i := 0; i < len(row); i++ {
 		if row[i].Cover == "" {
-			cover = "/upload/1645606276524.png"
+			cover = "/upload/1646706814654.png"
 		}
 		if VerificationArticle(row[i].Title) != nil {
 			timeStr := time.Unix(row[i].Timestamp, 0).Format("2006-01-02 15:04:05")
-			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", Cover: cover, Summary: row[i].OverView, RichText: row[i].Article, Created: timeStr, Updated: timeStr}).Error
+			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: row[i].OverView, Markdown: row[i].Article, RichText: row[i].Articletext, Created: timeStr, Updated: timeStr}).Error
+			if err != nil {
+				log.Println(err)
+			}
+		}
+	}
+	tx = GetDbCli().Session(&gorm.Session{}).Table("articles")
+	for i := 0; i < len(bybit); i++ {
+		if bybit[i].Cover == "" {
+			cover = "/upload/1646706814654.png"
+		}
+		if VerificationArticle(bybit[i].Title) != nil {
+			timeStr := time.Unix(bybit[i].Timestamp, 0).Format("2006-01-02 15:04:05")
+			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: bybit[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: bybit[i].OverView, Markdown: bybit[i].Article, RichText: bybit[i].Articletext, Created: timeStr, Updated: timeStr}).Error
 			if err != nil {
 				log.Println(err)
 			}
@@ -176,13 +226,12 @@ func OutArticleAdd() error {
 	return err
 }
 
-func Course(Video bool, Image bool) (interface{}, int) {
+func (a *ArticleQuery) Course(Video bool, Image bool) interface{} {
 	tx := GetDbCli().Session(&gorm.Session{})
 	var (
 		video []DelQuery
 		image []DelQuery
 		arr   []int64
-		count int64
 	)
 	if Video {
 		err := tx.Table("categories").Where("parent_id = ?", 1646124402108).Find(&video).Error
@@ -203,26 +252,50 @@ func Course(Video bool, Image bool) (interface{}, int) {
 		arr = append(arr, image[i].Id)
 	}
 	tx = tx.Table("articles").Order("id desc").Where("cate_id in ?", arr).Preload("Category")
-	type Banner struct {
-		Id       int64    `json:"id"`
-		Title    string   `json:"title"`
-		Cover    string   `json:"cover"`
-		CateId   int64    `json:"cate_id"`
-		Created  string   `json:"created"`
-		Category Category `json:"category" gorm:"foreignkey:id;references:cate_id"`
+	if a.CateId != 0 {
+		tx = tx.Where("cate_id = ?", a.CateId)
 	}
-	var row []Banner
+	if a.Page > 0 && a.PageSize > 0 {
+		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
+	}
+	var row []CourseBanner
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
-	err = tx.Count(&count).Error
+	return row
+}
+
+func (a *ArticleQuery) CourseCount(Video bool, Image bool) int {
+	tx := GetDbCli().Session(&gorm.Session{})
+	var (
+		course []DelQuery
+		arr    []int64
+		count  int64
+	)
+	if Video {
+		err := tx.Table("categories").Where("parent_id = ?", 1646124402108).Find(&course).Error
+		if err != nil {
+			log.Println(err)
+		}
+	} else {
+		err := tx.Table("categories").Where("parent_id = ?", 1646104648579).Find(&course).Error
+		if err != nil {
+			log.Println(err)
+		}
+	}
+	for i := 0; i < len(course); i++ {
+		arr = append(arr, course[i].Id)
+	}
+	tx = tx.Table("articles").Where("cate_id in ?", arr)
+	err := tx.Count(&count).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
-	intCount, err := strconv.Atoi(strconv.FormatInt(count, 10))
+	strCount := strconv.FormatInt(count, 10)
+	intCount, err := strconv.Atoi(strCount)
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return row, intCount
+	return intCount
 }

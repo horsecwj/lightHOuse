@@ -75,8 +75,8 @@ CREATE TABLE `games` (
 DROP TABLE IF EXISTS `game_parameters`;
 CREATE TABLE `game_parameters` (
                                    `id` bigint NOT NULL COMMENT 'id',
-                                   `coin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '游戏名称',
-                                   `game_fi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'Token',
+                                   `coin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Token',
+                                   `game_fi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT '游戏名称',
                                    `price` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'Price',
                                    `one_day` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'OneDay',
                                    `one_week` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT 'OneWeek',
@@ -232,5 +232,18 @@ CREATE TABLE `game_article` (
                                 `article_id` bigint(20) unsigned not null,
                                 primary key(`game_id`, `article_id`)
 )engine=InnoDB default charset=utf8mb4 comment='游戏文章关联表';
+
+-- ----------------------------------
+-- Table structure for game_parameters
+-- ----------------------------------
+DROP TABLE IF EXISTS `ip_records`;
+CREATE TABLE `ip_records` (
+                                `id` bigint NOT NULL COMMENT 'id',
+                                `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'ip地址',
+                                `country` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '国家',
+                                `created` timestamp NULL DEFAULT CURRENT_DATE,
+                                PRIMARY KEY (`id`) USING BTREE,
+                                KEY `index` (`id`) COMMENT '复合索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

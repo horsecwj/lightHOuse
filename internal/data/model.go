@@ -11,18 +11,19 @@ type Banner struct {
 }
 
 type Article struct {
-	Id       int64   `json:"id"`
-	Lang     string  `json:"lang"`
-	Status   int     `json:"status"`
-	CateId   int64   `json:"cate_id"`
-	Title    string  `json:"title"`
-	Summary  string  `json:"summary"`
-	Cover    string  `josn:"cover"`
-	Markdown string  `json:"markdown"`
-	RichText string  `json:"rich_text"`
-	Hot      int64   `json:"hot"`
-	Label    []Label `json:"label" gorm:"many2many:article_label"`
-	GameId   int64   `json:"game_id"`
+	Id       int64     `json:"id"`
+	Lang     string    `json:"lang"`
+	Status   int       `json:"status"`
+	CateId   int64     `json:"cate_id"`
+	Title    string    `json:"title"`
+	Summary  string    `json:"summary"`
+	Cover    string    `json:"cover"`
+	Markdown string    `json:"markdown"`
+	RichText string    `json:"rich_text"`
+	Hot      int64     `json:"hot"`
+	Label    []Label   `json:"label" gorm:"many2many:article_label"`
+	GameId   int64     `json:"game_id"`
+	Updated  time.Time `json:"updated"`
 }
 
 type article struct {
@@ -129,12 +130,13 @@ type GameCurrency struct {
 }
 
 type OutArticle struct {
-	Id        int    `json:"id"`
-	Title     string `json:"title"`
-	Cover     string `json:"cover"`
-	OverView  string `json:"over_view"`
-	Article   string `json:"article"`
-	Timestamp int64  `json:"timestamp"`
+	Id          int    `json:"id"`
+	Title       string `json:"title"`
+	Cover       string `json:"cover"`
+	OverView    string `json:"over_view"`
+	Article     string `json:"article"`
+	Articletext string `json:"articletext"`
+	Timestamp   int64  `json:"timestamp"`
 }
 
 type Category struct {
@@ -204,6 +206,7 @@ type ArticleQuery struct {
 	Word     []string `json:"word" query:"word"`
 	Hot      int      `json:"hot" query:"hot"`
 }
+
 type CategoryQuery struct {
 	Id       int64 `json:"id" query:"id"`
 	ParentId int64 `json:"parent_id" query:"parent_id"`
@@ -240,4 +243,44 @@ type likeArticle struct {
 	Title   string    `json:"title"`
 	Summary string    `json:"summary"`
 	Created time.Time `json:"created"`
+}
+
+type game struct {
+	Id       int64   `json:"id"`
+	GameName string  `json:"game_name"`
+	Status   int     `json:"status"`
+	Chain    []Chain `json:"chain" gorm:"many2many:game_chain"`
+	Class    []Class `json:"class" gorm:"many2many:game_class"`
+}
+
+type CourseBanner struct {
+	Id       int64    `json:"id"`
+	Title    string   `json:"title"`
+	Cover    string   `json:"cover"`
+	CateId   int64    `json:"cate_id"`
+	Created  string   `json:"created"`
+	Category Category `json:"category" gorm:"foreignkey:id;references:cate_id"`
+}
+
+type Day struct {
+	StartTime int64 `json:"start_time" query:"start_time"`
+	EndTime   int64 `json:"end_time" query:"end_time"`
+}
+
+type IpRecord struct {
+	Id      int64     `json:"id"`
+	Ip      string    `json:"ip"`
+	Country string    `json:"country"`
+	Created time.Time `json:"created"`
+}
+
+type Data struct {
+	User    int
+	NewUser int
+	Country []Region
+}
+
+type Region struct {
+	Country string `json:"country"`
+	Num     int64
 }

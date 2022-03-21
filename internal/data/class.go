@@ -19,3 +19,8 @@ func ClassDel(id int64) error {
 	tx := GetDbCli().Session(&gorm.Session{}).Table("classes")
 	return tx.Delete(Class{}, "id = ?", id).Error
 }
+
+func ClassUpdate(c *Class) error {
+	tx := GetDbCli().Session(&gorm.Session{}).Table("classes")
+	return tx.Where("id = ?", c.Id).Updates(&c).Error
+}

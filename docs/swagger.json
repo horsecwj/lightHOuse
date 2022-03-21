@@ -50,6 +50,52 @@
                 }
             }
         },
+        "/adm/add_banner": {
+            "post": {
+                "tags": [
+                    "Banner-横幅"
+                ],
+                "summary": "添加横幅",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Banner"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/add_category": {
             "post": {
                 "tags": [
@@ -96,12 +142,288 @@
                 }
             }
         },
+        "/adm/add_chain": {
+            "post": {
+                "tags": [
+                    "Chain-链"
+                ],
+                "summary": "增加链",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Chain"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/add_class": {
+            "post": {
+                "tags": [
+                    "Class-类型"
+                ],
+                "summary": "增加类型",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Class"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/add_currency": {
+            "post": {
+                "tags": [
+                    "Currency-代币信息"
+                ],
+                "summary": "添加代币信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Currency"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/add_game": {
+            "post": {
+                "tags": [
+                    "Game-游戏信息"
+                ],
+                "summary": "添加游戏信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Game"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/add_label": {
+            "post": {
+                "tags": [
+                    "Label-标签"
+                ],
+                "summary": "增加标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Label"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/del_article": {
             "post": {
                 "tags": [
                     "Article-文章"
                 ],
                 "summary": "删除文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.DelQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/del_banner": {
+            "post": {
+                "tags": [
+                    "Banner-横幅"
+                ],
+                "summary": "删除横幅",
                 "parameters": [
                     {
                         "type": "string",
@@ -188,12 +510,242 @@
                 }
             }
         },
+        "/adm/del_chain": {
+            "post": {
+                "tags": [
+                    "Chain-链"
+                ],
+                "summary": "删除链",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.DelQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/del_class": {
+            "post": {
+                "tags": [
+                    "Class-类型"
+                ],
+                "summary": "删除类型",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.DelQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/del_currency": {
+            "post": {
+                "tags": [
+                    "Currency-代币信息"
+                ],
+                "summary": "删除代币信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.DelQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/del_game": {
+            "post": {
+                "tags": [
+                    "Game-游戏信息"
+                ],
+                "summary": "删除游戏信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.DelQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/del_label": {
+            "post": {
+                "tags": [
+                    "Label-标签"
+                ],
+                "summary": "删除标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.DelQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/get_article": {
             "get": {
                 "tags": [
-                    "Article-文章"
+                    "Article-发布文章"
                 ],
-                "summary": "查询文章",
+                "summary": "查询发布文章",
                 "parameters": [
                     {
                         "type": "string",
@@ -209,12 +761,12 @@
                     },
                     {
                         "type": "integer",
-                        "name": "id",
+                        "name": "hot",
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "lang",
+                        "type": "integer",
+                        "name": "id",
                         "in": "query"
                     },
                     {
@@ -231,6 +783,54 @@
                         "type": "integer",
                         "name": "status",
                         "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Article"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/get_banner": {
+            "get": {
+                "tags": [
+                    "Banner-查看横幅"
+                ],
+                "summary": "查看横幅",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -247,7 +847,252 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/data.Article"
+                                                "$ref": "#/definitions/data.Banner"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/get_chain": {
+            "get": {
+                "tags": [
+                    "Chain-链"
+                ],
+                "summary": "查询链",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Chain"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/get_currency": {
+            "get": {
+                "tags": [
+                    "Currency-代币信息"
+                ],
+                "summary": "查询代币信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "cate_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "hot",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Currency"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/get_data": {
+            "get": {
+                "tags": [
+                    "Data- 数据"
+                ],
+                "summary": "查询数据",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Day"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Data"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/get_game": {
+            "get": {
+                "tags": [
+                    "Game-游戏信息"
+                ],
+                "summary": "查询游戏信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "cate_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "hot",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Game"
                                             }
                                         }
                                     }
@@ -279,6 +1124,52 @@
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/data.Category"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/mod_banner": {
+            "post": {
+                "tags": [
+                    "Banner-文章"
+                ],
+                "summary": "修改横幅",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Banner"
                         }
                     }
                 ],
@@ -350,12 +1241,242 @@
                 }
             }
         },
+        "/adm/mod_chain": {
+            "post": {
+                "tags": [
+                    "Chain-链"
+                ],
+                "summary": "修改链",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Chain"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/mod_class": {
+            "post": {
+                "tags": [
+                    "Class-类型"
+                ],
+                "summary": "修改类型",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Class"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/mod_currency": {
+            "post": {
+                "tags": [
+                    "Currency-代币信息"
+                ],
+                "summary": "修改代币信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.currency"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/mod_game": {
+            "post": {
+                "tags": [
+                    "Game-游戏信息"
+                ],
+                "summary": "修改游戏信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Game"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/mod_label": {
+            "post": {
+                "tags": [
+                    "Label-标签"
+                ],
+                "summary": "修改标签",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Label"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/upload_img": {
             "post": {
                 "tags": [
-                    "Article-文章"
+                    "img-图片"
                 ],
-                "summary": "添加文章",
+                "summary": "添加图片",
                 "parameters": [
                     {
                         "type": "string",
@@ -387,7 +1508,7 @@
                 }
             }
         },
-        "/api/get_article": {
+        "/api/get_Article": {
             "get": {
                 "tags": [
                     "UseApi"
@@ -401,12 +1522,12 @@
                     },
                     {
                         "type": "integer",
-                        "name": "id",
+                        "name": "hot",
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "lang",
+                        "type": "integer",
+                        "name": "id",
                         "in": "query"
                     },
                     {
@@ -422,6 +1543,14 @@
                     {
                         "type": "integer",
                         "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
                         "in": "query"
                     }
                 ],
@@ -463,11 +1592,6 @@
                         "in": "query"
                     },
                     {
-                        "type": "string",
-                        "name": "lang",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
                         "name": "parent_id",
                         "in": "query"
@@ -498,26 +1622,327 @@
                 }
             }
         },
-        "/api/match_article": {
+        "/api/get_class": {
+            "get": {
+                "tags": [
+                    "Class-类型"
+                ],
+                "summary": "查询类型",
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Class"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_game": {
             "get": {
                 "tags": [
                     "UseApi"
                 ],
-                "summary": "title关键字查询文章(至多返回30条数据)",
+                "summary": "查询游戏简介",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "匹配数据",
-                        "name": "sub_str",
-                        "in": "query",
-                        "required": true
+                        "type": "integer",
+                        "name": "chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "class_id",
+                        "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "语言",
-                        "name": "lang",
-                        "in": "query",
-                        "required": true
+                        "name": "game_fi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "label_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Game"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_game_parameter": {
+            "get": {
+                "tags": [
+                    "GameParameter-游戏参数"
+                ],
+                "summary": "查询游戏参数",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "cate_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "hot",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.GameParameter"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_game_value": {
+            "get": {
+                "tags": [
+                    "GetImageCourse-图文教程"
+                ],
+                "summary": "查询图文教程",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "cate_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "hot",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.CourseBanner"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_gamecmk": {
+            "get": {
+                "tags": [
+                    "GetTopGainers-查询头号玩家"
+                ],
+                "summary": "查询头号玩家",
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Cmk"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_like_article": {
+            "get": {
+                "tags": [
+                    "UseApi"
+                ],
+                "summary": "查询相关文章",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "cate_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "hot",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -535,6 +1960,261 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/definitions/data.Article"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_like_gamee": {
+            "get": {
+                "tags": [
+                    "UseApi"
+                ],
+                "summary": "查询相关游戏",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "chain_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "class_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "game_fi",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "label_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Game"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_top_losers": {
+            "get": {
+                "tags": [
+                    "GetTopLosers-查询头号失败者"
+                ],
+                "summary": "查询头号失败者",
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Cmk"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_value": {
+            "get": {
+                "tags": [
+                    "GetCourse-教程"
+                ],
+                "summary": "查询教程",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "cate_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "hot",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.CourseBanner"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/match_article": {
+            "get": {
+                "tags": [
+                    "UseApi"
+                ],
+                "summary": "title关键字查询文章(至多返回30条数据)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "匹配数据",
+                        "name": "sub_str",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Article"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/match_game": {
+            "get": {
+                "tags": [
+                    "UseApi"
+                ],
+                "summary": "GameName关键字查询游戏名(至多返回30条数据)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "匹配数据",
+                        "name": "sub_str",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.game"
                                             }
                                         }
                                     }
@@ -583,6 +2263,77 @@
                     }
                 }
             }
+        },
+        "/use/get_chain": {
+            "get": {
+                "tags": [
+                    "Chain-链"
+                ],
+                "summary": "查询链",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Chain"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/use/get_class": {
+            "get": {
+                "tags": [
+                    "Class-类型"
+                ],
+                "summary": "查询类型",
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Class"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -593,6 +2344,27 @@
                     "type": "integer"
                 },
                 "data": {}
+            }
+        },
+        "biz.JsonFormat": {
+            "type": "object",
+            "properties": {
+                "article_num": {
+                    "type": "integer"
+                },
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "page": {
+                    "type": "integer"
+                },
+                "page_num": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                }
             }
         },
         "biz.LoginData": {
@@ -612,11 +2384,23 @@
                 "cate_id": {
                     "type": "integer"
                 },
-                "created": {
+                "cover": {
                     "type": "string"
+                },
+                "game_id": {
+                    "type": "integer"
+                },
+                "hot": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "label": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Label"
+                    }
                 },
                 "lang": {
                     "type": "string"
@@ -638,9 +2422,20 @@
                 },
                 "updated": {
                     "type": "string"
+                }
+            }
+        },
+        "data.Banner": {
+            "type": "object",
+            "properties": {
+                "chain": {
+                    "type": "integer"
                 },
-                "uri": {
+                "cover": {
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 }
             }
         },
@@ -664,14 +2459,373 @@
                 }
             }
         },
+        "data.Chain": {
+            "type": "object",
+            "properties": {
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.Class": {
+            "type": "object",
+            "properties": {
+                "class": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.Cmk": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string"
+                },
+                "day_volume": {
+                    "type": "string"
+                },
+                "game_fi": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "one_day": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.CourseBanner": {
+            "type": "object",
+            "properties": {
+                "cate_id": {
+                    "type": "integer"
+                },
+                "category": {
+                    "$ref": "#/definitions/data.Category"
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "created": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.Currency": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "currency_name": {
+                    "type": "string"
+                },
+                "flow_amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "issue_at": {
+                    "type": "string"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "max_amount": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.Data": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Region"
+                    }
+                },
+                "newUser": {
+                    "type": "integer"
+                },
+                "user": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.Day": {
+            "type": "object",
+            "properties": {
+                "end_time": {
+                    "type": "integer"
+                },
+                "start_time": {
+                    "type": "integer"
+                }
+            }
+        },
         "data.DelQuery": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "integer"
+                }
+            }
+        },
+        "data.Game": {
+            "type": "object",
+            "properties": {
+                "about_games": {
+                    "type": "string"
+                },
+                "chain": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Chain"
+                    }
+                },
+                "class": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Class"
+                    }
+                },
+                "cover": {
+                    "type": "string"
+                },
+                "created": {
+                    "type": "string"
+                },
+                "currency": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.currency"
+                    }
+                },
+                "facebook": {
+                    "type": "string"
+                },
+                "game_name": {
+                    "type": "string"
+                },
+                "game_url": {
+                    "type": "string"
+                },
+                "guide": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "label": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Label"
+                    }
                 },
                 "lang": {
                     "type": "string"
+                },
+                "new": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Article"
+                    }
+                },
+                "release": {
+                    "type": "integer"
+                },
+                "revenue_analysis": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "stragegy": {
+                    "type": "string"
+                },
+                "summary": {
+                    "type": "string"
+                },
+                "telegram": {
+                    "type": "string"
+                },
+                "twitter": {
+                    "type": "string"
+                },
+                "youtube": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.GameParameter": {
+            "type": "object",
+            "properties": {
+                "coin": {
+                    "type": "string"
+                },
+                "day_volume": {
+                    "type": "string"
+                },
+                "game_fi": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "mkt_cap": {
+                    "type": "string"
+                },
+                "one_day": {
+                    "type": "string"
+                },
+                "one_week": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.GameValue": {
+            "type": "object",
+            "properties": {
+                "chain": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Chain"
+                    }
+                },
+                "class": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Class"
+                    }
+                },
+                "game_parameter": {
+                    "$ref": "#/definitions/data.GameParameter"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.Label": {
+            "type": "object",
+            "properties": {
+                "game": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Game"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "lang": {
+                    "type": "string"
+                },
+                "word": {
+                    "type": "string"
+                }
+            }
+        },
+        "data.Region": {
+            "type": "object",
+            "properties": {
+                "country": {
+                    "type": "string"
+                },
+                "num": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.currency": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "description": "IssueAt      time.Time `json:\"issue_at\"`",
+                    "type": "string"
+                },
+                "currency_name": {
+                    "type": "string"
+                },
+                "flow_amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "logo": {
+                    "type": "string"
+                },
+                "max_amount": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.game": {
+            "type": "object",
+            "properties": {
+                "chain": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Chain"
+                    }
+                },
+                "class": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/data.Class"
+                    }
+                },
+                "game_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
                 }
             }
         }

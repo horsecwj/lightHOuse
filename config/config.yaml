@@ -1,0 +1,42 @@
+Debug: false
+Notice: true
+LogConfig:
+  Path: ""
+  Level: ""
+
+ClickHouse:
+  Host: 127.0.0.1
+  Port: 9000
+  UserName: default
+  Password: 123456
+  Database: ethDatas
+  ReadTimeout: 10
+  WriteTimeout: 20
+  BlockSize: 1000
+  DeBug: false
+  FlushPeriod: 2s
+
+Database:
+  Host: "127.0.0.1"
+  Port: "3306"
+  LogMode: true
+  Username: "root"
+  Password: "secret"
+  Database: "ssss"
+
+Server:
+  Port: "9527"
+  SummedCheck: true
+  VerifyHost: "http://127.0.0.1:8080/"
+
+Ethereum:
+  URL: "https://mainnet.infura.io/v3/2da8854f387e471f9063be2848f6f9a2"
+  Chain: "ETH"
+  ApiGetGasPrice: true
+  AddrLimit: 100
+  ConfirmHeight: 12
+  MinGasPrice: 10
+  MaxGasPrice: 1000
+  ERC20GasLimit: 80000
+
+#ganache-cli  -f https://mainnet.infura.io/v3/2da8854f387e471f9063be2848f6f9a2 -d -i 66 --unlock 0x78bc49be7bae5e0eec08780c86f0e8278b8b035b  -l 8000000
