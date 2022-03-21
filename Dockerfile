@@ -12,7 +12,7 @@ RUN go build -a -installsuffix cgo -ldflags '-s -w' -o light-house cmd/server/ma
 
 FROM --platform=linux/amd64 alpine:3.15
 COPY --from=builder /app/light-house /
-ADD static /static
+#ADD static /static
 RUN ln -s /light-house /usr/bin
 
 CMD ["light-house"]

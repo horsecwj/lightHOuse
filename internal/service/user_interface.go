@@ -31,7 +31,7 @@ func useGetGame(c echo.Context) error {
 // @Summary 查询文章
 // @Param body query data.ArticleQuery true "请求数据"
 // @Success 200 {object} biz.BaseJson{data=[]data.Article} "返回数据"
-// @Router /api/get_Article [GET]
+// @Router /api/get_article [GET]
 func useGerArticle(c echo.Context) error {
 	d := new(data.ArticleQuery)
 	err := c.Bind(d)
@@ -47,9 +47,8 @@ func useGerArticle(c echo.Context) error {
 // useGetBanner doc
 // @Tags Banner-查看横幅
 // @Summary 查看横幅
-// @Param token header string true "token"
 // @Success 200 {object} biz.BaseJson{data=[]data.Banner} "返回数据"
-// @Router /adm/get_banner [GET]
+// @Router /api/get_banner [GET]
 func useGetBanner(c echo.Context) error {
 	msg := biz.GetBanner()
 	return c.JSON(http.StatusOK, &msg)
@@ -75,7 +74,7 @@ func useGetCategory(c echo.Context) error {
 // @Tags GetTopGainers-查询头号玩家
 // @Summary 查询头号玩家
 // @Success 200 {object} biz.JsonFormat{data=[]data.Cmk} "返回数据"
-// @Router /api/get_gamecmk [GET]
+// @Router /api/get_top_gainers [GET]
 func useGetTopGainers(c echo.Context) error {
 	d := new(data.GameQuery)
 	err := c.Bind(d)
@@ -149,7 +148,7 @@ func useGetLikeGame(c echo.Context) error {
 // @Tags Class-类型
 // @Summary 查询类型
 // @Success 200 {object} biz.BaseJson{data=[]data.Class} "返回数据"
-// @Router /use/get_class [GET]
+// @Router /api/get_class [GET]
 func useGetClass(c echo.Context) error {
 	msg := biz.GetClass(false)
 	return c.JSON(http.StatusOK, &msg)
@@ -160,7 +159,7 @@ func useGetClass(c echo.Context) error {
 // @Summary 查询链
 // @Param token header string true "token"
 // @Success 200 {object} biz.BaseJson{data=[]data.Chain} "返回数据"
-// @Router /use/get_chain [GET]
+// @Router /api/get_chain [GET]
 func useGetChain(c echo.Context) error {
 	msg := biz.GetChain(false)
 	return c.JSON(http.StatusOK, &msg)
