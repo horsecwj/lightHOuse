@@ -1,4 +1,4 @@
-FROM golang:1.17.2-alpine AS builder
+FROM golang:1.17.8-alpine3.15 AS builder
 
 COPY ./ /app
 WORKDIR /app
@@ -12,7 +12,7 @@ RUN go build -a -installsuffix cgo -ldflags '-s -w' -o light-house cmd/server/ma
 
 FROM --platform=linux/amd64 alpine:3.15
 COPY --from=builder /app/light-house /
-ADD static /static
+#ADD static /static
 RUN ln -s /light-house /usr/bin
 
-CMD ["help_center"]
+CMD ["light-house"]

@@ -615,7 +615,7 @@ func admGetChain(c echo.Context) error {
 }
 
 // admGetData doc
-// @Tags Data- 数据
+// @Tags Data-数据
 // @Summary 查询数据
 // @Param token header string true "token"
 // @Param body body data.Day true "请求数据"

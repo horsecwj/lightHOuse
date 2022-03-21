@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.5760b633.css",
-    "main.js": "/static/js/main.9645b445.js",
+    "main.css": "/static/css/main.164470e3.css",
+    "main.js": "/static/js/main.817506ed.js",
     "static/js/787.991dee34.chunk.js": "/static/js/787.991dee34.chunk.js",
-    "static/media/newbie.svg": "/static/media/newbie.7a842be7e5a23f70feed.svg",
-    "static/media/guide-video.png": "/static/media/guide-video.f607928ceffb1312da13.png",
+    "static/media/guide-video.png": "/static/media/guide-video.385a6f6d6dd95458e5db.png",
+    "static/media/guide-img2.png": "/static/media/guide-img2.92bffe1c0ab2426196f9.png",
+    "static/media/guide-img1.png": "/static/media/guide-img1.7597d65cef9e336ee4e8.png",
     "static/media/cloud.png": "/static/media/cloud.dbad14e8b45c527a53a2.png",
     "static/media/logo.svg": "/static/media/logo.7f49233eddc3e4ad47c9.svg",
-    "static/media/limden.png": "/static/media/limden.94d5c4fd95b47d91a7b8.png",
     "index.html": "/index.html",
-    "main.5760b633.css.map": "/static/css/main.5760b633.css.map",
-    "main.9645b445.js.map": "/static/js/main.9645b445.js.map",
+    "main.164470e3.css.map": "/static/css/main.164470e3.css.map",
+    "main.817506ed.js.map": "/static/js/main.817506ed.js.map",
     "787.991dee34.chunk.js.map": "/static/js/787.991dee34.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5760b633.css",
-    "static/js/main.9645b445.js"
+    "static/css/main.164470e3.css",
+    "static/js/main.817506ed.js"
   ]
 }
