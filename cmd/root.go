@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"help_center/config"
 	"help_center/internal/server"
+	"help_center/spiderbycolly"
 
 	"os"
 
@@ -19,8 +20,8 @@ var rootCommand = &cobra.Command{
 	Short: "run light house",
 	PreRun: func(cmd *cobra.Command, args []string) {
 		// 协程跑爬虫
-		// go spiderbycolly.RunSpiderSpot()
-		// go spiderbycolly.RunSpiderApi()
+		go spiderbycolly.RunSpiderSpot()
+		go spiderbycolly.RunSpiderApi()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		//跑 light-house
