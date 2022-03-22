@@ -7,21 +7,21 @@ secret = "GfK@boqLRaGrce2Q"
 user = "root"
 password = "M@hLuxY5y$P7cyQh"
 [mysql]
-host = "localhost"
-port = 3306
+host = "172.30.31.54"
+port = 30759
 user = "root"
-password = "secret"
-database = "support"
+password = "gQ9oww2tua"
+database = "beaconglobal"
 max_idle_conn = 10
 max_open_conn = 5
 
 [Database]
-Host = "127.0.0.1"
-Port = "3306"
+Host = "172.30.31.54"
+Port = 30759
 LogMode = true
 Username = "root"
-Password = "secret"
-Database = "ssss"
+Password = "gQ9oww2tua"
+Database = "spider"
 
 [ClickHouse]
 Host = "127.0.0.1"
