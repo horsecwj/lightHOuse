@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"help_center/config"
 	"help_center/internal/server"
-	"log"
+	"help_center/spiderbycolly"
 	"os"
 
 	"github.com/fsnotify/fsnotify"
@@ -15,12 +15,12 @@ import (
 var configPath string
 
 var rootCommand = &cobra.Command{
-	Use:   "blockchain-wallet",
-	Short: "run blockchain wallet",
+	Use:   "light-house",
+	Short: "run light house",
 	PreRun: func(cmd *cobra.Command, args []string) {
 		// 协程跑爬虫
-		//go
-		log.Print(111)
+		go spiderbycolly.RunSpiderSpot()
+		go spiderbycolly.RunSpiderApi()
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		//跑 light-house
@@ -29,10 +29,8 @@ var rootCommand = &cobra.Command{
 }
 
 func init() {
-
 	rootCommand.PersistentFlags().StringVar(&configPath, "config-path", "./config", "system config path")
 	cobra.OnInitialize(initConfig)
-
 	_ = viper.BindPFlag("config-path", rootCommand.PersistentFlags().Lookup("config-path"))
 }
 
@@ -55,11 +53,9 @@ func initConfig() {
 }
 
 func Execute() {
-
 	err := rootCommand.Execute()
 	if err != nil {
 		fmt.Println("启动失败: ", err)
 		os.Exit(1)
 	}
-	log.Print(111)
 }
