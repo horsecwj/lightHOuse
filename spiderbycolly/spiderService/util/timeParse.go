@@ -1,9 +1,10 @@
 package util
 
 import (
-	"github.com/spf13/cast"
 	"strings"
 	"time"
+
+	"github.com/spf13/cast"
 )
 
 var InternalSortMap = make(map[string]string)

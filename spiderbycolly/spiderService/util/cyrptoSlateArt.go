@@ -37,12 +37,11 @@ func GetArticleCryptoSlate(titleStart string) ([]model.SlateArticle, error) {
 	c.OnHTML("div[class='posts'] div[class='list-post clearfix ']", func(elem *colly.HTMLElement) {
 		elem.DOM.Each(func(_ int, s *goquery.Selection) {
 
-			link, _ := s.Find("a").Attr("href")
+			link, alive := s.Find("a").Attr("href")
 			if link == titleStart {
 				artFlag = false
 			}
-
-			if artFlag {
+			if artFlag && alive {
 				res := GetArticleCryptoDetailSlate(c, link)
 				res.Link = link
 				if len(res.Article) != 0 {

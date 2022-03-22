@@ -26,22 +26,21 @@ func (db *DBConn) SaveTopCmkGameFi(array []*model.TopCmkGameFi) error {
 	}
 
 	values := make([]string, 0, len(array))
-	params := make([]interface{}, 0, len(array)*7)
+	params := make([]interface{}, 0, len(array)*6)
 
 	// 组装参数
 	for _, address := range array {
 
-		values = append(values, "(?, ?, ?, ?, ?, ?, ?)")
+		values = append(values, "(?, ?, ?, ?, ?, ?)")
 		params = append(params, address.ID)
 		params = append(params, address.Coin, address.Price)
 		params = append(params, address.OneDay)
 		params = append(params, address.DayVolume)
-		params = append(params, address.CoinPic)
 		params = append(params, address.GameFi)
 	}
 
 	// 拼接SQL
-	format := "insert into top_cmk_game_fi (id,coin, price,one_day,coin_pic,game_fi) values %s"
+	format := "insert into top_cmk_game_fi (id,coin, price,one_day,day_volume,game_fi) values %s"
 	sql := fmt.Sprintf(format, strings.Join(values, ","))
 
 	return db.Exec(sql, params...).Error
@@ -56,22 +55,21 @@ func (db *DBConn) SaveTopCmkGameFiLosers(array []*model.TopCmkGameFi) error {
 	}
 
 	values := make([]string, 0, len(array))
-	params := make([]interface{}, 0, len(array)*7)
+	params := make([]interface{}, 0, len(array)*6)
 
 	// 组装参数
 	for _, address := range array {
 
-		values = append(values, "(?, ?, ?, ?, ?, ?, ?)")
+		values = append(values, "(?, ?, ?, ?, ?, ?)")
 		params = append(params, address.ID)
 		params = append(params, address.Coin, address.Price)
 		params = append(params, address.OneDay)
 		params = append(params, address.DayVolume)
-		params = append(params, address.CoinPic)
 		params = append(params, address.GameFi)
 	}
 
 	// 拼接SQL
-	format := "insert into top_cmk_game_fi_losers (id,coin, price,one_day,coin_pic,game_fi) values %s"
+	format := "insert into top_cmk_game_fi_losers (id,coin, price,one_day,day_volume,game_fi) values %s"
 	sql := fmt.Sprintf(format, strings.Join(values, ","))
 
 	return db.Exec(sql, params...).Error

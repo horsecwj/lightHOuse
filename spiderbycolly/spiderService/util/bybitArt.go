@@ -40,9 +40,11 @@ func GetArticleBybitArt(titleStart string) ([]model.BybitArticle, error) {
 			for i := range s.Nodes {
 				str := s.Find("div[class='td-module-meta-info']").Eq(i)
 				Overview := str.Eq(0).Find("div[class='td-excerpt']").Text()
-				link, _ := str.Eq(0).Find("h3 a").Attr("href")
+				link, isAlive := str.Eq(0).Find("h3 a").Attr("href")
+				if !isAlive {
+					continue
+				}
 				title := str.Eq(0).Find("h3 a").Text()
-
 				if link == titleStart {
 					HighlightArtFlag = false
 				}
@@ -97,7 +99,10 @@ func GetNewArticleBybitArt(titleStart string) ([]model.BybitNewlyArticle, error)
 				str := s.Find("div[class='td-module-meta-info']").Eq(i)
 				title := str.Eq(0).Find("h3 a").Text()
 				Overview := str.Eq(0).Find("div[class='td-excerpt']").Text()
-				link, _ := str.Eq(0).Find("h3 a").Attr("href")
+				link, isAlive := str.Eq(0).Find("h3 a").Attr("href")
+				if !isAlive {
+					continue
+				}
 				if link == titleStart {
 					newArtFlag = false
 				}

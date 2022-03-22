@@ -62,7 +62,9 @@ func BannerSearch() interface{} {
 			if err != nil {
 				log.Println(err.Error())
 			}
-			list[i].ParentId = category[0].ParentId
+			if len(category) > 0 {
+				list[i].ParentId = category[0].ParentId
+			}
 		}
 	}
 	if len(list) > 0 {

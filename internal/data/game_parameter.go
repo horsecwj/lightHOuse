@@ -2,7 +2,6 @@ package data
 
 import (
 	"log"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -16,7 +15,7 @@ func GameParameterAdd() error {
 	tx := GetDbCli().Session(&gorm.Session{}).Table("game_parameters")
 	for i := 0; i < len(row); i++ {
 		if VerificationGameParameters(row[i].GameFi) != nil {
-			err := tx.Create(GameParameter{Id: time.Now().UnixMilli(), Coin: row[i].Coin, GameFi: row[i].GameFi, Price: row[i].Price, OneDay: row[i].OneDay, OneWeek: row[i].OneWeek, DayVolume: row[i].DayVolume, MktCap: row[i].MktCap}).Error
+			err := tx.Create(GameParameter{Id: row[i].Id, Coin: row[i].Coin, GameFi: row[i].GameFi, Price: row[i].Price, OneDay: row[i].OneDay, OneWeek: row[i].OneWeek, DayVolume: row[i].DayVolume, MktCap: row[i].MktCap}).Error
 			if err != nil {
 				log.Println(err)
 			}
@@ -66,10 +65,13 @@ func (a *GameQuery) SearchGameCmk(losers bool) interface{} {
 		return list
 	}
 }
-func UpdateGameParameter() {
+
+func UpdateGameParameter() error {
 	GetDbCli().Session(&gorm.Session{}).Table("game_parameters").Delete(Game{}, "price != ?", "")
 	err := GameParameterAdd()
 	if err != nil {
 		log.Println(err)
+		return err
 	}
+	return nil
 }
