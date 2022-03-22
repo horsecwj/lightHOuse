@@ -288,6 +288,9 @@ func (a *ArticleQuery) CourseCount(Video bool, Image bool) int {
 		arr = append(arr, course[i].Id)
 	}
 	tx = tx.Table("articles").Where("cate_id in ?", arr)
+	if a.CateId != 0 {
+		tx = tx.Where("cate_id = ?", a.CateId)
+	}
 	err := tx.Count(&count).Error
 	if err != nil {
 		log.Println(err.Error())
