@@ -170,17 +170,50 @@ func ArticleMatch(subStr string, user bool) (interface{}, int) {
 }
 
 func (a *ArticleQuery) LikeArticle() interface{} {
-	var row []likeArticle
+	var (
+		row  []likeArticle
+		data []likeArticle
+	)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").
-		Where("cate_id = ?", a.CateId).Where("status = ?", 2).Not("id = ?", a.Id)
-	if a.Page > 0 && a.PageSize > 0 {
-		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
-	}
+		Where("cate_id = ?", a.CateId).Where("status = ?", 2).Order("id desc")
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return row
+	i := 1
+	for i = range row {
+		if row[i].Id == a.Id {
+			break
+		}
+	}
+	if i == 0 {
+		if len(row) <= 4 {
+			return row
+		}
+		return row[1:5]
+	}
+	if i == 1 {
+		if len(row) <= 4 {
+			return row
+		}
+		data = append(data, row[0], row[2], row[3], row[4])
+		return data
+	}
+	if i == len(row)-1 {
+		if len(row) <= 4 {
+			return row
+		}
+		return row[len(row)-4:]
+	}
+	if i == len(row)-2 {
+		if len(row) <= 4 {
+			return row
+		}
+		data = append(data, row[len(row)-4], row[len(row)-3], row[len(row)-2], row[len(row)])
+		return data
+	}
+	data = append(data, row[i-2], row[i-1], row[i+1], row[i+2])
+	return data
 }
 
 func OutArticleAdd() error {
