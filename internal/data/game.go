@@ -116,7 +116,7 @@ func (a *GameQuery) GameSearch(adm bool) interface{} {
 			New             []article  `json:"new" gorm:"many2many:game_article"`
 			Stragegy        string     `json:"stragegy"`
 			RevenueAnalysis string     `json:"revenue_analysis"`
-			Created         string     `json:"created"`
+			Updated         string     `json:"updated"`
 		}
 		var result = make([]game, 0, a.PageSize)
 		err := tx.Find(&result).Error

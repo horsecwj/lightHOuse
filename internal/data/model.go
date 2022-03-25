@@ -247,7 +247,7 @@ type likeArticle struct {
 	Cover   string    `json:"cover"`
 	Title   string    `json:"title"`
 	Summary string    `json:"summary"`
-	Created time.Time `json:"created"`
+	Updated time.Time `json:"updated"`
 }
 
 type game struct {
