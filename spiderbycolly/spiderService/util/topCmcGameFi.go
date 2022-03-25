@@ -1,6 +1,7 @@
 package util
 
 import (
+	"help_center/spiderbycolly/common"
 	"help_center/spiderbycolly/spiderService/model"
 	"io/ioutil"
 	"log"
@@ -25,33 +26,39 @@ func GetTopGameFiCoinMarket() ([]*model.TopCmkGameFi, error) {
 	c.OnResponse(func(resp *colly.Response) {
 
 	})
-	//c.OnHTML("div[class='uikit-col-md-8 uikit-col-sm-16']", func(element *colly.HTMLElement) {
-	//
-	//	element.DOM.Each(func(_ int, s *goquery.Selection) {
-	//		str := s.Find("h3")
-	//		log.Print(str)
-	//	})
-	//
-	//})
+
 	c.OnHTML("table tbody tr", func(elem *colly.HTMLElement) {
+		if elem == nil {
+			common.Logger.Info("coinmarketcap  table spider return nil")
+			return
+		}
 		elem.DOM.Each(func(_ int, s *goquery.Selection) {
 			str := s.Find("td")
 			name := str.Eq(1).Find("a div div p[color='text']").Text()
 			name2 := str.Eq(1).Find("a div div p[color='text3']").Text()
-			link, _ := str.Eq(1).Find("a div img").Attr("src")
+			link, alive := str.Eq(1).Find("a div img").Attr("src")
 			if len(ArrTopGameFi) <= 100 {
-				res, _ := http.Get(link)
-				data, _ := ioutil.ReadAll(res.Body)
-				tplData := model.TopCmkGameFi{
-					ID:        len(ArrTopGameFi) + 1,
-					Coin:      name2,
-					GameFi:    name,
-					CoinPic:   string(data),
-					Price:     str.Eq(2).Find("span").Text(),
-					OneDay:    str.Eq(3).Find("span").Text(),
-					DayVolume: str.Eq(4).Text(),
+				if alive && len(link) != 0 {
+					res, err := http.Get(link)
+					if err != nil {
+						return
+					}
+					data, err := ioutil.ReadAll(res.Body)
+					if err != nil {
+						return
+					}
+					tplData := model.TopCmkGameFi{
+						ID:        len(ArrTopGameFi) + 1,
+						Coin:      name2,
+						GameFi:    name,
+						CoinPic:   string(data),
+						Price:     str.Eq(2).Find("span").Text(),
+						OneDay:    str.Eq(3).Find("span").Text(),
+						DayVolume: str.Eq(4).Text(),
+					}
+					ArrTopGameFi = append(ArrTopGameFi, &tplData)
 				}
-				ArrTopGameFi = append(ArrTopGameFi, &tplData)
+
 			}
 
 		})

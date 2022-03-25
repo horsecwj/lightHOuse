@@ -65,6 +65,19 @@ func ArticleUpdate(a *Article) error {
 	return tx.Table("articles").Where("id = ?", a.Id).Omit("created").Preload("Label").Updates(&a).Error
 }
 
+func MoreArticleUpdate(d []MoreArticle) error {
+	tx := GetDbCli().Session(&gorm.Session{})
+	for i := range d {
+		if d[i].Id != 0 {
+			err := tx.Table("articles").Where("id = ?", d[i].Id).Updates(Article{CateId: d[i].CateId}).Error
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("updated desc").Preload("Label")
@@ -97,7 +110,7 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 			RichText string    `json:"rich_text"`
 			Label    []Label   `json:"label" gorm:"many2many:article_label"`
 			Hot      int       `json:"hot"`
-			Updated  time.Time `json:"created"`
+			Updated  time.Time `json:"updated"`
 		}
 		var result = make([]article, 0, a.PageSize)
 		if a.Id == 0 {
@@ -170,17 +183,50 @@ func ArticleMatch(subStr string, user bool) (interface{}, int) {
 }
 
 func (a *ArticleQuery) LikeArticle() interface{} {
-	var row []likeArticle
+	var (
+		row  []likeArticle
+		data []likeArticle
+	)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").
-		Where("cate_id = ?", a.CateId).Where("status = ?", 2).Not("id = ?", a.Id)
-	if a.Page > 0 && a.PageSize > 0 {
-		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
-	}
+		Where("cate_id = ?", a.CateId).Where("status = ?", 2).Order("id desc")
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
-	return row
+	i := 1
+	for i = range row {
+		if row[i].Id == a.Id {
+			break
+		}
+	}
+	if i == 0 {
+		if len(row) <= 4 {
+			return row
+		}
+		return row[1:5]
+	}
+	if i == 1 {
+		if len(row) <= 4 {
+			return row
+		}
+		data = append(data, row[0], row[2], row[3], row[4])
+		return data
+	}
+	if i == len(row)-1 {
+		if len(row) <= 4 {
+			return row
+		}
+		return row[len(row)-4:]
+	}
+	if i == len(row)-2 {
+		if len(row) <= 4 {
+			return row
+		}
+		data = append(data, row[len(row)-4], row[len(row)-3], row[len(row)-2], row[len(row)])
+		return data
+	}
+	data = append(data, row[i-2], row[i-1], row[i+1], row[i+2])
+	return data
 }
 
 func OutArticleAdd() error {
@@ -288,6 +334,9 @@ func (a *ArticleQuery) CourseCount(Video bool, Image bool) int {
 		arr = append(arr, course[i].Id)
 	}
 	tx = tx.Table("articles").Where("cate_id in ?", arr)
+	if a.CateId != 0 {
+		tx = tx.Where("cate_id = ?", a.CateId)
+	}
 	err := tx.Count(&count).Error
 	if err != nil {
 		log.Println(err.Error())

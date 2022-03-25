@@ -12,10 +12,9 @@ type TopCkoGameFi struct {
 }
 
 type TopCmkGameFi struct {
-	ID     int    `json:"id `
-	Coin   string `json:"coin" gorm:"primary key;"`
-	GameFi string `json:"game_fi"`
-
+	ID        int    `json:"id `
+	Coin      string `json:"coin" gorm:"primary key;"`
+	GameFi    string `json:"game_fi"`
 	Price     string `json:"price"`
 	OneDay    string `json:"one_day"`
 	CoinPic   string `json:"coin_pic"`
@@ -23,10 +22,9 @@ type TopCmkGameFi struct {
 }
 
 type TopCmkGameFiLosers struct {
-	ID     int    `json:"id `
-	Coin   string `json:"coin" gorm:"primary key;"`
-	GameFi string `json:"game_fi"`
-
+	ID        int    `json:"id `
+	Coin      string `json:"coin" gorm:"primary key;"`
+	GameFi    string `json:"game_fi"`
 	Price     string `json:"price"`
 	OneDay    string `json:"one_day"`
 	CoinPic   string `json:"coin_pic"`

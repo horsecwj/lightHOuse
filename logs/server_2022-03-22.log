@@ -1,0 +1,22 @@
+[2022-03-22 11:44:03]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 11:48:38]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 11:53:12]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 11:53:12]	[34minfo[0m	schedule/artSpider.go:43	更新失败cmcart:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 11:53:57]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 11:58:32]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:03:08]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:03:08]	[34minfo[0m	schedule/artSpider.go:43	更新失败cmcart:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:03:49]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:08:15]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:12:52]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:12:52]	[34minfo[0m	schedule/artSpider.go:43	更新失败cmcart:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:13:48]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:18:14]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:22:47]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:22:47]	[34minfo[0m	schedule/artSpider.go:43	更新失败cmcart:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:24:03]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 12:43:25]	[34minfo[0m	schedule/artSpider.go:156	 插入失败:Error 3988: Conversion from collation utf8mb4_0900_ai_ci into latin1_swedish_ci impossible for parameter
+[2022-03-22 14:07:03]	[34minfo[0m	schedule/artSpider.go:57	更新失败bybitHighly:Get "https://learn.bybit.com/": read tcp 10.0.0.20:50180->138.113.105.60:443: read: connection reset by peer
+[2022-03-22 14:07:38]	[34minfo[0m	schedule/artSpider.go:64	更新失败bybitHighly:Get "https://learn.bybit.com/": read tcp 10.0.0.20:50211->138.113.105.60:443: read: connection reset by peer
+[2022-03-22 14:22:22]	[34minfo[0m	schedule/artSpider.go:57	更新失败bybitHighly:Get "https://learn.bybit.com/": read tcp 10.0.0.20:50995->138.113.105.60:443: read: connection reset by peer
+[2022-03-22 14:22:28]	[34minfo[0m	schedule/artSpider.go:64	更新失败bybitHighly:Get "https://learn.bybit.com/": read tcp 10.0.0.20:50998->138.113.105.60:443: read: connection reset by peer

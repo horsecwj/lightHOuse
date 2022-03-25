@@ -3,7 +3,6 @@ package util
 import (
 	"fmt"
 	"help_center/spiderbycolly/spiderService/model"
-
 	"log"
 	"strings"
 
@@ -33,9 +32,6 @@ func GetTopGameKingData() ([]*model.TopCkoGameFi, error) {
 
 			if len(ArrTopGameFi) <= 10 {
 				str := s.Find("td")
-				//link, _ := str.Eq(10).Find("img").Attr("data-src")
-				//res, _ := http.Get(link)
-				//data, _ := ioutil.ReadAll(res.Body)
 				//base64Data := "data:image/svg+xml;base64," + base64.StdEncoding.EncodeToString(data)
 				//log.Println(base64Data)
 				tplData := model.TopCkoGameFi{
@@ -46,7 +42,6 @@ func GetTopGameKingData() ([]*model.TopCkoGameFi, error) {
 					OneWeek:   str.Eq(7).Find("span").Text(),
 					DayVolume: str.Eq(8).Find("span").Text(),
 					MktCap:    str.Eq(9).Find("span").Text(),
-					//LastWeek:  string(data), //svg+xml文件
 				}
 				ArrTopGameFi = append(ArrTopGameFi, &tplData)
 			}

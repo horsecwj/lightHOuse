@@ -175,6 +175,10 @@ func createETHUtil(config *config.ETHConfig) *ETHClient {
 	}
 }
 
+func (c *ETHClient) GetClinet() *ethclient.Client {
+	return c.client
+}
+
 // LastBlockNumber 查询最新区块
 func (c *ETHClient) LastBlockNumber() (number uint, err error) {
 

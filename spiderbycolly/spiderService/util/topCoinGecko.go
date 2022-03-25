@@ -1,6 +1,7 @@
 package util
 
 import (
+	"help_center/spiderbycolly/common"
 	"help_center/spiderbycolly/spiderService/model"
 	"log"
 	"strings"
@@ -31,19 +32,13 @@ func GetTopGameFiCoinCko() ([]*model.TopCkoGameFi, error) {
 	})
 
 	c.OnHTML("table tbody tr", func(elem *colly.HTMLElement) {
+		if elem.DOM == nil {
+			common.Logger.Info("coingecko  table spider return nil")
+			return
+		}
 		elem.DOM.Each(func(_ int, s *goquery.Selection) {
 
 			str := s.Find("td")
-			//link, _ := str.Eq(10).Find("img").Attr("data-src")
-			// res, err := http.Get(link)
-			// if err != nil {
-			// 	return
-			// }
-			//data, _ := ioutil.ReadAll(res.Body)
-
-			//base64Data := "data:image/svg+xml;base64," + base64.StdEncoding.EncodeToString(data)
-			//log.Println(base64Data)
-
 			tplData := model.TopCkoGameFi{
 				ID:        len(ArrTopGameFi),
 				Coin:      strings.ReplaceAll(str.Eq(2).Find("a").Eq(1).Text(), "\n", ""),
@@ -54,9 +49,6 @@ func GetTopGameFiCoinCko() ([]*model.TopCkoGameFi, error) {
 				DayVolume: str.Eq(8).Find("span").Text(),
 				MktCap:    str.Eq(9).Find("span").Text(),
 			}
-			if len(tplData.MktCap) == 0 {
-				print(1)
-			}
 			if len(tplData.OneDay) != 0 || len(tplData.OneDay) != 0 || len(tplData.OneDay) != 0 {
 				ArrTopGameFi = append(ArrTopGameFi, &tplData)
 			}
@@ -64,6 +56,10 @@ func GetTopGameFiCoinCko() ([]*model.TopCkoGameFi, error) {
 	})
 	// 查找下一页
 	c.OnHTML("li[class='page-item next'] a", func(element *colly.HTMLElement) {
+		if element == nil {
+			common.Logger.Info("coingecko  spider return nil")
+			return
+		}
 		href, found := element.DOM.Attr("href")
 		// 如果有下一页，则继续访问
 		if found && href != "#" {

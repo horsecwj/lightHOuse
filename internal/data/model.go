@@ -26,6 +26,11 @@ type Article struct {
 	Updated  time.Time `json:"updated"`
 }
 
+type MoreArticle struct {
+	Id     int64 `json:"id"`
+	CateId int64 `json:"cate_id"`
+}
+
 type article struct {
 	Id       int64   `json:"id"`
 	Lang     string  `json:"lang"`

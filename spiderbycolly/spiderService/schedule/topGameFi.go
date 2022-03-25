@@ -1,6 +1,7 @@
 package schedule
 
 import (
+	"help_center/internal/data"
 	"help_center/spiderbycolly/common"
 	"help_center/spiderbycolly/database"
 	"help_center/spiderbycolly/spiderService/util"
@@ -13,18 +14,12 @@ import (
 
 func createTopGameFi(c *cron.Cron) (err error) {
 
-	// err = c.AddFunc("@every 1m", data.UpdateGameParameter)
-	// if err != nil {
-	// 	log.Print(err)
-	// 	return
-	// }
-
-	err = c.AddFunc("@every 1m", synCmcGameFi)
+	err = c.AddFunc("@every 24h", synCmcGameFi)
 	if err != nil {
 		log.Print(err)
 		return
 	}
-	err = c.AddFunc("@every 1m", syncCoinGk)
+	err = c.AddFunc("@every 24h", syncCoinGk)
 	if err != nil {
 		log.Print(err)
 		return
@@ -74,6 +69,12 @@ func cgkGameFi() error {
 		common.Logger.Info("插入TopCkoGameFi:", err)
 		return err
 	}
+
+	err = data.UpdateGameParameter()
+	if err != nil {
+		log.Print("GameParameter更新失败:", err)
+	}
+
 	return nil
 }
 

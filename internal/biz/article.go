@@ -91,6 +91,17 @@ func ModArticle(d *data.Article) *BaseJson {
 	}
 }
 
+//MoreModArticle修改更多文章
+func MoreModArticle(d []data.MoreArticle) *BaseJson {
+	err := data.MoreArticleUpdate(d)
+	if err != nil {
+		log.Println(err.Error())
+		return &BaseJson{Code: 0, Data: err.Error()}
+	} else {
+		return &BaseJson{Code: 1, Data: "成功修改文章"}
+	}
+}
+
 // 获取相关的文章
 func GetLikeArticle(d *data.ArticleQuery) *JsonFormat {
 	if d.Page == 0 {

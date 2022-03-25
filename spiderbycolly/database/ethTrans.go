@@ -14,7 +14,7 @@ func (db *DBConn) SaveEthTrans(array []*TransInfo) error {
 	}
 
 	values := make([]string, 0, len(array))
-	params := make([]interface{}, 0, len(array)*7)
+	params := make([]interface{}, 0, len(array)*12)
 	for _, address := range array {
 		values = append(values, "(?, ?, ?,  ?, ?,?,  ?,?,?, ?,?,?)")
 		params = append(params, address.Hash, address.BlockHash)
@@ -38,7 +38,7 @@ func (db *DBConn) SaveBlocks(array []*MyBlockInfo) error {
 	}
 
 	values := make([]string, 0, len(array))
-	params := make([]interface{}, 0, len(array)*9)
+	params := make([]interface{}, 0, len(array)*5)
 
 	for _, tx := range array {
 
