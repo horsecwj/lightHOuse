@@ -263,7 +263,7 @@ type CourseBanner struct {
 	Title    string   `json:"title"`
 	Cover    string   `json:"cover"`
 	CateId   int64    `json:"cate_id"`
-	Created  string   `json:"created"`
+	Updated  string   `json:"updated"`
 	Category Category `json:"category" gorm:"foreignkey:id;references:cate_id"`
 }
 
