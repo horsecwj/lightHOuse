@@ -80,7 +80,7 @@ func MoreArticleUpdate(d []MoreArticle) error {
 
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc").Preload("Label")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("updated desc").Preload("Label")
 	if a.Page > 0 && a.PageSize > 0 {
 		tx = tx.Limit(a.PageSize).Offset((a.Page - 1) * a.PageSize)
 	}
@@ -110,7 +110,7 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 			RichText string    `json:"rich_text"`
 			Label    []Label   `json:"label" gorm:"many2many:article_label"`
 			Hot      int       `json:"hot"`
-			Updated  time.Time `json:"created"`
+			Updated  time.Time `json:"updated"`
 		}
 		var result = make([]article, 0, a.PageSize)
 		if a.Id == 0 {
