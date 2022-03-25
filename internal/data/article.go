@@ -65,6 +65,19 @@ func ArticleUpdate(a *Article) error {
 	return tx.Table("articles").Where("id = ?", a.Id).Omit("created").Preload("Label").Updates(&a).Error
 }
 
+func MoreArticleUpdate(d []MoreArticle) error {
+	tx := GetDbCli().Session(&gorm.Session{})
+	for i := range d {
+		if d[i].Id != 0 {
+			err := tx.Table("articles").Where("id = ?", d[i].Id).Updates(Article{CateId: d[i].CateId}).Error
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
 func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	var list = make([]article, 0, a.PageSize)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc").Preload("Label")

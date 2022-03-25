@@ -167,6 +167,22 @@ func admModArticle(c echo.Context) error {
 	return c.JSON(http.StatusOK, &msg)
 }
 
+//admMoreModArticle
+// @Tags Article-文章
+// @Summary 修改更多文章
+// @Param token header string true "token"
+// @Param body body data.MoreArticle true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=string} "返回数据"
+// @Router /adm/more_mod_article [POST]
+func admMoreModArticle(c echo.Context) error {
+	var d []data.MoreArticle
+	if err := c.Bind(&d); err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.MoreModArticle(d)
+	return c.JSON(http.StatusOK, &msg)
+}
+
 // admGetArticle doc
 // @Tags Article-发布文章
 // @Summary 查询发布文章
