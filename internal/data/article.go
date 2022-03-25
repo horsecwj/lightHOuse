@@ -297,7 +297,7 @@ func (a *ArticleQuery) Course(Video bool, Image bool) interface{} {
 	for i := 0; i < len(image); i++ {
 		arr = append(arr, image[i].Id)
 	}
-	tx = tx.Table("articles").Order("id desc").Where("cate_id in ?", arr).Preload("Category")
+	tx = tx.Table("articles").Where("cate_id in ?", arr).Preload("Category").Order("updated desc")
 	if a.CateId != 0 {
 		tx = tx.Where("cate_id = ?", a.CateId)
 	}
