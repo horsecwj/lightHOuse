@@ -70,7 +70,6 @@ type Game struct {
 	New             []Article  `json:"new" gorm:"many2many:game_article"`
 	Stragegy        string     `json:"stragegy"`
 	RevenueAnalysis string     `json:"revenue_analysis"`
-	Updated         time.Time  `json:"updated"`
 	Created         time.Time  `json:"created"`
 }
 
