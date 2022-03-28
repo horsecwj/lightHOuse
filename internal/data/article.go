@@ -177,7 +177,6 @@ func ArticleMatch(subStr string, user bool) (interface{}, int) {
 		Uri      string `json:"uri"`
 	}
 	var result []Result
-	tx = tx.Select("id", "lang", "cate_id", "title", "summary", "rich_text", "uri")
 	err := tx.Scan(&result).Error
 	if err != nil {
 		log.Println(err.Error())
