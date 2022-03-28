@@ -161,23 +161,14 @@ func (a *ArticleQuery) ArticleCount() int {
 }
 
 func ArticleMatch(subStr string, user bool) (interface{}, int) {
-	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc, id")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("articles").Order("created desc, id").Preload("Label")
 	tx = tx.Where("title like ? ", "%"+subStr+"%")
 	tx = tx.Limit(30)
 	if user {
 		tx = tx.Where("status = ?", 2)
 	}
-	type Result struct {
-		Id       int64  `json:"id"`
-		Lang     string `json:"lang"`
-		CateId   int64  `json:"cate_id"`
-		Title    string `json:"title"`
-		Summary  string `json:"summary"`
-		RichText string `json:"rich_text"`
-		Uri      string `json:"uri"`
-	}
-	var result []Result
-	err := tx.Scan(&result).Error
+	var result []article
+	err := tx.Find(&result).Error
 	if err != nil {
 		log.Println(err.Error())
 	}
