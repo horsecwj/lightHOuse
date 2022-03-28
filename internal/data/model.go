@@ -125,8 +125,8 @@ type currency struct {
 	MaxAmount    uint64 `json:"max_amount"`
 	Value        uint64 `json:"value"`
 	FlowAmount   uint64 `json:"flow_amount"`
-	//IssueAt      time.Time `json:"issue_at"`
-	Address string `json:"address"`
+	IssueAt      string `json:"issue_at"`
+	Address      string `json:"address"`
 }
 
 type GameCurrency struct {

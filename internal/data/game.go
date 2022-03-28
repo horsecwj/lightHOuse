@@ -102,7 +102,7 @@ func (a *GameQuery) GameSearch(adm bool) interface{} {
 			Cover           string     `json:"cover"`
 			Summary         string     `json:"summary"`
 			Lang            string     `json:"lang"`
-			Currency        []Currency `json:"currency" gorm:"many2many:game_currency"`
+			Currency        []currency `json:"currency" gorm:"many2many:game_currency"`
 			Chain           []Chain    `json:"chain" gorm:"many2many:game_chain"`
 			Label           []Label    `json:"label" gorm:"many2many:game_label"`
 			Class           []Class    `json:"class" gorm:"many2many:game_class"`
@@ -124,7 +124,10 @@ func (a *GameQuery) GameSearch(adm bool) interface{} {
 			log.Println(err.Error())
 		}
 		for i := range result {
-			result[i].Updated = result[i].Updated[:10]
+			for x := range result[i].Currency {
+				result[i].Currency[x].IssueAt = result[i].Currency[x].IssueAt[:10]
+				result[i].Updated = result[i].Updated[:10]
+			}
 		}
 		return result
 	} else {
