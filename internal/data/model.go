@@ -243,11 +243,11 @@ type Cmk struct {
 }
 
 type likeArticle struct {
-	Id      int64     `json:"id"`
-	Cover   string    `json:"cover"`
-	Title   string    `json:"title"`
-	Summary string    `json:"summary"`
-	Updated time.Time `json:"updated"`
+	Id      int64  `json:"id"`
+	Cover   string `json:"cover"`
+	Title   string `json:"title"`
+	Summary string `json:"summary"`
+	Updated string `json:"updated"`
 }
 
 type game struct {

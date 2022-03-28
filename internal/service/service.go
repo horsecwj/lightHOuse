@@ -7,7 +7,7 @@ import (
 func UserRouter(user *echo.Group) {
 	user.GET("/get_game", useGetGame)
 	user.GET("/get_article", useGerArticle)
-	user.GET("match_article", useMatchArticle)
+	user.GET("/match_article", useMatchArticle)
 
 	user.GET("/get_banner", useGetBanner)
 	user.GET("/get_game_parameter", useGetGameParameter)

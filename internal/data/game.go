@@ -123,6 +123,9 @@ func (a *GameQuery) GameSearch(adm bool) interface{} {
 		if err != nil {
 			log.Println(err.Error())
 		}
+		for i := range result {
+			result[i].Updated = result[i].Updated[:10]
+		}
 		return result
 	} else {
 		err := tx.Find(&list).Error

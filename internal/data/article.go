@@ -101,16 +101,16 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 	}
 	if !adm {
 		type article struct {
-			Id       int64     `json:"id"`
-			Lang     string    `json:"lang"`
-			CateId   int64     `json:"cate_id"`
-			Title    string    `json:"title"`
-			Summary  string    `json:"summary"`
-			Cover    string    `json:"cover"`
-			RichText string    `json:"rich_text"`
-			Label    []Label   `json:"label" gorm:"many2many:article_label"`
-			Hot      int       `json:"hot"`
-			Updated  time.Time `json:"updated"`
+			Id       int64   `json:"id"`
+			Lang     string  `json:"lang"`
+			CateId   int64   `json:"cate_id"`
+			Title    string  `json:"title"`
+			Summary  string  `json:"summary"`
+			Cover    string  `json:"cover"`
+			RichText string  `json:"rich_text"`
+			Label    []Label `json:"label" gorm:"many2many:article_label"`
+			Hot      int     `json:"hot"`
+			Updated  string  `json:"updated"`
 		}
 		var result = make([]article, 0, a.PageSize)
 		if a.Id == 0 {
@@ -119,6 +119,9 @@ func (a *ArticleQuery) ArticleSearch(adm bool) interface{} {
 		err := tx.Find(&result).Error
 		if err != nil {
 			log.Println(err.Error())
+		}
+		for i := range result {
+			result[i].Updated = result[i].Updated[:10]
 		}
 		return result
 	} else {
@@ -192,6 +195,9 @@ func (a *ArticleQuery) LikeArticle() interface{} {
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
+	}
+	for i := range row {
+		row[i].Updated = row[i].Updated[:10]
 	}
 	i := 1
 	for i = range row {
@@ -308,6 +314,9 @@ func (a *ArticleQuery) Course(Video bool, Image bool) interface{} {
 	err := tx.Find(&row).Error
 	if err != nil {
 		log.Println(err.Error())
+	}
+	for i := range row {
+		row[i].Updated = row[i].Updated[:10]
 	}
 	return row
 }
