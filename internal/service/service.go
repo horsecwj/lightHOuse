@@ -37,7 +37,7 @@ func AdmRouter(adm *echo.Group) {
 	adm.POST("/del_article", admDelArticle)
 	adm.POST("/mod_article", admModArticle)
 	adm.GET("/get_article", admGetArticle)
-	adm.POST("/match_article", admMatchArticle)
+	adm.GET("/match_article", admMatchArticle)
 	adm.POST("/more_mod_article", admMoreModArticle)
 
 	adm.POST("/add_category", admAddCategory)
