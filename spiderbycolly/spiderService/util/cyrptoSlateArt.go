@@ -2,7 +2,10 @@ package util
 
 import (
 	"help_center/spiderbycolly/spiderService/model"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -14,7 +17,7 @@ func GetArticleCryptoSlate(titleStart string) ([]model.SlateArticle, error) {
 	artFlag := true
 	c := colly.NewCollector(
 		// 设置用户代理
-		colly.MaxDepth(2),
+		colly.MaxDepth(1),
 		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"),
 	)
 	// 设置抓取频率限制
@@ -85,20 +88,37 @@ func GetArticleCryptoDetailSlate(collector *colly.Collector, url string) model.S
 			s := ts.Find("div").Eq(0)
 			title := s.Find("div[class='post-header article clearfix'] div[class='title clearfix ']").Find("h1").Text()
 			overView := s.Find("p[class='post-subheading']").Text()
-			timeStr := s.Find("div[class='post-meta clearfix'] div span[class='post-date']").Text()
-
+			timeStr := s.Find("div[class='post-meta clearfix'] div[class='author-info'] div[class='post-date']").Text()
 			art, err := s.Find("div[class='post-box clearfix'] article").Html()
 			arttext := s.Find("div[class='post-box clearfix'] article").Text()
-
+			linkPiNode := s.Find("div[class='post-header article clearfix'] div[class='cover'] ").Find("img")
+			linkPic, isAlive := linkPiNode.Attr("data-src")
+			var data []byte
+			if isAlive {
+				res, err := http.Get(linkPic)
+				if err != nil {
+					goto continuGo
+				}
+				if res != nil {
+					data, err = ioutil.ReadAll(res.Body)
+				}
+			}
+		continuGo:
+			var timestamp int64
+			if len(timeStr) != 0 {
+				timeStr = strings.Trim(timeStr, " ")
+				timestamp, err = timeParse(timeStr)
+				if err != nil {
+					return
+				}
+			}
 			if err != nil {
 				log.Print(err)
+				return
 			} else {
-				tempBybitArticle = model.SlateArticle{Title: title, OverView: overView, Article: art, Time: timeStr, Articletext: arttext}
+				tempBybitArticle = model.SlateArticle{Title: title, OverView: overView, Article: art, Time: timeStr, Articletext: arttext, Pic: string(data), Timestamp: timestamp}
 			}
-			timestamp, err := timeParse(timeStr)
-			if err == nil {
-				tempBybitArticle.Timestamp = timestamp
-			}
+
 		})
 	})
 	_ = collector.Visit(url)

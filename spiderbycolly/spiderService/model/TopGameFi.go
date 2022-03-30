@@ -9,12 +9,14 @@ type TopCkoGameFi struct {
 	OneWeek   string `json:"one_week"  gorm:"comment:'7天涨幅';"`
 	DayVolume string `json:"day_volume"  gorm:"comment:'日交易';"`
 	MktCap    string `json:"mkt_cap"  gorm:"comment:'市值';" `
+	LastWeek  string `json:"last_week"  gorm:"comment:'7天曲线';"`
 }
 
 type TopCmkGameFi struct {
-	ID        int    `json:"id `
-	Coin      string `json:"coin" gorm:"primary key;"`
-	GameFi    string `json:"game_fi"`
+	ID     int    `json:"id `
+	Coin   string `json:"coin" gorm:"primary key;"`
+	GameFi string `json:"game_fi"`
+
 	Price     string `json:"price"`
 	OneDay    string `json:"one_day"`
 	CoinPic   string `json:"coin_pic"`
@@ -22,9 +24,10 @@ type TopCmkGameFi struct {
 }
 
 type TopCmkGameFiLosers struct {
-	ID        int    `json:"id `
-	Coin      string `json:"coin" gorm:"primary key;"`
-	GameFi    string `json:"game_fi"`
+	ID     int    `json:"id `
+	Coin   string `json:"coin" gorm:"primary key;"`
+	GameFi string `json:"game_fi"`
+
 	Price     string `json:"price"`
 	OneDay    string `json:"one_day"`
 	CoinPic   string `json:"coin_pic"`
@@ -39,9 +42,9 @@ type BybitArticle struct {
 	OverView    string `json:"over_view"`
 	Article     string `json:"article" gorm:"type:longtext"`
 	Articletext string `json:"articletext" gorm:"type:longtext"`
-
-	Time      string `json:"time"`
-	Timestamp int64  `json:"timestamp"`
+	Pic         string `json:"pic" gorm:"type:longtext"`
+	Time        string `json:"time"`
+	Timestamp   int64  `json:"timestamp"`
 }
 
 type BybitNewlyArticle struct {
@@ -52,6 +55,7 @@ type BybitNewlyArticle struct {
 	OverView    string `json:"over_view"`
 	Article     string `json:"article" gorm:"type:longtext"`
 	Articletext string `json:"articletext" gorm:"type:longtext"`
+	Pic         string `json:"pic" gorm:"type:longtext"`
 
 	Time      string `json:"time"`
 	Timestamp int64  `json:"timestamp"`
@@ -65,6 +69,8 @@ type SlateArticle struct {
 	OverView    string `json:"over_view"`
 	Article     string `json:"article" gorm:"type:longtext"`
 	Articletext string `json:"articletext" gorm:"type:longtext"`
-	Time        string `json:"time"`
-	Timestamp   int64  `json:"timestamp"`
+	Pic         string `json:"pic" gorm:"type:longtext"`
+
+	Time      string `json:"time"`
+	Timestamp int64  `json:"timestamp"`
 }

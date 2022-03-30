@@ -20,15 +20,15 @@ func (db *DBConn) SaveBybitHighLightArt(array []model.BybitArticle) error {
 	// 组装参数
 	for _, address := range array {
 
-		values = append(values, "(?, ?, ?, ?, ?,?,?)")
+		values = append(values, "(?, ?, ?, ?, ?,?,?,?)")
 
 		params = append(params, address.Title, address.OverView)
 		params = append(params, address.Article, address.Link)
-		params = append(params, address.Time, address.Timestamp, address.Articletext)
+		params = append(params, address.Time, address.Timestamp, address.Articletext, address.Pic)
 	}
 
 	// 拼接SQL
-	format := "insert into bybit_article (title,over_view,article,link,time,timestamp,articletext) values %s"
+	format := "insert into bybit_article (title,over_view,article,link,time,timestamp,articletext,pic) values %s"
 	sql := fmt.Sprintf(format, strings.Join(values, ","))
 
 	return db.Exec(sql, params...).Error
