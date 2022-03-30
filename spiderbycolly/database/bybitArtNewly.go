@@ -17,13 +17,13 @@ func (db *DBConn) SaveBybitNewlyArt(array []model.BybitNewlyArticle) error {
 	params := make([]interface{}, 0, len(array)*7)
 	for _, address := range array {
 
-		values = append(values, "(?, ?, ?, ?, ?,?,?)")
+		values = append(values, "(?, ?, ?, ?, ?,?,?,?)")
 		params = append(params, address.Title, address.OverView)
 		params = append(params, address.Article, address.Link)
-		params = append(params, address.Time, address.Timestamp, address.Articletext)
+		params = append(params, address.Time, address.Timestamp, address.Articletext, address.Pic)
 	}
 
-	format := "insert into bybit_newly_article (title,over_view,article,link,time,timestamp,articletext) values %s"
+	format := "insert into bybit_newly_article (title,over_view,article,link,time,timestamp,articletext,pic) values %s"
 	sql := fmt.Sprintf(format, strings.Join(values, ","))
 
 	return db.Exec(sql, params...).Error
