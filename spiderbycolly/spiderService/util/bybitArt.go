@@ -176,7 +176,15 @@ func GetArticleBybitDetailSlate(collector *colly.Collector, url string) model.By
 	collector.OnHTML("div[data-td-block-uid='tdi_102']", func(elem *colly.HTMLElement) {
 		elem.DOM.Each(func(_ int, ts *goquery.Selection) {
 			timeStr := ts.Find("style").Eq(1).Nodes[0].FirstChild.Data
-			ssr2 := strings.Split(strings.Split(timeStr, "background: url('")[1], "');")[0]
+			var ssr2 string
+			ssr := strings.Split(timeStr, "background: url('")
+			if len(ssr) >= 2 {
+				sssr := ssr[1]
+				ssssr := strings.Split(sssr, "');")
+				if len(ssssr) >= 1 {
+					ssr2 = ssssr[0]
+				}
+			}
 			if len(ssr2) == 0 {
 				return
 			}
@@ -188,8 +196,9 @@ func GetArticleBybitDetailSlate(collector *colly.Collector, url string) model.By
 			if res != nil {
 				data, err = ioutil.ReadAll(res.Body)
 				if err != nil {
-					tempBybitArticle.Pic = string(data)
+					return
 				}
+				tempBybitArticle.Pic = string(data)
 			}
 		})
 	})

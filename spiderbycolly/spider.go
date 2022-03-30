@@ -5,6 +5,7 @@ import (
 	"help_center/spiderbycolly/database"
 	"help_center/spiderbycolly/spiderService"
 	"help_center/spiderbycolly/spiderService/server"
+	"log"
 	"os"
 
 	"github.com/spf13/viper"
@@ -24,6 +25,7 @@ func RunSpiderSpot() {
 		return
 	}
 	database.AutoMigrate()
+	log.Print("数据库同步成功")
 	if err := spiderService.Run(); err != nil {
 		common.Logger.Info(" service 启动失败:%s", err)
 		os.Exit(1)
