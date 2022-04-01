@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"log"
 	"strconv"
 	"time"
@@ -241,10 +242,15 @@ func OutArticleAdd() error {
 	}
 	tx := GetDbCli().Session(&gorm.Session{}).Table("articles")
 	for i := 0; i < len(row); i++ {
-		if row[i].Cover == "" {
+		if row[i].Pic == "" {
 			cover = "/upload/1646706814654.png"
+		} else {
+			cover = row[i].Pic
 		}
 		if VerificationArticle(row[i].Title) != nil {
+			link := fmt.Sprintf("<p>Contents Sourced from: %s</p>", row[i].Link)
+			row[i].Article = row[i].Article + link
+			row[i].Articletext = row[i].Articletext + "\n" + row[i].Link
 			timeStr := time.Unix(row[i].Timestamp, 0).Format("2006-01-02 15:04:05")
 			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: row[i].OverView, Markdown: row[i].Article, RichText: row[i].Articletext, Created: timeStr, Updated: timeStr}).Error
 			if err != nil {
@@ -254,8 +260,10 @@ func OutArticleAdd() error {
 	}
 	tx = GetDbCli().Session(&gorm.Session{}).Table("articles")
 	for i := 0; i < len(bybit); i++ {
-		if bybit[i].Cover == "" {
+		if bybit[i].Pic == "" {
 			cover = "/upload/1646706814654.png"
+		} else {
+			cover = row[i].Pic
 		}
 		if VerificationArticle(bybit[i].Title) != nil {
 			timeStr := time.Unix(bybit[i].Timestamp, 0).Format("2006-01-02 15:04:05")

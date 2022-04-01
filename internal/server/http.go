@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 // RunApp 入口
@@ -41,14 +42,14 @@ func RunApp() {
 		middleware.CORSWithConfig(corsCfg),
 		middleware.Recover(),
 	)
-	//go func() {
-	//	swag := echo.New()
-	//	swag.GET("/swagger/*", echoSwagger.WrapHandler)
-	//	err := swag.Start("0.0.0.0:8099")
-	//	if err != nil {
-	//		log.Fatalf("run error :%s", err.Error())
-	//	}
-	//}()
+	go func() {
+		swag := echo.New()
+		swag.GET("/swagger/*", echoSwagger.WrapHandler)
+		err := swag.Start("0.0.0.0:8099")
+		if err != nil {
+			log.Fatalf("run error :%s", err.Error())
+		}
+	}()
 	user := engine.Group("/api")
 	service.UserRouter(user)
 	auth := engine.Group("/auth")

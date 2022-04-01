@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `articles`;
 CREATE TABLE `articles` (
                             `id` bigint NOT NULL COMMENT 'id',
                             `lang` enum('cn','en') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言',
+                            `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
                             `status` int NOT NULL DEFAULT '0' COMMENT '状态,0未公开,1公开',
                             `cate_id` bigint NOT NULL COMMENT '分类id',
                             `summary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '摘要',
@@ -47,8 +48,7 @@ DROP TABLE IF EXISTS `games`;
 CREATE TABLE `games` (
                          `id` bigint NOT NULL COMMENT 'id',
                          `game_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '游戏名称',
-                         `cover` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '封面',
-                         `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+                         `cover` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '封面',                   
                          `summary` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '摘要',
                          `status` int NOT NULL DEFAULT '0' COMMENT '状态，1测试中，2正式运营，3开发中，4预售中',
                          `lang` enum('cn','en') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '语言',
