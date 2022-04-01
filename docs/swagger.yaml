@@ -1055,7 +1055,7 @@ paths:
               type: object
       summary: 修改横幅
       tags:
-      - Banner-文章
+      - Banner-横幅
   /adm/mod_category:
     post:
       parameters:

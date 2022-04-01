@@ -1202,7 +1202,7 @@ const docTemplate = `{
         "/adm/mod_banner": {
             "post": {
                 "tags": [
-                    "Banner-文章"
+                    "Banner-横幅"
                 ],
                 "summary": "修改横幅",
                 "parameters": [
