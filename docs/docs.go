@@ -2524,9 +2524,6 @@ const docTemplate = `{
         "data.Banner": {
             "type": "object",
             "properties": {
-                "Number": {
-                    "type": "integer"
-                },
                 "chain": {
                     "type": "integer"
                 },
@@ -2534,6 +2531,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "number": {
                     "type": "integer"
                 }
             }

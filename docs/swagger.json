@@ -2512,9 +2512,6 @@
         "data.Banner": {
             "type": "object",
             "properties": {
-                "Number": {
-                    "type": "integer"
-                },
                 "chain": {
                     "type": "integer"
                 },
@@ -2522,6 +2519,9 @@
                     "type": "string"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "number": {
                     "type": "integer"
                 }
             }

@@ -59,13 +59,13 @@ definitions:
     type: object
   data.Banner:
     properties:
-      Number:
-        type: integer
       chain:
         type: integer
       cover:
         type: string
       id:
+        type: integer
+      number:
         type: integer
     type: object
   data.Category:
