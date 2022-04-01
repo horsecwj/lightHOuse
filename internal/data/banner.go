@@ -62,12 +62,12 @@ func BannerUpdate(c *Banner) error {
 		if err != nil {
 			log.Println(err.Error())
 		}
-		err = GetDbCli().Session(&gorm.Session{}).Table("banner").Find(&data).Order("number").Error
+		err = GetDbCli().Session(&gorm.Session{}).Table("banner").Order("number").Find(&data).Error
 		if err != nil {
 			log.Println(err)
 		}
 		if c.Number > row.Number {
-			for i := row.Number - 1; i < c.Number; i++ {
+			for i := row.Number; i < c.Number; i++ {
 				err := GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", data[i].Id).Update("number", data[i].Number-1).Error
 				if err != nil {
 					log.Println(err.Error())
@@ -75,8 +75,8 @@ func BannerUpdate(c *Banner) error {
 			}
 		}
 		if c.Number < row.Number {
-			for i := c.Number - 1; i < row.Number; i++ {
-				err := GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", data[i].Id).Update("number", data[i].Number+1).Error
+			for i := c.Number; i < row.Number+1; i++ {
+				err := GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", data[i-1].Id).Update("number", data[i-1].Number+1).Error
 				if err != nil {
 					log.Println(err.Error())
 				}
