@@ -71,23 +71,20 @@ func BannerUpdate(c *Banner) error {
 			if err != nil {
 				log.Println(err)
 			}
-			for i := 0; i < len(data); i++ {
-				if data[i].Id != c.Id {
-					var tmpData = data[i]
-					var num = i + 2
-				step:
-					if num == 5 {
-						tmpData.Number = num
-					} else {
-						tmpData.Number = (num) % 5
+			var tmpNum = 0
+			for i := 1; i <= len(data); i++ {
+				var tmpData = data[i-1]
+				if tmpData.Id != c.Id {
+					tmpNum++
+					if tmpNum == c.Number {
+						tmpNum++
 					}
-					if tmpData.Number == c.Number {
-						num += 1
-						goto step
-					}
-					err = GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", c.Id).Updates(&tmpData).Error
-					if err != nil {
-						log.Println(err.Error())
+					if tmpNum != tmpData.Number {
+						tmpData.Number = tmpNum
+						err = GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", tmpData.Id).Updates(&tmpData).Error
+						if err != nil {
+							log.Println(err.Error())
+						}
 					}
 				}
 			}
