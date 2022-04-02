@@ -62,10 +62,6 @@ func BannerUpdate(c *Banner) error {
 	)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("banner")
 	if c.Number > 0 && c.Number < 6 {
-		err = tx.Where("id = ?", c.Id).Updates(&c).Error
-		if err != nil {
-			log.Println(err.Error())
-		}
 		err = tx.Where("id = ?", c.Id).First(&row).Error
 		if err != nil {
 			log.Println(err.Error())
@@ -75,14 +71,19 @@ func BannerUpdate(c *Banner) error {
 			if err != nil {
 				log.Println(err)
 			}
-			for i := 1; i <= len(data); i++ {
-				if data[i-1].Id != c.Id {
-					var tmpData = data[i-1]
-					var num = data[i-1].Number + 1
+			for i := 0; i < len(data); i++ {
+				if data[i].Id != c.Id && i >= c.Number-1 {
+					var tmpData = data[i]
+					var num = i + 2
+				step:
 					if num == 5 {
 						tmpData.Number = num
 					} else {
 						tmpData.Number = (num) % 5
+					}
+					if tmpData.Number == c.Number {
+						num += 1
+						goto step
 					}
 					err = tx.Where("id = ?", c.Id).Updates(&tmpData).Error
 					if err != nil {
@@ -90,6 +91,10 @@ func BannerUpdate(c *Banner) error {
 					}
 				}
 			}
+		}
+		err = tx.Where("id = ?", c.Id).Updates(&c).Error
+		if err != nil {
+			log.Println(err.Error())
 		}
 	} else {
 		err = errors.New("number is zero or more than 5")
