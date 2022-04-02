@@ -48,6 +48,11 @@ func ModBanner(d *data.Banner) *BaseJson {
 			return &BaseJson{Code: 0, Data: "该文章Id不存在"}
 		}
 	}
+	row, _ := data.VerificationBanner()
+	if d.Number > len(row) {
+		return &BaseJson{Code: 0, Data: "Banner序号超出最大范围"}
+	}
+
 	err := data.BannerUpdate(d)
 	if err != nil {
 		log.Println(err.Error())

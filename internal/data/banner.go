@@ -58,7 +58,7 @@ func BannerUpdate(c *Banner) error {
 	var row Banner
 	tx := GetDbCli().Session(&gorm.Session{}).Table("banner")
 	if c.Number != 0 {
-		err := tx.Where(c.Id).First(&row).Error
+		err := tx.Where("id = ?", c.Id).First(&row).Error
 		if err != nil {
 			log.Println(err.Error())
 		}
