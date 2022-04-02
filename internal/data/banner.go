@@ -85,14 +85,14 @@ func BannerUpdate(c *Banner) error {
 						num += 1
 						goto step
 					}
-					err = tx.Where("id = ?", c.Id).Updates(&tmpData).Error
+					err = GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", c.Id).Updates(&tmpData).Error
 					if err != nil {
 						log.Println(err.Error())
 					}
 				}
 			}
 		}
-		err = tx.Where("id = ?", c.Id).Updates(&c).Error
+		err = GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", c.Id).Updates(&c).Error
 		if err != nil {
 			log.Println(err.Error())
 		}
