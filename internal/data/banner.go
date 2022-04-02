@@ -72,7 +72,7 @@ func BannerUpdate(c *Banner) error {
 				log.Println(err)
 			}
 			for i := 0; i < len(data); i++ {
-				if data[i].Id != c.Id && i >= c.Number-1 {
+				if data[i].Id != c.Id {
 					var tmpData = data[i]
 					var num = i + 2
 				step:
