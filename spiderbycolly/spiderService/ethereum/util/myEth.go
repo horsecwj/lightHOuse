@@ -67,7 +67,7 @@ func transEth() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("tx sent: %s", signedTx.Hash().Hex())
+	//fmt.Printf("tx sent: %s", signedTx.Hash().Hex())
 }
 func GetBalance(adr string) *big.Float {
 	client, err := ethclient.Dial("https://rinkeby.infura.io/v3/c561706d7070475ab1b59071ee4684b0")
@@ -91,8 +91,8 @@ func GetPrivateKey() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	privateKeyBytes := crypto.FromECDSA(privateKey)
-	fmt.Println(hexutil.Encode(privateKeyBytes)[2:])
+	//privateKeyBytes := crypto.FromECDSA(privateKey)
+	//fmt.Println(hexutil.Encode(privateKeyBytes)[2:])
 	// fad9c8855b740a0b7ed4c221dbad0f33a83a49cad6b3fe8d5817ac83d38b6a19
 	publicKey := privateKey.Public()
 
@@ -102,19 +102,19 @@ func GetPrivateKey() {
 	}
 
 	publicKeyBytes := crypto.FromECDSAPub(publicKeyECDSA)
-	fmt.Println(hexutil.Encode(publicKeyBytes)[4:])
+	//fmt.Println(hexutil.Encode(publicKeyBytes)[4:])
 	//9a7df67f79246283fdc93af76d4f8cdd62c4886e8cd870944e817dd0b97934fdd7719d0810951e03418205868a5c1b40b192451367f28e0088dd75e15de40c05
 	//0x96216849c49358B10257cb55b28eA603c874b05E
 	//有公钥，就可以轻松生成你经常看到的公共地址
 
-	address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
-	log.Print(address)
+	//address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
+	//log.Print(address)
 	////公共地址其实就是公钥的Keccak-256哈希，
 	//	//然后我们取最后40个字符（20个字节）并用“0x”作为前缀。
 	//	以下是使用 golang.org/x/crypto/sha3 的 Keccak256函数手动完成的方法。
 	hash := sha3.NewLegacyKeccak256()
 	hash.Write(publicKeyBytes[1:])
-	fmt.Println(hexutil.Encode(hash.Sum(nil)[12:])) // 0x96216849c49358b10257cb55b28ea
+	//fmt.Println(hexutil.Encode(hash.Sum(nil)[12:])) // 0x96216849c49358b10257cb55b28ea
 }
 
 //检查地址是否为账户或智能合约

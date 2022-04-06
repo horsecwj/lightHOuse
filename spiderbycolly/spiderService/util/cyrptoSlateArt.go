@@ -34,7 +34,7 @@ func GetArticleCryptoSlate(titleStart string) ([]model.SlateArticle, error) {
 		log.Println("Something went wrong:", err)
 	})
 	c.OnResponse(func(resp *colly.Response) {
-		log.Print(resp.StatusCode)
+		//log.Print(resp.StatusCode)
 	})
 	//posts clearfix trending
 	c.OnHTML("div[class='posts'] div[class='list-post clearfix ']", func(elem *colly.HTMLElement) {
