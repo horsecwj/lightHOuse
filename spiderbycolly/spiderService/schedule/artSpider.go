@@ -13,13 +13,13 @@ import (
 )
 
 func createArtSpider(c *cron.Cron) (err error) {
-
+	syncBybit()
 	err = c.AddFunc("@every 24h", syncBybit)
 	if err != nil {
 		log.Print(err)
 		return
 	}
-
+	synCmc()
 	err = c.AddFunc("@every 24h", synCmc)
 	if err != nil {
 		log.Print(err)
