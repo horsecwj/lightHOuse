@@ -1,6 +1,7 @@
 package database
 
 import (
+	"encoding/base64"
 	"fmt"
 	"help_center/spiderbycolly/spiderService/model"
 	"strings"
@@ -24,7 +25,7 @@ func (db *DBConn) SaveBybitHighLightArt(array []model.BybitArticle) error {
 
 		params = append(params, address.Title, address.OverView)
 		params = append(params, address.Article, address.Link)
-		params = append(params, address.Time, address.Timestamp, address.Articletext, address.Pic)
+		params = append(params, address.Time, address.Timestamp, address.Articletext, base64.StdEncoding.EncodeToString([]byte(address.Pic)))
 	}
 
 	// 拼接SQL
