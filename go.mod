@@ -9,10 +9,13 @@ require (
 	github.com/ethereum/go-ethereum v1.10.16
 	github.com/fsnotify/fsnotify v1.5.1
 	github.com/gocolly/colly v1.2.0
+	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/google/uuid v1.3.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/kataras/iris/v12 v12.1.8
 	github.com/labstack/echo/v4 v4.7.2
 	github.com/lestrrat-go/file-rotatelogs v2.4.0+incompatible
+	github.com/movsb/google-idtoken-verifier v0.0.0-20190401113145-fbe402a7a2a6
 	github.com/robfig/cron v1.2.0
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/cobra v1.4.0
@@ -57,7 +60,6 @@ require (
 	github.com/gobwas/httphead v0.0.0-20180130184737-2c6c146eadee // indirect
 	github.com/gobwas/pool v0.2.0 // indirect
 	github.com/gobwas/ws v1.0.2 // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect

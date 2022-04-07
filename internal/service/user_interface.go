@@ -9,6 +9,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// admLogin doc
+// @Tags auth-谷歌登陆认证
+// @Summary 谷歌登陆
+// @Param body body biz.ReqGoogleLogin true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=string} "返回数据"
+// @Router /api/login [post]
+func UserLogin(c echo.Context) error {
+	d := new(biz.ReqGoogleLogin)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.ParseGoogleToken(d.TokenId)
+	return c.JSON(http.StatusOK, &msg)
+}
+
 // useGetGame doc
 // @Tags UseApi
 // @Summary 查询游戏简介

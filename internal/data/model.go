@@ -4,6 +4,22 @@ import (
 	"time"
 )
 
+type UserLogin struct {
+	Id      int64  `josn:"id"`
+	Email   string `json:"email"`
+	Subject string `json:"subject"`
+	Code    string `json:"code"`
+	Number  int64  `json:"number"`
+}
+
+type AuthClaims struct {
+	ID        string `json:"jti,omitempty"`
+	IssuedAt  int64  `json:"iat,omitempty"`
+	ExpiresAt int64  `json:"exp,omitempty"`
+	Issuer    string `json:"iss,omitempty"`
+	Subject   string `json:"sub,omitempty"`
+}
+
 type Banner struct {
 	Id     int64  `json:"id"`
 	Chain  int64  `json:"chain"`

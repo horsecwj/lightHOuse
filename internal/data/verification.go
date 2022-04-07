@@ -90,3 +90,9 @@ func VerificationBanner() ([]Banner, error) {
 	}
 	return data, nil
 }
+
+func VerificationUserLogin(Sub string) (*UserLogin, error) {
+	row := &UserLogin{}
+	err := db.Where("subject = ?", Sub).First(&row).Error
+	return row, err
+}

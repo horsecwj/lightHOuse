@@ -17,6 +17,20 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- ----------------------------------
+-- Table structure for user_login
+-- ----------------------------------
+DROP TABLE IF EXISTS `user_logins`;
+CREATE TABLE `user_logins` (
+                                `id` bigint not null comment 'id',
+                                `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '邮箱',
+                                `subject` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT  '用户',
+                                `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT '邀请码',
+                                `number` bigint(20) unsigned not null default 0 comment '邀请人数',
+                                PRIMARY KEY (`id`,`email`,`subject`) USING BTREE,
+                                KEY `index` (`id`,`email`,`subject`) COMMENT '复合索引'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+
 -- ----------------------------
 -- Table structure for articles
 -- ----------------------------

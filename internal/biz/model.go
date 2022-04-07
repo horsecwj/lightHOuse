@@ -21,3 +21,7 @@ type Json struct {
 	ArticleNum int         `json:"article_num"`
 	Data       interface{} `json:"data"`
 }
+
+type ReqGoogleLogin struct {
+	TokenId string `json:"token_id"`
+}

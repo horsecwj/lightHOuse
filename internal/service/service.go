@@ -5,6 +5,9 @@ import (
 )
 
 func UserRouter(user *echo.Group) {
+
+	user.POST("/login", UserLogin)
+
 	user.GET("/get_game", useGetGame)
 	user.GET("/get_article", useGerArticle)
 	user.GET("/match_article", useMatchArticle)

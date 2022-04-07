@@ -2,10 +2,12 @@ package biz
 
 import (
 	"help_center/internal/conf"
+	"help_center/internal/data"
 	"net/http"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	googleidtokenverifier "github.com/movsb/google-idtoken-verifier"
 )
 
 func AdminLogin(d *LoginData) (int, *BaseJson) {
@@ -26,4 +28,24 @@ func AdminLogin(d *LoginData) (int, *BaseJson) {
 	} else {
 		return http.StatusUnauthorized, &BaseJson{Code: 0, Data: "用户名或密码错误"}
 	}
+}
+
+func ParseGoogleToken(TokenId string) *BaseJson {
+	clientID := "559756290278-9v1ngbvivap03i80qntgsin48ggmj5pc.apps.googleusercontent.com"
+	claims, err := googleidtokenverifier.Verify(TokenId, clientID)
+	if err != nil {
+		return &BaseJson{Code: 0, Data: "Token error"}
+	}
+	row, err := data.VerificationUserLogin(claims.Sub)
+	if err != nil {
+		if err := data.AddUser(claims); err != nil {
+			return &BaseJson{Code: 0, Data: err}
+		}
+	}
+	token, err := data.CreateToken(row.Id)
+	if err != nil {
+		return &BaseJson{Code: 0, Data: err}
+	}
+
+	return &BaseJson{Code: 1, Data: token}
 }

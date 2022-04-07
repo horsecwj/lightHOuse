@@ -1,0 +1,61 @@
+package data
+
+import (
+	"log"
+	"strconv"
+	"time"
+
+	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
+	googleidtokenverifier "github.com/movsb/google-idtoken-verifier"
+	"gorm.io/gorm"
+)
+
+func AddUser(claims *googleidtokenverifier.ClaimSet) error {
+	Id := time.Now().UnixMilli()
+	code, err := TestInviteCode(Id)
+	if err != nil {
+		return err
+	}
+	user := &UserLogin{
+		Id:      Id,
+		Email:   claims.Email,
+		Subject: claims.Sub,
+		Code:    code,
+		Number:  0,
+	}
+	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins")
+	return tx.Create(&user).Error
+}
+
+func CreateToken(Id int64) (string, error) {
+	now := time.Now()
+	expiredAt := now.Add(60 * 60 * 24 * 7 * time.Second)
+	claims := AuthClaims{
+		ID:        uuid.NewString(),
+		IssuedAt:  now.Unix(),
+		ExpiresAt: expiredAt.Unix(),
+		Issuer:    "lighthouse",
+		Subject:   strconv.FormatUint(uint64(Id), 10),
+	}
+	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte("secret"))
+	if err != nil {
+		log.Println(err.Error())
+	}
+	return token, nil
+}
+
+func (ac AuthClaims) Valid() error {
+	vErr := new(jwt.ValidationError)
+	now := time.Now().Unix()
+	if now > ac.ExpiresAt {
+		vErr.Errors |= jwt.ValidationErrorExpired
+	}
+	if now < ac.IssuedAt {
+		vErr.Errors |= jwt.ValidationErrorIssuedAt
+	}
+	if vErr.Errors == 0 {
+		return nil
+	}
+	return vErr
+}
