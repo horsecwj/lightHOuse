@@ -1,6 +1,7 @@
 package database
 
 import (
+	"encoding/base64"
 	"fmt"
 	"help_center/spiderbycolly/spiderService/model"
 	"strings"
@@ -21,7 +22,7 @@ func (db *DBConn) SaveSlateArt(array []model.SlateArticle) error {
 		values = append(values, "(?, ?, ?, ?, ?,?,?,?)")
 		params = append(params, address.Title, address.OverView)
 		params = append(params, address.Article, address.Link)
-		params = append(params, address.Time, address.Timestamp, address.Articletext, address.Pic)
+		params = append(params, address.Time, address.Timestamp, address.Articletext, base64.StdEncoding.EncodeToString([]byte(address.Pic)))
 	}
 
 	format := "insert into slate_article (title,over_view,article,link,time,timestamp,articletext,pic) values %s"
@@ -36,15 +37,28 @@ func (db *DBConn) GetSlateArt() ([]*model.SlateArticle, error) {
 	err := db.Model(&addr).Debug().Order("timestamp desc limit 1").Scan(&addr).Error
 	return addr, err
 }
+func (db *DBConn) SlateArtLink() ([]string, error) {
+
+	sql := "SELECT slate_article.link links from slate_article"
+	var links []string
+
+	err := db.Raw(sql).Pluck("links", &links).Error
+	if err != nil {
+		return nil, err
+	}
+	return links, nil
+}
 
 // 获取多个未使用的地址
 func (db *DBConn) GetManySlateArt() (map[string]bool, error) {
-	var addr []*model.SlateArticle
+	resLink, err := db.SlateArtLink()
+	if err != nil {
+		return nil, err
+	}
 	var linkMap map[string]bool
-	linkMap = make(map[string]bool, 20)
-	err := db.Model(&addr).Debug().Order("timestamp desc limit 20").Scan(&addr).Error
-	for _, item := range addr {
-		linkMap[item.Link] = true
+	linkMap = make(map[string]bool, len(resLink)+1)
+	for _, item := range resLink {
+		linkMap[item] = true
 	}
 	return linkMap, err
 }

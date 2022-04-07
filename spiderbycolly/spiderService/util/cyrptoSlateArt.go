@@ -17,7 +17,7 @@ func GetArticleCryptoSlate(titleStart string) ([]model.SlateArticle, error) {
 	artFlag := true
 	c := colly.NewCollector(
 		// 设置用户代理
-		colly.MaxDepth(1),
+		colly.MaxDepth(4),
 		colly.UserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36"),
 	)
 	// 设置抓取频率限制
@@ -88,7 +88,7 @@ func GetArticleCryptoDetailSlate(collector *colly.Collector, url string) model.S
 			s := ts.Find("div").Eq(0)
 			title := s.Find("div[class='post-header article clearfix'] div[class='title clearfix ']").Find("h1").Text()
 			overView := s.Find("p[class='post-subheading']").Text()
-			timeStr := s.Find("div[class='post-meta clearfix'] div[class='author-info'] div[class='post-date']").Text()
+			timeStr := s.Find("div[class='author-info'] div[class='post-date']").Text()
 			art, err := s.Find("div[class='post-box clearfix'] article").Html()
 			arttext := s.Find("div[class='post-box clearfix'] article").Text()
 			linkPiNode := s.Find("div[class='post-header article clearfix'] div[class='cover'] ").Find("img")

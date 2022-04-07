@@ -1,6 +1,7 @@
 package database
 
 import (
+	"encoding/base64"
 	"fmt"
 	"help_center/spiderbycolly/spiderService/model"
 	"strings"
@@ -20,7 +21,7 @@ func (db *DBConn) SaveBybitNewlyArt(array []model.BybitNewlyArticle) error {
 		values = append(values, "(?, ?, ?, ?, ?,?,?,?)")
 		params = append(params, address.Title, address.OverView)
 		params = append(params, address.Article, address.Link)
-		params = append(params, address.Time, address.Timestamp, address.Articletext, address.Pic)
+		params = append(params, address.Time, address.Timestamp, address.Articletext, base64.StdEncoding.EncodeToString([]byte(address.Pic)))
 	}
 
 	format := "insert into bybit_newly_article (title,over_view,article,link,time,timestamp,articletext,pic) values %s"
