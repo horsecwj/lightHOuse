@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"time"
@@ -13,21 +14,89 @@ func BannerAdd(c *Banner, r *http.Request) error {
 	if c.Id == 0 {
 		c.Id = t.UnixMilli()
 	}
+	tx := GetDbCli().Session(&gorm.Session{}).Table("banner")
+	var row []Banner
+	err := tx.Find(&row).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+
+	c.Number = len(row) + 1
+
 	if c.Cover == "" {
 		c.Cover = "/upload/1645606276524.png"
 	}
-	tx := GetDbCli().Session(&gorm.Session{}).Table("banner")
 	return tx.Create(&c).Error
 }
 
 func BannerDel(id int64) error {
+	var data []Banner
+	var row Banner
+	err := GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", id).First(&row).Error
+	if err != nil {
+		log.Println(err)
+	}
 	tx := GetDbCli().Session(&gorm.Session{}).Table("banner")
-	return tx.Delete(Label{}, "id = ?", id).Error
+	err = tx.Where("id = ?", id).Delete(Banner{}).Error
+	if err != nil {
+		log.Println(err)
+	}
+	err = GetDbCli().Session(&gorm.Session{}).Table("banner").Find(&data).Order("number").Error
+	if err != nil {
+		log.Println(err)
+	}
+	for i := row.Number - 1; i < len(data); i++ {
+		err := GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", data[i].Id).Update("number", i+1).Error
+		if err != nil {
+			log.Println(err.Error())
+		}
+	}
+	return nil
 }
 
 func BannerUpdate(c *Banner) error {
+	var (
+		data []Banner
+		row  Banner
+		err  error
+	)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("banner")
-	return tx.Where("id = ?", c.Id).Updates(&c).Error
+	if c.Number > 0 && c.Number < 6 {
+		err = tx.Where("id = ?", c.Id).First(&row).Error
+		if err != nil {
+			log.Println(err.Error())
+		}
+		if row.Number != c.Number {
+			err = GetDbCli().Session(&gorm.Session{}).Table("banner").Order("number").Find(&data).Error
+			if err != nil {
+				log.Println(err)
+			}
+			var tmpNum = 0
+			for i := 1; i <= len(data); i++ {
+				var tmpData = data[i-1]
+				if tmpData.Id != c.Id {
+					tmpNum++
+					if tmpNum == c.Number {
+						tmpNum++
+					}
+					if tmpNum != tmpData.Number {
+						tmpData.Number = tmpNum
+						err = GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", tmpData.Id).Updates(&tmpData).Error
+						if err != nil {
+							log.Println(err.Error())
+						}
+					}
+				}
+			}
+		}
+		err = GetDbCli().Session(&gorm.Session{}).Table("banner").Where("id = ?", c.Id).Updates(&c).Error
+		if err != nil {
+			log.Println(err.Error())
+		}
+	} else {
+		err = errors.New("number is zero or more than 5")
+	}
+	return err
 }
 
 func BannerSearch() interface{} {
@@ -38,11 +107,12 @@ func BannerSearch() interface{} {
 		Cover    string `json:"cover"`
 		Chain    int64  `json:"chain"`
 		Title    string `json:"title"`
+		Number   int    `json:"number"`
 		Rows     int64  `json:"rows"`
 		Cols     int64  `json:"cols"`
 	}
 	var list = make([]banner, 0, 20)
-	tx := GetDbCli().Session(&gorm.Session{}).Table("banner").Order("id")
+	tx := GetDbCli().Session(&gorm.Session{}).Table("banner").Order("number")
 	err := tx.Find(&list).Error
 	if err != nil {
 		log.Println(err.Error())

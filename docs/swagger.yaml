@@ -65,6 +65,8 @@ definitions:
         type: string
       id:
         type: integer
+      number:
+        type: integer
     type: object
   data.Category:
     properties:
@@ -120,11 +122,11 @@ definitions:
         $ref: '#/definitions/data.Category'
       cover:
         type: string
-      created:
-        type: string
       id:
         type: integer
       title:
+        type: string
+      updated:
         type: string
     type: object
   data.Currency:
@@ -279,6 +281,13 @@ definitions:
       word:
         type: string
     type: object
+  data.MoreArticle:
+    properties:
+      cate_id:
+        type: integer
+      id:
+        type: integer
+    type: object
   data.Region:
     properties:
       country:
@@ -289,7 +298,6 @@ definitions:
   data.currency:
     properties:
       address:
-        description: IssueAt      time.Time `json:"issue_at"`
         type: string
       currency_name:
         type: string
@@ -297,6 +305,8 @@ definitions:
         type: integer
       id:
         type: integer
+      issue_at:
+        type: string
       logo:
         type: string
       max_amount:
@@ -810,6 +820,29 @@ paths:
         name: token
         required: true
         type: string
+      - in: query
+        name: cate_id
+        type: integer
+      - in: query
+        name: hot
+        type: integer
+      - in: query
+        name: id
+        type: integer
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: page_size
+        type: integer
+      - in: query
+        name: status
+        type: integer
+      - in: query
+        items:
+          type: string
+        name: word
+        type: array
       responses:
         "200":
           description: 返回数据
@@ -922,7 +955,7 @@ paths:
               type: object
       summary: 查询数据
       tags:
-      - Data- 数据
+      - Data-数据
   /adm/get_game:
     get:
       parameters:
@@ -1022,7 +1055,7 @@ paths:
               type: object
       summary: 修改横幅
       tags:
-      - Banner-文章
+      - Banner-横幅
   /adm/mod_category:
     post:
       parameters:
@@ -1185,6 +1218,33 @@ paths:
       summary: 修改标签
       tags:
       - Label-标签
+  /adm/more_mod_article:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.MoreArticle'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改更多文章
+      tags:
+      - Article-文章
   /adm/upload_img:
     post:
       parameters:
@@ -1206,7 +1266,7 @@ paths:
       summary: 添加图片
       tags:
       - img-图片
-  /api/get_Article:
+  /api/get_article:
     get:
       parameters:
       - in: query
@@ -1247,6 +1307,23 @@ paths:
       summary: 查询文章
       tags:
       - UseApi
+  /api/get_banner:
+    get:
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Banner'
+                  type: array
+              type: object
+      summary: 查看横幅
+      tags:
+      - Banner-查看横幅
   /api/get_category:
     get:
       parameters:
@@ -1271,6 +1348,29 @@ paths:
       summary: 查询分类
       tags:
       - UseApi
+  /api/get_chain:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Chain'
+                  type: array
+              type: object
+      summary: 查询链
+      tags:
+      - Chain-链
   /api/get_class:
     get:
       responses:
@@ -1412,23 +1512,6 @@ paths:
       summary: 查询图文教程
       tags:
       - GetImageCourse-图文教程
-  /api/get_gamecmk:
-    get:
-      responses:
-        "200":
-          description: 返回数据
-          schema:
-            allOf:
-            - $ref: '#/definitions/biz.JsonFormat'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/data.Cmk'
-                  type: array
-              type: object
-      summary: 查询头号玩家
-      tags:
-      - GetTopGainers-查询头号玩家
   /api/get_like_article:
     get:
       parameters:
@@ -1512,6 +1595,23 @@ paths:
       summary: 查询相关游戏
       tags:
       - UseApi
+  /api/get_top_gainers:
+    get:
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.JsonFormat'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.Cmk'
+                  type: array
+              type: object
+      summary: 查询头号玩家
+      tags:
+      - GetTopGainers-查询头号玩家
   /api/get_top_losers:
     get:
       responses:
@@ -1638,44 +1738,4 @@ paths:
       summary: 登陆
       tags:
       - auth-登陆认证
-  /use/get_chain:
-    get:
-      parameters:
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      responses:
-        "200":
-          description: 返回数据
-          schema:
-            allOf:
-            - $ref: '#/definitions/biz.BaseJson'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/data.Chain'
-                  type: array
-              type: object
-      summary: 查询链
-      tags:
-      - Chain-链
-  /use/get_class:
-    get:
-      responses:
-        "200":
-          description: 返回数据
-          schema:
-            allOf:
-            - $ref: '#/definitions/biz.BaseJson'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/data.Class'
-                  type: array
-              type: object
-      summary: 查询类型
-      tags:
-      - Class-类型
 swagger: "2.0"

@@ -831,6 +831,44 @@
                         "name": "token",
                         "in": "header",
                         "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "cate_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "hot",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "name": "word",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -979,7 +1017,7 @@
         "/adm/get_data": {
             "get": {
                 "tags": [
-                    "Data- 数据"
+                    "Data-数据"
                 ],
                 "summary": "查询数据",
                 "parameters": [
@@ -1152,7 +1190,7 @@
         "/adm/mod_banner": {
             "post": {
                 "tags": [
-                    "Banner-文章"
+                    "Banner-横幅"
                 ],
                 "summary": "修改横幅",
                 "parameters": [
@@ -1471,6 +1509,52 @@
                 }
             }
         },
+        "/adm/more_mod_article": {
+            "post": {
+                "tags": [
+                    "Article-文章"
+                ],
+                "summary": "修改更多文章",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.MoreArticle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/upload_img": {
             "post": {
                 "tags": [
@@ -1508,7 +1592,7 @@
                 }
             }
         },
-        "/api/get_Article": {
+        "/api/get_article": {
             "get": {
                 "tags": [
                     "UseApi"
@@ -1579,6 +1663,37 @@
                 }
             }
         },
+        "/api/get_banner": {
+            "get": {
+                "tags": [
+                    "Banner-查看横幅"
+                ],
+                "summary": "查看横幅",
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Banner"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/get_category": {
             "get": {
                 "tags": [
@@ -1612,6 +1727,46 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/definitions/data.Category"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_chain": {
+            "get": {
+                "tags": [
+                    "Chain-链"
+                ],
+                "summary": "查询链",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Chain"
                                             }
                                         }
                                     }
@@ -1868,37 +2023,6 @@
                 }
             }
         },
-        "/api/get_gamecmk": {
-            "get": {
-                "tags": [
-                    "GetTopGainers-查询头号玩家"
-                ],
-                "summary": "查询头号玩家",
-                "responses": {
-                    "200": {
-                        "description": "返回数据",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/biz.JsonFormat"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/data.Cmk"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/api/get_like_article": {
             "get": {
                 "tags": [
@@ -2033,6 +2157,37 @@
                                             "type": "array",
                                             "items": {
                                                 "$ref": "#/definitions/data.Game"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/get_top_gainers": {
+            "get": {
+                "tags": [
+                    "GetTopGainers-查询头号玩家"
+                ],
+                "summary": "查询头号玩家",
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.JsonFormat"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.Cmk"
                                             }
                                         }
                                     }
@@ -2263,77 +2418,6 @@
                     }
                 }
             }
-        },
-        "/use/get_chain": {
-            "get": {
-                "tags": [
-                    "Chain-链"
-                ],
-                "summary": "查询链",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "返回数据",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/biz.BaseJson"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/data.Chain"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/use/get_class": {
-            "get": {
-                "tags": [
-                    "Class-类型"
-                ],
-                "summary": "查询类型",
-                "responses": {
-                    "200": {
-                        "description": "返回数据",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/biz.BaseJson"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/data.Class"
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -2436,6 +2520,9 @@
                 },
                 "id": {
                     "type": "integer"
+                },
+                "number": {
+                    "type": "integer"
                 }
             }
         },
@@ -2522,13 +2609,13 @@
                 "cover": {
                     "type": "string"
                 },
-                "created": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "updated": {
                     "type": "string"
                 }
             }
@@ -2765,6 +2852,17 @@
                 }
             }
         },
+        "data.MoreArticle": {
+            "type": "object",
+            "properties": {
+                "cate_id": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
         "data.Region": {
             "type": "object",
             "properties": {
@@ -2780,7 +2878,6 @@
             "type": "object",
             "properties": {
                 "address": {
-                    "description": "IssueAt      time.Time `json:\"issue_at\"`",
                     "type": "string"
                 },
                 "currency_name": {
@@ -2791,6 +2888,9 @@
                 },
                 "id": {
                     "type": "integer"
+                },
+                "issue_at": {
+                    "type": "string"
                 },
                 "logo": {
                     "type": "string"

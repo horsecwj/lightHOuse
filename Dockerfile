@@ -8,7 +8,7 @@ ENV GOARCH amd64
 ENV GO111MODULE  on
 ENV GOPROXY https://goproxy.cn
 
-RUN go build -a -installsuffix cgo -ldflags '-s -w' -o light-house cmd/server/main.go
+RUN go build -a -installsuffix cgo -ldflags '-s -w' -o light-house main.go
 
 FROM --platform=linux/amd64 alpine:3.15
 COPY --from=builder /usr/local/go/lib/time/zoneinfo.zip /opt/zoneinfo.zip

@@ -3,7 +3,6 @@ package schedule
 import (
 	"help_center/spiderbycolly/common"
 	"help_center/spiderbycolly/database"
-	"log"
 	"strings"
 	"time"
 
@@ -34,9 +33,9 @@ func syncTransfer() {
 
 		transferSyncing = false
 	}()
-	db := database.DB()
-	conf := EVMConfig.Chain
-	log.Print(conf, db)
+	//db := database.DB()
+	//conf := EVMConfig.Chain
+	//log.Print(conf, db)
 	// 查询数据
 	array, err := database.DB().GetUnConfirmTransfer(EVMConfig.Chain)
 	if err != nil {

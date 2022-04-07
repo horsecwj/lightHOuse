@@ -34,7 +34,7 @@ func GetArticleBybitArt(titleStart string) ([]model.BybitArticle, error) {
 		log.Println("Something went wrong:", err)
 	})
 	c.OnResponse(func(resp *colly.Response) {
-		log.Print(resp.StatusCode)
+		//log.Print(resp.StatusCode)
 	})
 
 	c.OnHTML("div[class='vc_column_inner tdi_131  wpb_column vc_column_container tdc-inner-column td-pb-span12'] div[id='tdi_132'] ", func(elem *colly.HTMLElement) {
@@ -93,7 +93,7 @@ func GetNewArticleBybitArt(titleStart string) ([]model.BybitNewlyArticle, error)
 		log.Println("Something went wrong:", err)
 	})
 	c.OnResponse(func(resp *colly.Response) {
-		log.Print(resp.StatusCode)
+		//log.Print(resp.StatusCode)
 	})
 
 	c.OnHTML("div[class='td_block_wrap tdb_loop tdi_153 td-h-effect-up-shadow td_with_ajax_pagination td-pb-border-top td_block_template_2 tdb-category-loop-posts'] div[id='tdi_153'] ", func(elem *colly.HTMLElement) {

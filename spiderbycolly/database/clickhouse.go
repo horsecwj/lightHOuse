@@ -95,8 +95,8 @@ Data  FixedString(11150)
           PARTITION BY toDate(BlockTimestamp)
           PRIMARY KEY Hash
           SETTINGS index_granularity = 8192;`, tableName)
-	tmp := Tc
-	log.Print(tmp)
+	//tmp := Tc
+	//log.Print(tmp)
 	_, trr := db.DB().Exec(table) //
 	if trr != nil {
 		log.Println(trr.Error())

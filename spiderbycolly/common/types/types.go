@@ -17,7 +17,6 @@ func (chain Chain) IsEVMChain() bool {
 }
 
 func (chain Chain) String() string {
-
 	switch chain {
 
 	case ChainBTC:

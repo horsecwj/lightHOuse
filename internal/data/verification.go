@@ -3,6 +3,8 @@ package data
 import (
 	"net"
 	"net/http"
+
+	"gorm.io/gorm"
 )
 
 func VerificationLabel(label string) (*Label, error) {
@@ -78,4 +80,13 @@ func RemoteIp(req *http.Request) string {
 		remoteAddr = "127.0.0.1"
 	}
 	return remoteAddr
+}
+
+func VerificationBanner() ([]Banner, error) {
+	var data []Banner
+	err := GetDbCli().Session(&gorm.Session{}).Table("banner").Order("number").Find(&data).Error
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
 }

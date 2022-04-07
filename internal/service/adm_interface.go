@@ -87,7 +87,7 @@ func admDelBanner(c echo.Context) error {
 }
 
 // admModBanner doc
-// @Tags Banner-文章
+// @Tags Banner-横幅
 // @Summary 修改横幅
 // @Param token header string true "token"
 // @Param body body data.Banner true "请求数据"

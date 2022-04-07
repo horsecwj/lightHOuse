@@ -5,9 +5,10 @@ import (
 )
 
 type Banner struct {
-	Id    int64  `json:"id"`
-	Chain int64  `json:"chain"`
-	Cover string `json:"cover"`
+	Id     int64  `json:"id"`
+	Chain  int64  `json:"chain"`
+	Cover  string `json:"cover"`
+	Number int    `json:"number"`
 }
 
 type Article struct {
@@ -136,8 +137,9 @@ type GameCurrency struct {
 
 type OutArticle struct {
 	Id          int    `json:"id"`
+	Link        string `json:"link"`
 	Title       string `json:"title"`
-	Cover       string `json:"cover"`
+	Pic         string `json:"pic"`
 	OverView    string `json:"over_view"`
 	Article     string `json:"article"`
 	Articletext string `json:"articletext"`

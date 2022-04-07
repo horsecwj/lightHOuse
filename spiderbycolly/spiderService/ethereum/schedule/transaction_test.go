@@ -52,8 +52,8 @@ func TestRun(t *testing.T) {
 	_ = database.DB()
 	common.InitLogger("ethereum")
 
-	re := ethUtil.InitETHInstance()
-	log.Print(re)
+	_ = ethUtil.InitETHInstance()
+	//log.Print(re)
 	if err := ethereum.Run(config.ETHConf()); err != nil {
 
 		common.Logger.Info("ethereum service 启动失败:%s", err)
