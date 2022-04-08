@@ -3,6 +3,7 @@ package biz
 import (
 	"help_center/internal/conf"
 	"help_center/internal/data"
+	"log"
 	"net/http"
 	"time"
 
@@ -30,22 +31,39 @@ func AdminLogin(d *LoginData) (int, *BaseJson) {
 	}
 }
 
-func ParseGoogleToken(TokenId string) *BaseJson {
+func ParseGoogleToken(TokenId, code string) *BaseJson {
+
 	clientID := "559756290278-9v1ngbvivap03i80qntgsin48ggmj5pc.apps.googleusercontent.com"
 	claims, err := googleidtokenverifier.Verify(TokenId, clientID)
 	if err != nil {
 		return &BaseJson{Code: 0, Data: "Token error"}
 	}
-	row, err := data.VerificationUserLogin(claims.Sub)
-	if err != nil {
-		if err := data.AddUser(claims); err != nil {
+	if _, err := data.VerificationUserLogin(claims.Sub); err != nil {
+		err := data.AddUser(claims)
+		if err != nil {
 			return &BaseJson{Code: 0, Data: err}
 		}
+		if code != "" {
+			err := data.UserLoginByCode(code)
+			if err != nil {
+				log.Println(err)
+			}
+		}
 	}
+	row, _ := data.VerificationUserLogin(claims.Sub)
 	token, err := data.CreateToken(row.Id)
 	if err != nil {
 		return &BaseJson{Code: 0, Data: err}
 	}
 
 	return &BaseJson{Code: 1, Data: token}
+}
+
+func GetUser(Id int64, r *http.Request) *BaseJson {
+	user, err := data.UserSearch(Id, r)
+	if err != nil {
+		return &BaseJson{Code: 0, Data: err}
+	}
+	return &BaseJson{Code: 1, Data: user}
+
 }

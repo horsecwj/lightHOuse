@@ -307,3 +307,9 @@ type Region struct {
 	Country string `json:"country"`
 	Num     int64
 }
+
+type UserData struct {
+	Email  string `json:"email"`
+	Code   string `json:"code"`
+	Number int64  `json:"number"`
+}

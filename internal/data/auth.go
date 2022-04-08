@@ -1,7 +1,11 @@
 package data
 
 import (
+	"context"
+	"errors"
+	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -58,4 +62,30 @@ func (ac AuthClaims) Valid() error {
 		return nil
 	}
 	return vErr
+}
+
+func ParseToken(ctx context.Context, ts string) (*AuthClaims, error) {
+	claims := &AuthClaims{}
+	token, err := jwt.ParseWithClaims(ts, claims, func(t *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	if !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+
+	return claims, nil
+}
+
+func UserSearch(Id int64, r *http.Request) (*UserData, error) {
+	user := &UserData{}
+	err := GetDbCli().Session(&gorm.Session{}).Table("user_logins").Where("id = ?", Id).First(user).Error
+	if err != nil {
+		return nil, err
+	}
+	user.Code = fmt.Sprintf("http://%s/introduce?code=%s", r.Host, user.Code)
+	return user, nil
 }

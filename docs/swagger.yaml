@@ -26,6 +26,11 @@ definitions:
       passwd:
         type: string
     type: object
+  biz.ReqGoogleLogin:
+    properties:
+      token_id:
+        type: string
+    type: object
   data.Article:
     properties:
       cate_id:
@@ -293,6 +298,15 @@ definitions:
       country:
         type: string
       num:
+        type: integer
+    type: object
+  data.UserData:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+      number:
         type: integer
     type: object
   data.currency:
@@ -1670,6 +1684,59 @@ paths:
       summary: 查询教程
       tags:
       - GetCourse-教程
+  /api/introduce:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  $ref: '#/definitions/data.UserData'
+              type: object
+      summary: 用户信息
+      tags:
+      - auth-用户信息
+  /api/invite:
+    post:
+      parameters:
+      - in: query
+        name: code
+        type: string
+      responses: {}
+      summary: 邀请链接
+      tags:
+      - Invite-邀请码
+  /api/login:
+    post:
+      parameters:
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/biz.ReqGoogleLogin'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 谷歌登陆
+      tags:
+      - auth-谷歌登陆认证
   /api/match_article:
     get:
       parameters:

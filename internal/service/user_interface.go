@@ -5,11 +5,55 @@ import (
 	"help_center/internal/data"
 	"log"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
 
-// admLogin doc
+const (
+	KeyUserId = "_USER_ID"
+)
+
+func userID(c echo.Context) uint64 {
+	return c.Get(KeyUserId).(uint64)
+}
+
+func authenticate(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		request := c.Request()
+		ctx := request.Context()
+		authHeader := request.Header.Get("Authorization")
+		authScheme := "Bearer "
+
+		if !strings.HasPrefix(authHeader, authScheme) {
+			return echo.NewHTTPError(http.StatusUnauthorized, "missing or invalid authorization scheme")
+		}
+
+		claims, err := data.ParseToken(ctx, strings.TrimPrefix(authHeader, authScheme))
+		if err != nil {
+			return err
+		}
+
+		UserId, err := strconv.ParseUint(claims.Subject, 10, 64)
+		if err != nil {
+			return err
+		}
+		c.Set(KeyUserId, UserId)
+		return next(c)
+	}
+}
+
+// apiInvite doc
+// @Tags Invite-邀请码
+// @Summary 邀请链接
+// @Param body query biz.Code true "请求数据"
+// @Router /api/invite [post]
+func Invite(c echo.Context) error {
+	return nil
+}
+
+// apiLogin doc
 // @Tags auth-谷歌登陆认证
 // @Summary 谷歌登陆
 // @Param body body biz.ReqGoogleLogin true "请求数据"
@@ -21,7 +65,21 @@ func UserLogin(c echo.Context) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	msg := biz.ParseGoogleToken(d.TokenId)
+	code := c.QueryParam("code")
+	msg := biz.ParseGoogleToken(d.TokenId, code)
+	return c.JSON(http.StatusOK, &msg)
+}
+
+// apiIntroduce doc
+// @Tags 用户信息
+// @Summary 用户信息
+// @Param token header string true "token"
+// @Success 200 {object} biz.BaseJson{data=data.UserData} "返回数据"
+// @Router /api/introduce [get]
+func UserIntroduce(c echo.Context) error {
+	r := c.Request()
+	userId := userID(c)
+	msg := biz.GetUser(int64(userId), r)
 	return c.JSON(http.StatusOK, &msg)
 }
 

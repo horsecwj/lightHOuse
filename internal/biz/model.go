@@ -25,3 +25,7 @@ type Json struct {
 type ReqGoogleLogin struct {
 	TokenId string `json:"token_id"`
 }
+
+type Code struct {
+	Code string `json:"code"`
+}

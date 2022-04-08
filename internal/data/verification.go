@@ -96,3 +96,22 @@ func VerificationUserLogin(Sub string) (*UserLogin, error) {
 	err := db.Where("subject = ?", Sub).First(&row).Error
 	return row, err
 }
+
+func VerificationUserLoginByCode(Code string) error {
+	row := &UserLogin{}
+	err := db.Where("code = ?", Code).First(&row).Error
+	return err
+}
+
+func UserLoginByCode(Code string) error {
+	row := &UserLogin{}
+	tx := db.Where("code = ?", Code).First(&row)
+	if err := tx.Error; err != nil {
+		return err
+	}
+	Number := row.Number + 1
+	if err := tx.Update("number", Number).Error; err != nil {
+		return err
+	}
+	return nil
+}

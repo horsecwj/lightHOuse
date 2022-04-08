@@ -2312,6 +2312,98 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/introduce": {
+            "get": {
+                "tags": [
+                    "auth-用户信息"
+                ],
+                "summary": "用户信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/data.UserData"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/invite": {
+            "post": {
+                "tags": [
+                    "Invite-邀请码"
+                ],
+                "summary": "邀请链接",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "code",
+                        "in": "query"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "auth-谷歌登陆认证"
+                ],
+                "summary": "谷歌登陆",
+                "parameters": [
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/biz.ReqGoogleLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/match_article": {
             "get": {
                 "tags": [
@@ -2470,6 +2562,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "passwd": {
+                    "type": "string"
+                }
+            }
+        },
+        "biz.ReqGoogleLogin": {
+            "type": "object",
+            "properties": {
+                "token_id": {
                     "type": "string"
                 }
             }
@@ -2882,6 +2982,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "num": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.UserData": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "number": {
                     "type": "integer"
                 }
             }

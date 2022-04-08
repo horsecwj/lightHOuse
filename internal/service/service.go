@@ -7,6 +7,8 @@ import (
 func UserRouter(user *echo.Group) {
 
 	user.POST("/login", UserLogin)
+	user.GET("/introduce", UserIntroduce, authenticate)
+	user.POST("/invite", Invite)
 
 	user.GET("/get_game", useGetGame)
 	user.GET("/get_article", useGerArticle)
