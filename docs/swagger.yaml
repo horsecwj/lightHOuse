@@ -293,6 +293,13 @@ definitions:
       id:
         type: integer
     type: object
+  data.Notes:
+    properties:
+      id:
+        type: integer
+      notes:
+        type: string
+    type: object
   data.Region:
     properties:
       country:
@@ -305,6 +312,23 @@ definitions:
       code:
         type: string
       email:
+        type: string
+      number:
+        type: integer
+    type: object
+  data.UsersData:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+      from:
+        type: string
+      id:
+        type: integer
+      login_time:
+        type: string
+      notes:
         type: string
       number:
         type: integer
@@ -1016,6 +1040,32 @@ paths:
       summary: 查询游戏信息
       tags:
       - Game-游戏信息
+  /adm/get_user:
+    get:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - in: query
+        name: email
+        type: string
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/data.UsersData'
+                  type: array
+              type: object
+      summary: 查看数据
+      tags:
+      - User-用户数据
   /adm/mod_article:
     post:
       parameters:
@@ -1232,6 +1282,33 @@ paths:
       summary: 修改标签
       tags:
       - Label-标签
+  /adm/mod_user:
+    post:
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 请求数据
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/data.Notes'
+      responses:
+        "200":
+          description: 返回数据
+          schema:
+            allOf:
+            - $ref: '#/definitions/biz.BaseJson'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: 修改用户数据
+      tags:
+      - User-用户数据
   /adm/more_mod_article:
     post:
       parameters:
@@ -1704,7 +1781,7 @@ paths:
               type: object
       summary: 用户信息
       tags:
-      - auth-用户信息
+      - 用户信息
   /api/invite:
     post:
       parameters:

@@ -10,6 +10,7 @@ type UserLogin struct {
 	Subject string `json:"subject"`
 	Code    string `json:"code"`
 	Number  int64  `json:"number"`
+	From    string `json:"from"`
 }
 
 type AuthClaims struct {
@@ -312,4 +313,23 @@ type UserData struct {
 	Email  string `json:"email"`
 	Code   string `json:"code"`
 	Number int64  `json:"number"`
+}
+
+type UsersData struct {
+	Id        int64     `json:"id"`
+	Email     string    `json:"email"`
+	Code      string    `json:"code"`
+	From      string    `json:"from"`
+	Number    int64     `json:"number"`
+	LoginTime time.Time `json:"login_time"`
+	Notes     string    `json:"notes"`
+}
+
+type Email struct {
+	Email string `json:"email"`
+}
+
+type Notes struct {
+	Id    int64  `json:"id"`
+	Notes string `json:"notes"`
 }

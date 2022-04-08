@@ -15,8 +15,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func AddUser(claims *googleidtokenverifier.ClaimSet) error {
-	Id := time.Now().UnixMilli()
+func AddUser(claims *googleidtokenverifier.ClaimSet, from string) error {
+	now := time.Now()
+	Id := now.UnixMilli()
 	code, err := TestInviteCode(Id)
 	if err != nil {
 		return err
@@ -27,6 +28,7 @@ func AddUser(claims *googleidtokenverifier.ClaimSet) error {
 		Subject: claims.Sub,
 		Code:    code,
 		Number:  0,
+		From:    from,
 	}
 	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins")
 	return tx.Create(&user).Error
@@ -88,4 +90,22 @@ func UserSearch(Id int64, r *http.Request) (*UserData, error) {
 	}
 	user.Code = fmt.Sprintf("http://%s/introduce?code=%s", r.Host, user.Code)
 	return user, nil
+}
+
+func UsersSearch(email string) ([]UsersData, error) {
+	var users []UsersData
+	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins")
+	if email != "" {
+		tx = tx.Where("email = ?", email)
+	}
+	err := tx.Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func NotesUpdate(d *Notes) error {
+	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins")
+	return tx.Where("id = ?", d.Id).Update("notes", d.Notes).Error
 }

@@ -646,3 +646,33 @@ func admGetData(c echo.Context) error {
 	msg := biz.GetData(d)
 	return c.JSON(http.StatusOK, &msg)
 }
+
+// admGetUser doc
+// @Tags User-用户数据
+// @Summary 查看数据
+// @Param token header string true "token"
+// @Param body query data.Email true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=[]data.UsersData} "返回数据"
+// @Router /adm/get_user [GET]
+func admGetUser(c echo.Context) error {
+	email := c.QueryParam("email")
+	msg := biz.GetUsers(email)
+	return c.JSON(http.StatusOK, &msg)
+}
+
+// admModUser doc
+// @Tags User-用户数据
+// @Summary 修改用户数据
+// @Param token header string true "token"
+// @Param body body data.Notes true "请求数据"
+// @Success 200 {object} biz.BaseJson{data=string} "返回数据"
+// @Router /adm/mod_user [POST]
+func admModUser(c echo.Context) error {
+	d := new(data.Notes)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.ModNotes(d)
+	return c.JSON(http.StatusOK, &msg)
+}

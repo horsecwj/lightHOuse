@@ -27,6 +27,9 @@ CREATE TABLE `user_logins` (
                                 `subject` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT  '用户',
                                 `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  COMMENT '邀请码',
                                 `number` bigint(20) unsigned not null default 0 comment '邀请人数',
+                                `from` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '邀请人的邀请码',
+                                `notes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '备注',
+                                `login_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
                                 PRIMARY KEY (`id`,`email`,`subject`) USING BTREE,
                                 KEY `index` (`id`,`email`,`subject`) COMMENT '复合索引'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;

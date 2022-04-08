@@ -80,6 +80,9 @@ func AdmRouter(adm *echo.Group) {
 	adm.GET("/get_label", admGetLabel)
 
 	adm.GET("/get_data", admGetData)
+
+	adm.GET("/get_user", admGetUser)
+	adm.POST("/mod_user", admModUser)
 }
 func AuthRouter(user *echo.Group) {
 	user.POST("/login", admLogin)

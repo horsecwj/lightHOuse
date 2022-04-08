@@ -39,7 +39,7 @@ func ParseGoogleToken(TokenId, code string) *BaseJson {
 		return &BaseJson{Code: 0, Data: "Token error"}
 	}
 	if _, err := data.VerificationUserLogin(claims.Sub); err != nil {
-		err := data.AddUser(claims)
+		err := data.AddUser(claims, code)
 		if err != nil {
 			return &BaseJson{Code: 0, Data: err}
 		}
@@ -51,11 +51,11 @@ func ParseGoogleToken(TokenId, code string) *BaseJson {
 		}
 	}
 	row, _ := data.VerificationUserLogin(claims.Sub)
+
 	token, err := data.CreateToken(row.Id)
 	if err != nil {
 		return &BaseJson{Code: 0, Data: err}
 	}
-
 	return &BaseJson{Code: 1, Data: token}
 }
 
@@ -66,4 +66,25 @@ func GetUser(Id int64, r *http.Request) *BaseJson {
 	}
 	return &BaseJson{Code: 1, Data: user}
 
+}
+
+func GetUsers(email string) *BaseJson {
+	users, err := data.UsersSearch(email)
+	if err != nil {
+		return &BaseJson{Code: 0, Data: err}
+	}
+	return &BaseJson{Code: 1, Data: users}
+}
+
+func ModNotes(d *data.Notes) *BaseJson {
+	if d.Id == 0 {
+		return &BaseJson{Code: 0, Data: "参数 id 值不应为0"}
+	}
+	err := data.NotesUpdate(d)
+	if err != nil {
+		log.Println(err.Error())
+		return &BaseJson{Code: 0, Data: err.Error()}
+	} else {
+		return &BaseJson{Code: 1, Data: "成功修改备注"}
+	}
 }

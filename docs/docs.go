@@ -1153,6 +1153,51 @@ const docTemplate = `{
                 }
             }
         },
+        "/adm/get_user": {
+            "get": {
+                "tags": [
+                    "User-用户数据"
+                ],
+                "summary": "查看数据",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "email",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/data.UsersData"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/adm/mod_article": {
             "post": {
                 "tags": [
@@ -1496,6 +1541,52 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/data.Label"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回数据",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/biz.BaseJson"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/adm/mod_user": {
+            "post": {
+                "tags": [
+                    "User-用户数据"
+                ],
+                "summary": "修改用户数据",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "请求数据",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/data.Notes"
                         }
                     }
                 ],
@@ -2315,7 +2406,7 @@ const docTemplate = `{
         "/api/introduce": {
             "get": {
                 "tags": [
-                    "auth-用户信息"
+                    "用户信息"
                 ],
                 "summary": "用户信息",
                 "parameters": [
@@ -2975,6 +3066,17 @@ const docTemplate = `{
                 }
             }
         },
+        "data.Notes": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
         "data.Region": {
             "type": "object",
             "properties": {
@@ -2993,6 +3095,32 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "email": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "integer"
+                }
+            }
+        },
+        "data.UsersData": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "login_time": {
+                    "type": "string"
+                },
+                "notes": {
                     "type": "string"
                 },
                 "number": {

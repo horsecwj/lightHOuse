@@ -3,6 +3,7 @@ package data
 import (
 	"net"
 	"net/http"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -93,7 +94,7 @@ func VerificationBanner() ([]Banner, error) {
 
 func VerificationUserLogin(Sub string) (*UserLogin, error) {
 	row := &UserLogin{}
-	err := db.Where("subject = ?", Sub).First(&row).Error
+	err := db.Where("subject = ?", Sub).First(&row).Update("login_time", time.Now()).Error
 	return row, err
 }
 
