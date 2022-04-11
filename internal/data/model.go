@@ -325,11 +325,15 @@ type UsersData struct {
 	Notes     string    `json:"notes"`
 }
 
-type Email struct {
-	Email string `json:"email"`
-}
-
 type Notes struct {
 	Id    int64  `json:"id"`
 	Notes string `json:"notes"`
+}
+
+type UserQuery struct {
+	Email    string `json:"email" query:"email"`
+	Code     string `json:"code" query:"code"`
+	From     string `json:"from" query:"From"`
+	Page     int    `json:"page" query:"page"`
+	PageSize int    `json:"page_size" query:"page_size"`
 }

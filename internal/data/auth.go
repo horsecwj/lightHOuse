@@ -92,20 +92,50 @@ func UserSearch(Id int64, r *http.Request) (*UserData, error) {
 	return user, nil
 }
 
-func UsersSearch(email string) ([]UsersData, error) {
+func UsersSearch(d *UserQuery) []UsersData {
 	var users []UsersData
-	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins")
-	if email != "" {
-		tx = tx.Where("email = ?", email)
+	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins").Order("number desc")
+	if d.Email != "" {
+		tx = tx.Where("email = ?", d.Email)
+	}
+	if d.From != "" {
+		tx = tx.Where(&UserQuery{From: d.From})
+	}
+	if d.Code != "" {
+		tx = tx.Where("code = ?", d.Code)
 	}
 	err := tx.Find(&users).Error
 	if err != nil {
-		return nil, err
+		log.Println(err.Error())
 	}
-	return users, nil
+	return users
 }
 
 func NotesUpdate(d *Notes) error {
 	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins")
 	return tx.Where("id = ?", d.Id).Update("notes", d.Notes).Error
+}
+
+func (d *UserQuery) UserCount() int {
+	var count int64
+	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins")
+	if d.Email != "" {
+		tx = tx.Where("email = ?", d.Email)
+	}
+	if d.From != "" {
+		tx = tx.Where(&UserQuery{From: d.From})
+	}
+	if d.Code != "" {
+		tx = tx.Where("code = ?", d.Code)
+	}
+	err := tx.Count(&count).Error
+	if err != nil {
+		log.Println(err.Error())
+	}
+	strCount := strconv.FormatInt(count, 10)
+	intCount, err := strconv.Atoi(strCount)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	return intCount
 }

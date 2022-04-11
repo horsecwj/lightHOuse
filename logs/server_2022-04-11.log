@@ -1,0 +1,1 @@
+[2022-04-11 17:21:41]	[34minfo[0m	schedule/artSpider.go:59	更新失败bybitHighly:Get "https://learn.bybit.com/": context deadline exceeded (Client.Timeout exceeded while awaiting headers)

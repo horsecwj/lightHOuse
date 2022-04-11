@@ -651,12 +651,16 @@ func admGetData(c echo.Context) error {
 // @Tags User-用户数据
 // @Summary 查看数据
 // @Param token header string true "token"
-// @Param body query data.Email true "请求数据"
-// @Success 200 {object} biz.BaseJson{data=[]data.UsersData} "返回数据"
+// @Param body query data.UserQuery true "请求数据"
+// @Success 200 {object} biz.JsonFormat{data=[]data.UsersData} "返回数据"
 // @Router /adm/get_user [GET]
 func admGetUser(c echo.Context) error {
-	email := c.QueryParam("email")
-	msg := biz.GetUsers(email)
+	d := new(data.UserQuery)
+	err := c.Bind(d)
+	if err != nil {
+		log.Println(err.Error())
+	}
+	msg := biz.GetUsers(d)
 	return c.JSON(http.StatusOK, &msg)
 }
 

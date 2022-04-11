@@ -1169,7 +1169,27 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
+                        "name": "code",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
                         "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page_size",
                         "in": "query"
                     }
                 ],
@@ -1179,7 +1199,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/biz.BaseJson"
+                                    "$ref": "#/definitions/biz.JsonFormat"
                                 },
                                 {
                                     "type": "object",
@@ -2660,6 +2680,9 @@ const docTemplate = `{
         "biz.ReqGoogleLogin": {
             "type": "object",
             "properties": {
+                "code": {
+                    "type": "string"
+                },
                 "token_id": {
                     "type": "string"
                 }

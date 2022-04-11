@@ -68,12 +68,19 @@ func GetUser(Id int64, r *http.Request) *BaseJson {
 
 }
 
-func GetUsers(email string) *BaseJson {
-	users, err := data.UsersSearch(email)
-	if err != nil {
-		return &BaseJson{Code: 0, Data: err}
+func GetUsers(d *data.UserQuery) *JsonFormat {
+	if d.Page == 0 {
+		d.Page = 1
 	}
-	return &BaseJson{Code: 1, Data: users}
+	if d.PageSize == 0 {
+		d.PageSize = 10
+	}
+	num := d.UserCount()
+	if num > 0 {
+		users := data.UsersSearch(d)
+		return &JsonFormat{Code: 1, Page: d.Page, PageSize: d.PageSize, PageNum: num/d.PageSize + 1, ArticleNum: num, Data: users}
+	}
+	return &JsonFormat{Code: 0, Page: d.Page, PageSize: d.PageSize, PageNum: 0, ArticleNum: num, Data: nil}
 }
 
 func ModNotes(d *data.Notes) *BaseJson {
