@@ -65,8 +65,7 @@ func UserLogin(c echo.Context) error {
 	if err != nil {
 		log.Println(err.Error())
 	}
-	code := c.QueryParam("code")
-	msg := biz.ParseGoogleToken(d.TokenId, code)
+	msg := biz.ParseGoogleToken(d.TokenId, d.Code)
 	return c.JSON(http.StatusOK, &msg)
 }
 
