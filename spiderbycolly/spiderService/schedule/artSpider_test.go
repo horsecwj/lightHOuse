@@ -166,7 +166,7 @@ func TestRun13(t *testing.T) {
 func TestRun6(t *testing.T) {
 
 	c := cron.New()
-	err := c.AddFunc("@every 24h", synCmc)
+	err := c.AddFunc("@every 10m", synCmc)
 	if err != nil {
 		log.Print(err)
 		return

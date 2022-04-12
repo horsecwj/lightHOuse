@@ -21,7 +21,7 @@ Port = 30759
 LogMode = true
 Username = "root"
 Password = "gQ9oww2tua"
-Database = "beaconglobal"
+Database = "spider"
 
 [ClickHouse]
 Host = "127.0.0.1"

@@ -247,12 +247,12 @@ func OutArticleAdd() error {
 		} else {
 			cover = row[i].Pic
 		}
-		if VerificationArticle(row[i].Title) != nil {
+		if VerificationArticle(row[i].Timestamp) != nil {
 			link := fmt.Sprintf("<p>Contents Sourced from: %s</p>", row[i].Link)
 			row[i].Article = row[i].Article + link
 			row[i].Articletext = row[i].Articletext + "\n" + row[i].Link
 			timeStr := time.Unix(row[i].Timestamp, 0).Format("2006-01-02 15:04:05")
-			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: row[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: row[i].OverView, Markdown: row[i].Article, RichText: row[i].Articletext, Created: timeStr, Updated: timeStr}).Error
+			err := tx.Create(article{Id: row[i].Timestamp, Title: row[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: row[i].OverView, Markdown: row[i].Article, RichText: row[i].Articletext, Created: timeStr, Updated: timeStr}).Error
 			if err != nil {
 				log.Println(err)
 			}
@@ -265,9 +265,9 @@ func OutArticleAdd() error {
 		} else {
 			cover = row[i].Pic
 		}
-		if VerificationArticle(bybit[i].Title) != nil {
+		if VerificationArticle(row[i].Timestamp) != nil {
 			timeStr := time.Unix(bybit[i].Timestamp, 0).Format("2006-01-02 15:04:05")
-			err := tx.Create(article{Id: time.Now().UnixMilli(), Title: bybit[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: bybit[i].OverView, Markdown: bybit[i].Article, RichText: bybit[i].Articletext, Created: timeStr, Updated: timeStr}).Error
+			err := tx.Create(article{Id: row[i].Timestamp, Title: bybit[i].Title, Lang: "cn", CateId: 1645582941827, Cover: cover, Summary: bybit[i].OverView, Markdown: bybit[i].Article, RichText: bybit[i].Articletext, Created: timeStr, Updated: timeStr}).Error
 			if err != nil {
 				log.Println(err)
 			}

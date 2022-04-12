@@ -32,9 +32,9 @@ func VerificationTitle(id int64) (*Article, error) {
 	return row, err
 }
 
-func VerificationArticle(Title string) error {
+func VerificationArticle(Id int64) error {
 	row := &article{}
-	err := db.Where("title = ?", Title).First(&row).Error
+	err := db.Where("Id = ?", Id).First(&row).Error
 	return err
 }
 
