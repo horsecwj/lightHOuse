@@ -93,7 +93,7 @@ func UserSearch(Id int64, r *http.Request) (*UserData, error) {
 }
 
 func UsersSearch(d *UserQuery) []UsersData {
-	var users []UsersData
+	var users = make([]UsersData, 0, d.PageSize)
 	tx := GetDbCli().Session(&gorm.Session{}).Table("user_logins").Order("number desc")
 	if d.Email != "" {
 		tx = tx.Where("email = ?", d.Email)
