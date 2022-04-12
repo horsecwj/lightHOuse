@@ -196,6 +196,7 @@ func (a *ArticleQuery) LikeArticle() interface{} {
 			break
 		}
 	}
+	fmt.Println(len(row), i)
 	if i == 0 {
 		if len(row) <= 4 {
 			return row
@@ -209,17 +210,17 @@ func (a *ArticleQuery) LikeArticle() interface{} {
 		data = append(data, row[0], row[2], row[3], row[4])
 		return data
 	}
-	if i == len(row)-1 {
+	if i+1 == len(row) {
 		if len(row) <= 4 {
 			return row
 		}
 		return row[len(row)-4:]
 	}
-	if i == len(row)-2 {
+	if i+1 == len(row)-1 {
 		if len(row) <= 4 {
 			return row
 		}
-		data = append(data, row[len(row)-4], row[len(row)-3], row[len(row)-2], row[len(row)])
+		data = append(data, row[len(row)-5], row[len(row)-4], row[len(row)-3], row[len(row)-1])
 		return data
 	}
 	data = append(data, row[i-2], row[i-1], row[i+1], row[i+2])
