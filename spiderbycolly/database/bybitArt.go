@@ -47,3 +47,29 @@ func (db *DBConn) DeleteBybitArt() error {
 
 	return db.Delete(&model.BybitArticle{}).Error
 }
+
+func (db *DBConn) BybitNewArtLink() ([]string, error) {
+
+	sql := "SELECT bybit_newly_article.link links from bybit_newly_article"
+	var links []string
+
+	err := db.Raw(sql).Pluck("links", &links).Error
+	if err != nil {
+		return nil, err
+	}
+	return links, nil
+}
+
+// 获取多个未使用的地址
+func (db *DBConn) GetManyBybitNewArt() (map[string]bool, error) {
+	resLink, err := db.BybitNewArtLink()
+	if err != nil {
+		return nil, err
+	}
+	var linkMap map[string]bool
+	linkMap = make(map[string]bool, len(resLink)+1)
+	for _, item := range resLink {
+		linkMap[item] = true
+	}
+	return linkMap, err
+}

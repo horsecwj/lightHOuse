@@ -37,29 +37,55 @@ func GetArticleBybitArt(titleStart string) ([]model.BybitArticle, error) {
 		//log.Print(resp.StatusCode)
 	})
 
-	c.OnHTML("div[class='vc_column_inner tdi_131  wpb_column vc_column_container tdc-inner-column td-pb-span12'] div[id='tdi_132'] ", func(elem *colly.HTMLElement) {
+	c.OnHTML("div[class='highlight-section'] div[class='ant-row'] div[class='ant-col highlight-section-post ant-col-xs-18 ant-col-md-8'] ", func(elem *colly.HTMLElement) {
 		elem.DOM.Each(func(_ int, ts *goquery.Selection) {
-			s := ts.Find("div[class='td_module_flex td_module_flex_1 td_module_wrap td-animation-stack td-meta-info-hide ']")
-			for i := range s.Nodes {
-				str := s.Find("div[class='td-module-meta-info']").Eq(i)
-				Overview := str.Eq(0).Find("div[class='td-excerpt']").Text()
-				link, isAlive := str.Eq(0).Find("h3 a").Attr("href")
-				if !isAlive {
-					continue
-				}
-				title := str.Eq(0).Find("h3 a").Text()
-				if link == titleStart {
-					HighlightArtFlag = false
-				}
-				if HighlightArtFlag {
-					res := GetArticleBybitDetailSlate(c, link)
-					res.Title = title
-					res.OverView = Overview
-					res.Link = link
-
-					if len(res.Article) != 0 {
-						ArrTopGameFi = append(ArrTopGameFi, res)
+			link, isAlive := ts.Find("a[class='no-style']").Attr("href")
+			if !isAlive {
+				return
+			}
+			link = "https://learn.bybit.com" + link
+			if link == titleStart {
+				HighlightArtFlag = false
+			}
+			if HighlightArtFlag {
+				oT, _ := ts.Find("div[class='post-card-description']").Attr("title")
+				tempT, _ := ts.Find("div[class='post-card-thumbnail'] div").Attr("style")
+				timeStr := tempT
+				var ssr2 string
+				ssr := strings.Split(timeStr, "background-image:url('")
+				if len(ssr) >= 2 {
+					sssr := ssr[1]
+					ssssr := strings.Split(sssr, "');")
+					if len(ssssr) >= 1 {
+						ssr2 = ssssr[0]
 					}
+				}
+				if len(ssr2) == 0 {
+					return
+				}
+				ress, err := http.Get(ssr2)
+				if err != nil {
+					return
+				}
+				var data []byte
+				res := GetArticleBybitDetailSlate(c, link)
+				res.Title = "title"
+				res.OverView = "Overview"
+				res.Link = link
+				temp := model.BybitArticle{Title: res.Title, OverView: res.OverView, Link: res.Link,
+					Article: res.Article, Time: res.Time, Timestamp: res.Timestamp, Articletext: res.Articletext, Pic: res.Pic}
+				if ress != nil {
+					data, err = ioutil.ReadAll(ress.Body)
+					if err != nil {
+						return
+					}
+					temp.Pic = string(data)
+				}
+				if len(oT) != 0 {
+					temp.OverView = string(data)
+				}
+				if len(res.Article) != 0 {
+					ArrTopGameFi = append(ArrTopGameFi, temp)
 				}
 			}
 		})
@@ -93,35 +119,59 @@ func GetNewArticleBybitArt(titleStart string) ([]model.BybitNewlyArticle, error)
 		log.Println("Something went wrong:", err)
 	})
 	c.OnResponse(func(resp *colly.Response) {
-		//log.Print(resp.StatusCode)
+		log.Print(resp.StatusCode)
 	})
-
-	c.OnHTML("div[class='td_block_wrap tdb_loop tdi_153 td-h-effect-up-shadow td_with_ajax_pagination td-pb-border-top td_block_template_2 tdb-category-loop-posts'] div[id='tdi_153'] ", func(elem *colly.HTMLElement) {
+	c.OnHTML("div[class='highlight-section']", func(element *colly.HTMLElement) {
+	})
+	c.OnHTML("div[class='latest-posts-section-posts'] div[class='ant-row'] div[class='ant-col latest-posts-section-post ant-col-xs-24 ant-col-md-12'] ", func(elem *colly.HTMLElement) {
 		elem.DOM.Each(func(_ int, ts *goquery.Selection) {
-			s := ts.Find("div[class='tdb_module_loop td_module_wrap td-animation-stack td-meta-info-hide ']")
-			for i := range s.Nodes {
-				str := s.Find("div[class='td-module-meta-info']").Eq(i)
-				title := str.Eq(0).Find("h3 a").Text()
-				Overview := str.Eq(0).Find("div[class='td-excerpt']").Text()
-				link, isAlive := str.Eq(0).Find("h3 a").Attr("href")
-				if !isAlive {
-					continue
-				}
-				if link == titleStart {
-					newArtFlag = false
-				}
-				if newArtFlag {
-
-					res := GetArticleBybitDetailSlate(c, link)
-					res.Title = title
-					res.OverView = Overview
-					res.Link = link
-
-					temp := model.BybitNewlyArticle{Title: res.Title, OverView: res.OverView, Link: res.Link,
-						Article: res.Article, Time: res.Time, Timestamp: res.Timestamp, Articletext: res.Articletext, Pic: res.Pic}
-					if len(res.Article) != 0 {
-						ArrTopGameFi = append(ArrTopGameFi, temp)
+			link, isAlive := ts.Find("a[class='no-style']").Attr("href")
+			if !isAlive {
+				return
+			}
+			link = "https://learn.bybit.com" + link
+			if link == titleStart {
+				newArtFlag = false
+			}
+			if newArtFlag {
+				oT, _ := ts.Find("div[class='post-card-description']").Attr("title")
+				tempT, _ := ts.Find("div[class='post-card-thumbnail'] div").Attr("style")
+				timeStr := tempT
+				var ssr2 string
+				ssr := strings.Split(timeStr, "background-image:url('")
+				if len(ssr) >= 2 {
+					sssr := ssr[1]
+					ssssr := strings.Split(sssr, "');")
+					if len(ssssr) >= 1 {
+						ssr2 = ssssr[0]
 					}
+				}
+				if len(ssr2) == 0 {
+					return
+				}
+				ress, err := http.Get(ssr2)
+				if err != nil {
+					return
+				}
+				var data []byte
+				res := GetArticleBybitDetailSlate(c, link)
+				res.Title = "title"
+				res.OverView = "Overview"
+				res.Link = link
+				temp := model.BybitNewlyArticle{Title: res.Title, OverView: res.OverView, Link: res.Link,
+					Article: res.Article, Time: res.Time, Timestamp: res.Timestamp, Articletext: res.Articletext, Pic: res.Pic}
+				if ress != nil {
+					data, err = ioutil.ReadAll(ress.Body)
+					if err != nil {
+						return
+					}
+					temp.Pic = string(data)
+				}
+				if len(oT) != 0 {
+					temp.OverView = string(data)
+				}
+				if len(res.Article) != 0 {
+					ArrTopGameFi = append(ArrTopGameFi, temp)
 				}
 			}
 		})
@@ -148,7 +198,7 @@ func GetArticleBybitDetailSlate(collector *colly.Collector, url string) model.By
 		log.Println("start visit: ", request.URL.String())
 	})
 	tempBybitArticle := model.BybitArticle{}
-	collector.OnHTML("div[data-td-block-uid='tdi_103'] div[class='tdb-block-inner td-fix-index']", func(elem *colly.HTMLElement) {
+	collector.OnHTML("div[class='post-detail-content']", func(elem *colly.HTMLElement) {
 		art, err := elem.DOM.Html()
 		artText := elem.DOM.Text()
 		if err != nil {
@@ -159,47 +209,10 @@ func GetArticleBybitDetailSlate(collector *colly.Collector, url string) model.By
 		}
 	})
 
-	collector.OnHTML("div[data-td-block-uid='tdi_70'] div[class='tdb-block-inner td-fix-index']", func(elem *colly.HTMLElement) {
+	collector.OnHTML("div[class='ant-col post-content ant-col-xs-24 ant-col-md-16']", func(elem *colly.HTMLElement) {
 		elem.DOM.Each(func(_ int, ts *goquery.Selection) {
-			timeStr, boolF := ts.Find("time").Attr("datetime")
-			//formatTime,err:=time.Parse("2006-01-02 15:04:05",formatTimeStr)
-			if boolF {
-				tempBybitArticle.Time = timeStr
-			}
-			timeStamp, err := RFC3339ToCSTInt64(timeStr)
-			if err == nil {
-				tempBybitArticle.Timestamp = timeStamp
-			}
-		})
-	})
-
-	collector.OnHTML("div[data-td-block-uid='tdi_102']", func(elem *colly.HTMLElement) {
-		elem.DOM.Each(func(_ int, ts *goquery.Selection) {
-			timeStr := ts.Find("style").Eq(1).Nodes[0].FirstChild.Data
-			var ssr2 string
-			ssr := strings.Split(timeStr, "background: url('")
-			if len(ssr) >= 2 {
-				sssr := ssr[1]
-				ssssr := strings.Split(sssr, "');")
-				if len(ssssr) >= 1 {
-					ssr2 = ssssr[0]
-				}
-			}
-			if len(ssr2) == 0 {
-				return
-			}
-			res, err := http.Get(ssr2)
-			if err != nil {
-				return
-			}
-			var data []byte
-			if res != nil {
-				data, err = ioutil.ReadAll(res.Body)
-				if err != nil {
-					return
-				}
-				tempBybitArticle.Pic = string(data)
-			}
+			title := ts.Find("h1[class='post-detail-title']").Text()
+			tempBybitArticle.Title = title
 		})
 	})
 

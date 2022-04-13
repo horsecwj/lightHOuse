@@ -38,7 +38,6 @@ func synCmc() {
 			common.Logger.Info("run time panic: %v", err)
 		}
 	}()
-
 	log.Print("syncBycmc")
 	err := util.Retry(3, 1*time.Second, cmcArt)
 	if err != nil {
@@ -67,6 +66,7 @@ func syncBybit() {
 
 		log.Print(err)
 	}
+	log.Print("success bybiy")
 
 }
 
@@ -92,6 +92,7 @@ func bybitHighly() error {
 	if err != nil {
 		return err
 	}
+	log.Print("bybitHighly success ")
 	return nil
 }
 
@@ -114,10 +115,21 @@ func bybitNewly() error {
 		return err
 	}
 	sort.Sort(util.BybitNewlyArticleSlice(resM))
-	err = db.SaveBybitNewlyArt(resM)
+
+	var resFinal []model.BybitNewlyArticle
+	resMap, err := db.GetManyBybitNewArt()
+	for _, item := range resM {
+		if resMap[item.Link] {
+		} else {
+			resFinal = append(resFinal, item)
+		}
+	}
+	err = db.SaveBybitNewlyArt(resFinal)
 	if err != nil {
 		return err
 	}
+
+	log.Print("bybitNewly success ")
 	return nil
 }
 
@@ -146,12 +158,14 @@ func cmcArt() error {
 	sort.Sort(util.SlateArticleSlice(resM))
 	var resFinal []model.SlateArticle
 	resMap, err := db.GetManySlateArt()
+
 	for _, item := range resM {
 		if resMap[item.Link] {
 		} else {
 			resFinal = append(resFinal, item)
 		}
 	}
+
 	err = db.SaveSlateArt(resFinal)
 	if err != nil {
 		log.Print(err)
