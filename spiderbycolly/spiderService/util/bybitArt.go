@@ -82,7 +82,7 @@ func GetArticleBybitArt(titleStart string) ([]model.BybitArticle, error) {
 					temp.Pic = string(data)
 				}
 				if len(oT) != 0 {
-					temp.OverView = string(data)
+					temp.OverView = temp.Title
 				}
 				if len(res.Article) != 0 {
 					ArrTopGameFi = append(ArrTopGameFi, temp)
@@ -168,7 +168,7 @@ func GetNewArticleBybitArt(titleStart string) ([]model.BybitNewlyArticle, error)
 					temp.Pic = string(data)
 				}
 				if len(oT) != 0 {
-					temp.OverView = string(data)
+					temp.OverView = temp.Title
 				}
 				if len(res.Article) != 0 {
 					ArrTopGameFi = append(ArrTopGameFi, temp)
