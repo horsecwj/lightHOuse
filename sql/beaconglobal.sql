@@ -45,7 +45,7 @@ CREATE TABLE `articles` (
                             `status` int NOT NULL DEFAULT '0' COMMENT '状态,0未公开,1公开',
                             `cate_id` bigint NOT NULL COMMENT '分类id',
                             `summary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '摘要',
-                            `cover` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '封面',
+                            `cover` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '封面',
                             `markdown` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT 'markdown内容',
                             `rich_text` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '富文本内容',
                             `hot` int DEFAULT NULL COMMENT '热门,0否,1是',
