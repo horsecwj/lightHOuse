@@ -27,6 +27,7 @@ func RunApp() {
 		AllowHeaders: []string{"Authorization", "Content-Type"},
 		AllowMethods: []string{"*"},
 	}
+	engine.Pre(service.GetIp)       //读取ip
 	engine.Pre(service.CacheMidPre) // 实例化echo
 	engine.Use(service.MidRecover)  // 恢复 日志记录
 	//engine.HTTPErrorHandler = HTTPErrorHandler         // 自定义错误处理

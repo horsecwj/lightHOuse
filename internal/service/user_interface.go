@@ -95,7 +95,6 @@ func useGetGame(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGame(d, false)
-	biz.Goip(c.Request())
 	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
@@ -114,7 +113,6 @@ func useGerArticle(c echo.Context) error {
 	}
 	d.Status = 0
 	msg := biz.GetArticle(d, false)
-	biz.Goip(c.Request())
 	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
@@ -279,7 +277,6 @@ func useGetGameValue(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetGameValue(d)
-	biz.Goip(c.Request())
 	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
@@ -297,7 +294,6 @@ func useGetVideoCourse(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetCourse(d, true, false)
-	biz.Goip(c.Request())
 	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }
@@ -315,7 +311,6 @@ func useGetImageCourse(c echo.Context) error {
 		log.Println(err.Error())
 	}
 	msg := biz.GetCourse(d, false, true)
-	biz.Goip(c.Request())
 	go StoreCache(c.Request().URL.Path, &msg)
 	return c.JSON(http.StatusOK, &msg)
 }

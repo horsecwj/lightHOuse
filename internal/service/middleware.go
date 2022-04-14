@@ -2,12 +2,14 @@ package service
 
 import (
 	"fmt"
-	"github.com/labstack/echo/v4"
+	"help_center/internal/biz"
 	"net/http"
 	"os"
 	"runtime"
 	"sync"
 	"time"
+
+	"github.com/labstack/echo/v4"
 )
 
 // MidRecover 恢复中间件
@@ -63,6 +65,13 @@ func CacheMidPre(next echo.HandlerFunc) echo.HandlerFunc {
 				return c.JSON(http.StatusOK, data)
 			}
 		}
+		return next(c)
+	}
+}
+
+func GetIp(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		biz.RemoteIp(c.Request())
 		return next(c)
 	}
 }
